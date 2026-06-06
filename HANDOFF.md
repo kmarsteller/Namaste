@@ -26,7 +26,18 @@ git clone git@github.com:kmarsteller/Namaste.git
 cd Namaste
 ```
 
-### 3. Install dependencies
+### 3. Copy the hero video manually
+
+The hero video (`public/hero.mov`) is **not in the git repo** — it's 110MB and too large for GitHub. You need to copy it manually from the original machine:
+
+```
+Source:  /Users/kmarsteller/Projects/2026_NamasteNewWebsite/namaste-web/public/hero.mov
+Destination: public/hero.mov  (inside the cloned repo folder)
+```
+
+AirDrop, a USB drive, or Google Drive all work fine. The site runs without it — the hero section just shows a black background until the video is in place.
+
+### 4. Install dependencies
 
 ```bash
 npm install
