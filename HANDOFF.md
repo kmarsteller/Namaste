@@ -26,7 +26,38 @@ git clone git@github.com:kmarsteller/Namaste.git
 cd Namaste
 ```
 
-### 3. Copy the hero video manually
+### 3. Set up Git and clone the repo
+
+Make sure your SSH key is added to GitHub (Settings → SSH and GPG keys).
+
+```bash
+# Clone the repo
+git clone git@github.com:kmarsteller/Namaste.git
+cd Namaste
+
+# Confirm the remote is set correctly
+git remote -v
+# Should show: origin  git@github.com:kmarsteller/Namaste.git
+
+# Pull latest changes at any time
+git pull origin main
+```
+
+If you ever need to re-point the remote (e.g. it's showing HTTPS instead of SSH):
+```bash
+git remote set-url origin git@github.com:kmarsteller/Namaste.git
+```
+
+To push changes you've made back to GitHub:
+```bash
+git add -A
+git commit -m "describe what you changed"
+git push origin main
+```
+
+---
+
+### 4. Copy the hero video manually
 
 The hero video (`public/hero.mov`) is **not in the git repo** — it's 110MB and too large for GitHub. You need to copy it manually from the original machine:
 
