@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* Fonts */
+  --font-display: var(--font-cormorant);
+  --font-body: var(--font-inter);
+
+  /* Palette — warm stone, sage, warm white */
+  --color-stone-950: #0c0b09;
+  --color-stone-900: #1a1916;
+  --color-stone-800: #2a2822;
+  --color-stone-700: #3d3b33;
+  --color-stone-600: #6b6860;
+  --color-stone-400: #a8a49a;
+  --color-stone-200: #e8e4dc;
+  --color-stone-100: #f5f2ec;
+  --color-stone-50:  #faf8f4;
+
+  --color-sage-900: #1e2820;
+  --color-sage-700: #2e4033;
+  --color-sage-500: #4a6655;
+  --color-sage-400: #6b8f75;
+  --color-sage-300: #8faf97;
+  --color-sage-200: #b8cebc;
+  --color-sage-100: #dceade;
+
+  --color-terra-600: #8b5a42;
+  --color-terra-400: #c48b6e;
+  --color-terra-200: #e8c4b0;
+
+  --color-gold-500: #c9a96e;
+  --color-gold-300: #e2cc9a;
+}
+
+/* ── Typography base ── */
+body {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.01em;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-weight: 300;
+  letter-spacing: 0.03em;
+}
+
+/* ── Smooth scrolling ── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ── Selection color ── */
+::selection {
+  background: #4a6655;
+  color: #faf8f4;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #1a1916;
+}
+::-webkit-scrollbar-thumb {
+  background: #3d3b33;
+  border-radius: 3px;
+}
+
+/* ── Utility: display font ── */
+.font-display {
+  font-family: var(--font-cormorant), Georgia, serif;
+}
