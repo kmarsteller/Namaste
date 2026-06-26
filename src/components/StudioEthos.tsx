@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 
 function useInView(threshold = 0.15) {
   const ref = useRef<HTMLDivElement>(null);
@@ -42,10 +43,20 @@ export default function StudioEthos() {
   return (
     <section
       ref={ref}
-      className="relative py-32 px-6 md:px-12 bg-stone-900/50 overflow-hidden"
+      className="relative py-32 px-6 md:px-12 bg-stone-950 overflow-hidden"
     >
-      {/* Background texture */}
-      <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(circle_at_50%_50%,_#8faf97_0%,_transparent_70%)]" />
+      {/* Background image */}
+      <Image
+        src="/everybody.png"
+        alt=""
+        fill
+        className="object-cover object-center"
+        sizes="100vw"
+      />
+      {/* Fade all edges + heavy overall darkening so text stays readable */}
+      <div className="absolute inset-0 bg-stone-950/60" />
+      <div className="absolute inset-0 bg-gradient-to-r from-stone-950 via-transparent to-stone-950" />
+      <div className="absolute inset-0 bg-gradient-to-b from-stone-950 via-transparent to-stone-950" />
 
       <div className="max-w-5xl mx-auto">
         <div

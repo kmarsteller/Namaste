@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 export default function WorkshopsContent({ notice }: { notice: string }) {
   const [heroVisible, setHeroVisible] = useState(false);
@@ -16,10 +17,10 @@ export default function WorkshopsContent({ notice }: { notice: string }) {
     <>
       {/* ── Page hero ── */}
       <section className="relative pt-40 pb-16 px-6 md:px-12 bg-stone-950 overflow-hidden">
-        {/* Ambient glow */}
-        <div className="absolute inset-0 flex items-end justify-center pointer-events-none">
-          <div className="w-[700px] h-[280px] rounded-full bg-gold-500/8 blur-[140px]" />
-        </div>
+        {/* Hero photo */}
+        <Image src="/hero-gwen2.jpg" alt="" fill className="object-cover object-center" priority />
+        <div className="absolute inset-0 bg-gradient-to-b from-stone-950/70 via-stone-950/50 to-stone-950" />
+        <div className="absolute inset-0 bg-gradient-to-r from-stone-950/40 via-transparent to-stone-950/40" />
 
         <div
           className={`relative z-10 max-w-4xl mx-auto transition-all duration-1000 ${

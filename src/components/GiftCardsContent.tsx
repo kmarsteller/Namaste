@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 export default function GiftCardsContent() {
   const [heroVisible, setHeroVisible] = useState(false);
@@ -16,10 +17,10 @@ export default function GiftCardsContent() {
     <>
       {/* ── Page hero ── */}
       <section className="relative pt-40 pb-16 px-6 md:px-12 bg-stone-950 overflow-hidden">
-        {/* Ambient glow — warm gold for gifting */}
-        <div className="absolute inset-0 flex items-end justify-center pointer-events-none">
-          <div className="w-[600px] h-[260px] rounded-full bg-gold-500/10 blur-[130px]" />
-        </div>
+        {/* Hero photo */}
+        <Image src="/hero-studio3.jpeg" alt="" fill className="object-cover object-center" priority />
+        <div className="absolute inset-0 bg-gradient-to-b from-stone-950/70 via-stone-950/50 to-stone-950" />
+        <div className="absolute inset-0 bg-gradient-to-r from-stone-950/40 via-transparent to-stone-950/40" />
 
         <div
           className={`relative z-10 max-w-4xl mx-auto transition-all duration-1000 ${

@@ -8,6 +8,7 @@ import OmDraw from "@/components/OmDraw";
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [loaded, setLoaded] = useState(false);
+  const [muted, setMuted] = useState(true);
 
   useEffect(() => {
     const v = videoRef.current;
@@ -16,6 +17,12 @@ export default function Hero() {
       /* autoplay blocked — video stays paused, poster shows */
     });
   }, []);
+
+  // React doesn't sync the `muted` prop after mount — control it via ref
+  useEffect(() => {
+    const v = videoRef.current;
+    if (v) v.muted = muted;
+  }, [muted]);
 
   return (
     <section className="relative h-screen w-full overflow-hidden flex items-center justify-center">
@@ -91,6 +98,31 @@ export default function Hero() {
         </span>
         <div className="w-px h-10 bg-gradient-to-b from-stone-400 to-transparent animate-pulse" />
       </div>
+
+      {/* ── Mute toggle ── */}
+      <button
+        onClick={() => setMuted((m) => !m)}
+        aria-label={muted ? "Unmute video" : "Mute video"}
+        className="absolute bottom-10 right-6 z-20 flex items-center gap-2 px-3 py-2 rounded-sm border border-stone-600/40 bg-stone-950/40 backdrop-blur-sm text-stone-400 hover:text-stone-200 hover:border-stone-500/60 transition-all duration-200"
+      >
+        {muted ? (
+          /* Speaker with X */
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4" aria-hidden>
+            <path d="M4 7.5H2a1 1 0 00-1 1v3a1 1 0 001 1h2l4 3V4.5L4 7.5z" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M16 7l-4 4m0-4l4 4" strokeLinecap="round" />
+          </svg>
+        ) : (
+          /* Speaker with waves */
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4" aria-hidden>
+            <path d="M4 7.5H2a1 1 0 00-1 1v3a1 1 0 001 1h2l4 3V4.5L4 7.5z" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M13 7a4 4 0 010 6" strokeLinecap="round" />
+            <path d="M15.5 4.5a7 7 0 010 11" strokeLinecap="round" />
+          </svg>
+        )}
+        <span className="font-body text-[10px] tracking-[0.15em] uppercase">
+          {muted ? "Sound off" : "Sound on"}
+        </span>
+      </button>
     </section>
   );
 }

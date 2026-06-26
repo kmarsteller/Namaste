@@ -154,10 +154,9 @@ export default function AboutContent() {
     <>
       {/* ── Page hero ── */}
       <section className="relative pt-40 pb-24 px-6 md:px-12 bg-stone-950 overflow-hidden">
-        {/* Ambient glow */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="w-[700px] h-[400px] rounded-full bg-sage-900/20 blur-[150px]" />
-        </div>
+        <Image src="/hero-studio1.jpeg" alt="" fill className="object-cover object-center" priority />
+        <div className="absolute inset-0 bg-gradient-to-b from-stone-950/70 via-stone-950/50 to-stone-950" />
+        <div className="absolute inset-0 bg-gradient-to-r from-stone-950/40 via-transparent to-stone-950/40" />
 
         <div
           ref={heroRef}
