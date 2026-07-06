@@ -76,7 +76,7 @@ export default function ScheduleLightbox({ instructorName, arketaId, onClose }: 
           <iframe
             src={src}
             width="100%"
-            style={{ minHeight: "560px", border: "none", display: "block" }}
+            style={{ minHeight: "560px", border: "none", display: "block", filter: "invert(1) hue-rotate(180deg)" }}
             allow="payment;fullscreen"
             allowFullScreen
             title={`${firstName}'s Class Schedule`}

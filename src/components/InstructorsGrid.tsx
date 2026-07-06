@@ -262,9 +262,11 @@ export default function InstructorsGrid() {
   return (
     <>
       {/* Page hero */}
-      <section className="relative pt-40 pb-16 px-6 md:px-12 bg-stone-950 overflow-hidden">
-        <Image src="/hero-instructors.png" alt="" fill className="object-cover object-top" priority />
-        <div className="absolute inset-0 bg-gradient-to-b from-stone-950/70 via-stone-950/50 to-stone-950" />
+      <section className="relative pt-40 pb-6 px-6 md:px-12 bg-stone-950 overflow-hidden">
+        <Image src="/hero-instructors.png" alt="" fill className="object-cover object-left-top" priority />
+        <div className="absolute inset-0 bg-stone-950/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-stone-950" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-stone-950/70" />
         <div className="absolute inset-0 bg-gradient-to-r from-stone-950/40 via-transparent to-stone-950/40" />
         <div
           className={`relative z-10 max-w-4xl mx-auto transition-all duration-1000 ${
