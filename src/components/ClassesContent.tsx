@@ -56,17 +56,6 @@ export default function ClassesContent({ notice }: { notice: string }) {
             Namaste Yoga — offering yoga for everybody.
           </p>
 
-          {/* Special events bullet */}
-          <div className="flex gap-3 max-w-2xl">
-            <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-sage-400 flex-shrink-0" />
-            <p className="font-body text-sm text-stone-400 leading-relaxed">
-              <span className="text-stone-200 font-medium">Special Class Events:</span>{" "}
-              Watch for Friday night <span className="text-sage-300">FREE</span> community
-              classes with our yoga teachers in training! March&nbsp;20 (Todd and Lindsay
-              with Melissa Crouse), April&nbsp;17 (Rebecca and Rachel with Wendy) and
-              May&nbsp;22 (Tracy and Crystal with Cyndy).
-            </p>
-          </div>
         </div>
       </section>
 
@@ -98,21 +87,20 @@ export default function ClassesContent({ notice }: { notice: string }) {
 
       {/* ── Arketa embed ── */}
       <section
-        className={`relative bg-stone-950 pb-16 transition-all duration-1000 ${
+        className={`bg-stone-950 pb-16 transition-all duration-1000 ${
           embedVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
         }`}
       >
-        {/* Gradient overlays blend the white iframe into the dark page */}
-        <div className="absolute top-0 inset-x-0 h-20 bg-gradient-to-b from-stone-950 to-transparent z-10 pointer-events-none" />
-        <div className="absolute bottom-0 inset-x-0 h-28 bg-gradient-to-t from-stone-950 to-transparent z-10 pointer-events-none" />
-        <div className="absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-stone-950 to-transparent z-10 pointer-events-none" />
-        <div className="absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-stone-950 to-transparent z-10 pointer-events-none" />
-
         <iframe
           id="sutraWidgetIframe"
           src="https://app.arketa.co/iframe/namasteyogaohio/schedule"
           width="100%"
-          style={{ minHeight: "720px", border: "none", display: "block" }}
+          style={{
+            minHeight: "720px",
+            border: "none",
+            display: "block",
+            filter: "invert(1) hue-rotate(180deg)",
+          }}
           allow="payment;fullscreen"
           allowFullScreen
           title="Class Schedule"

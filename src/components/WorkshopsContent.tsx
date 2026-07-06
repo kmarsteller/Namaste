@@ -84,16 +84,14 @@ export default function WorkshopsContent({ notice }: { notice: string }) {
         }`}
       >
         <div className="max-w-5xl mx-auto">
-          <div className="rounded-sm overflow-hidden border border-stone-800/60 bg-stone-900/30 backdrop-blur-sm">
-            <iframe
+          <iframe
               id="sutraWidgetIframe"
               src="https://app.arketa.co/iframe/namasteyogaohio/schedule?type=event"
               width="100%"
-              style={{ minHeight: "680px", border: "none", display: "block" }}
+              style={{ minHeight: "680px", border: "none", display: "block", filter: "invert(1) hue-rotate(180deg)" }}
               allowFullScreen
               title="Workshops & Events Schedule"
             />
-          </div>
         </div>
       </section>
 
