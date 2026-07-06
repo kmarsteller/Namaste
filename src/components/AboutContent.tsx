@@ -212,19 +212,20 @@ export default function AboutContent() {
             <h2 className="font-display text-4xl font-light text-stone-100 mb-6">Jolynn McFerren</h2>
             <div className="w-8 h-px bg-gold-500/40 mb-7" />
             <p className="font-body text-sm text-stone-400 leading-relaxed mb-5">
-              Mother of three, wife to Brent, and tireless community volunteer — Jolynn came
-              to ownership not by ambition, but by love. She inherited a studio with deep roots
-              and a loyal community, and she has spent every year since honoring both.
+              Jolynn McFerren is the owner of Namaste Yoga, a mom to three wonderful children,
+              wife to Brent, and an active volunteer in the community and schools.
             </p>
             <p className="font-body text-sm text-stone-400 leading-relaxed mb-5">
-              A certified RYT500 with additional training in Thai yoga massage, Jolynn has
-              built a faculty of over twenty instructors who share her belief that yoga should
-              feel like coming home.
+              Throughout her years of owning Namaste Yoga, she has had the support of so many
+              wonderful instructors and mentors in the studio and from the yoga community in
+              Northeast Ohio. The strength of the Namaste instructors truly guided this business
+              past a pandemic that many small businesses did not survive.
             </p>
             <p className="font-body text-sm text-stone-400 leading-relaxed mb-8">
-              She is quick to deflect credit to the students. <span className="text-stone-300 italic">
-              "They are the heart of this business,"</span> she says. <span className="text-stone-300 italic">
-              "Their passion for health and healing is what keeps this place alive."</span>
+              Jolynn believes the student community at Namaste Yoga is the heart of the business,
+              and their passion for health, healing, and love for one another maintains the spirit
+              upon which Namaste Yoga was founded many years ago. We are grateful to call Namaste
+              Yoga <span className="text-stone-300 italic">h<span className="text-sage-400">O</span>Me</span>.
             </p>
 
             <div className="border border-stone-800/60 p-6 rounded-sm mb-6">
@@ -237,12 +238,6 @@ export default function AboutContent() {
                   </li>
                 ))}
               </ul>
-            </div>
-
-            <div className="border-l-2 border-sage-700 pl-5">
-              <p className="font-display italic text-xl text-stone-300 leading-relaxed">
-                "Yoga is not about touching your toes. It's about what you learn on the way down."
-              </p>
             </div>
           </div>
         </div>
