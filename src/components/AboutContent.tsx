@@ -25,39 +25,62 @@ const timeline = [
   {
     range: "Years 1 – 7",
     location: "Richfield, Ohio",
-    body: "Founded by Mary Pat Murphy in a spirit of pure intention — students paid what they could, dropping offerings into a basket at the door. Yoga as it was always meant to be.",
+    body: "Namaste Yoga Studio spent its first 7 years in Richfield, Ohio, with Mary Pat Murphy as its founder and owner. With a basket for checks and cash when you entered the door, it was the start of something beautiful and began the community we now know and love.",
   },
   {
     range: "Years 8 – 13",
     location: "Aurora Road",
-    body: "The studio grew roots on Aurora Road. Mary Pat guided the community for three years before passing the torch to Jolynn McFerren, who carried it forward for three more.",
+    body: "The studio spent its next 6 years on Aurora Road with Mary Pat as the owner for 3 years and Jolynn McFerren for the next three, allowing Namaste Yoga to continue as a small business in Nordonia Hills.",
   },
   {
     range: "Years 14 – 20",
     location: "Olde 8 Road",
-    body: "Demand called for more space. The studio expanded to a larger home on Olde 8 Road, where it thrived for seven years and deepened its place in the community.",
+    body: "As Namaste Yoga's community grew, we expanded to a much larger space on Olde 8 Road. After 7 years in that location and the covid pandemic, we had to relocate to a smaller space down the road.",
   },
   {
     range: "June 2021",
     location: "9821 Olde 8 Rd. Suite H20",
-    body: "After thoughtful renovations, Namaste moved into its current home in Northfield — brighter, larger, and ready for the next chapter.",
+    body: "Namaste Yoga happily settled into 9821 Olde 8 Road in June of 2021 after renovations and some restructuring within the Ritenour Building.",
   },
 ];
 
 const causes = [
-  "ALS Research",
-  "Leukemia & Lymphoma Society",
-  "Emergency Assistance Centers",
-  "Veteran Yoga Programs",
-  "School Wellness Initiatives",
-  "Local Families in Need",
+  "ALS (Lou Gehrig's Disease)",
+  "LLS (Leukemia Lymphoma Society)",
+  "By the Dawn's Early Light",
+  "The Emergency Assistance Center",
+  "Veteran's Yoga Project",
+  "Knights Caring for Knights",
+  "Bath & Body Pantry at Nordonia High School",
+  "Nordonia Schools – Mindful Wellness Program",
+  "Nordonia Sports – Recovery Yoga with a variety of teams",
+  "Rotary Safety & Wellness Fair",
+  "Macedonia Safety & Wellness Fair",
+  "Safe Decisions Week at Nordonia High School",
+  "Summit County Humane Society",
+  "Humble Design",
+  "Zellie's Home",
+  "Because I Said I Would",
+  "Individuals and families in the community in need of assistance (Good Karma classes New Year's Day)",
 ];
 
 function TimelineSection() {
   const { ref, visible } = useInView();
   return (
-    <section ref={ref} className="py-24 px-6 md:px-12 bg-stone-900/40">
-      <div className="max-w-4xl mx-auto">
+    <section ref={ref} className="relative py-24 px-6 md:px-12 overflow-hidden">
+      {/* Background image */}
+      <Image
+        src="/community-feet.jpg"
+        alt=""
+        fill
+        className="object-cover object-center"
+        sizes="100vw"
+      />
+      {/* Dark overlays to keep text readable */}
+      <div className="absolute inset-0 bg-stone-950/75" />
+      <div className="absolute inset-0 bg-gradient-to-r from-stone-950/60 via-transparent to-stone-950/60" />
+
+      <div className="relative z-10 max-w-4xl mx-auto">
         <div className={`mb-16 transition-all duration-1000 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
           <p className="font-body text-[10px] tracking-[0.3em] uppercase text-sage-500 mb-3">20+ years</p>
           <h2 className="font-display text-4xl md:text-5xl font-light text-stone-100">A History of Home</h2>
@@ -104,13 +127,12 @@ function CommunitySection() {
           <p className="font-body text-[10px] tracking-[0.3em] uppercase text-sage-500 mb-3">Giving back</p>
           <h2 className="font-display text-4xl md:text-5xl font-light text-stone-100 mb-5">Beyond the Mat</h2>
           <p className="font-body text-sm text-stone-400 leading-relaxed max-w-xl">
-            Namaste Yoga has always believed that a healthy community extends far beyond the studio walls.
-            Over the years we have raised funds and awareness for causes close to our hearts.
+            Namaste Yoga&apos;s mission includes serving charitable organizations and local community
+            groups. Among those we have served in the past 12 years include:
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-start">
-          <div className={`grid sm:grid-cols-2 gap-3 transition-all duration-1000 delay-300 ${
+        <div className={`grid sm:grid-cols-2 gap-3 transition-all duration-1000 delay-300 ${
             visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}>
             {causes.map((c) => (
@@ -120,21 +142,6 @@ function CommunitySection() {
               </div>
             ))}
           </div>
-
-          <div className={`transition-all duration-1000 delay-500 ${
-            visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-          }`}>
-            <div className="relative overflow-hidden rounded-sm aspect-square">
-              <Image
-                src="/community-feet.jpg"
-                alt="Namaste Yoga community circle"
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 40vw"
-              />
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );
@@ -154,7 +161,7 @@ export default function AboutContent() {
     <>
       {/* ── Page hero ── */}
       <section className="relative pt-40 pb-24 px-6 md:px-12 bg-stone-950 overflow-hidden">
-        <Image src="/hero-studio1.jpeg" alt="" fill className="object-cover object-center" priority />
+        <Image src="/lobbywallart-scaled-e1736886920534.jpg" alt="" fill className="object-cover object-center" priority />
         <div className="absolute inset-0 bg-gradient-to-b from-stone-950/70 via-stone-950/50 to-stone-950" />
         <div className="absolute inset-0 bg-gradient-to-r from-stone-950/40 via-transparent to-stone-950/40" />
 
@@ -184,61 +191,53 @@ export default function AboutContent() {
       </section>
 
       {/* ── Jolynn's story ── */}
-      <section className="py-24 px-6 md:px-12 bg-stone-950 border-t border-stone-800/40">
-        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-16 items-start">
+      <section className="relative py-24 px-6 md:px-12 overflow-hidden border-t border-stone-800/40">
+        {/* Background photo */}
+        <Image
+          src="/jolynn.jpeg"
+          alt=""
+          fill
+          className="object-contain object-top grayscale-[20%]"
+          sizes="100vw"
+        />
+        {/* Dark center overlay */}
+        <div className="absolute inset-0 bg-stone-950/55" />
+        {/* Left/right fades */}
+        <div className="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-stone-950 to-transparent" />
+        <div className="absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-stone-950 to-transparent" />
 
-          {/* Photo */}
-          <div className="relative">
-            <div className="relative overflow-hidden rounded-sm aspect-[3/4]">
-              <Image
-                src="/jolynn.jpeg"
-                alt="Jolynn McFerren, owner of Namaste Yoga Studio"
-                fill
-                className="object-cover object-top grayscale-[20%]"
-                sizes="(max-width: 768px) 100vw, 50vw"
-              />
-              {/* Subtle warm overlay */}
-              <div className="absolute inset-0 bg-stone-950/10 mix-blend-multiply" />
-            </div>
-            {/* Caption */}
-            <p className="font-body text-[10px] tracking-[0.2em] uppercase text-stone-600 mt-3 text-center">
-              Jolynn McFerren — Owner
-            </p>
-          </div>
+        {/* Content */}
+        <div className="relative z-10 max-w-2xl mx-auto">
+          <p className="font-body text-[10px] tracking-[0.3em] uppercase text-sage-400 mb-3">The Owner</p>
+          <h2 className="font-display text-4xl font-light text-stone-50 mb-6">Jolynn McFerren</h2>
+          <div className="w-8 h-px bg-gold-500/40 mb-7" />
+          <p className="font-body text-sm text-stone-200 leading-relaxed mb-5">
+            Jolynn McFerren is the owner of Namaste Yoga, a mom to three wonderful children,
+            wife to Brent, and an active volunteer in the community and schools.
+          </p>
+          <p className="font-body text-sm text-stone-200 leading-relaxed mb-5">
+            Throughout her years of owning Namaste Yoga, she has had the support of so many
+            wonderful instructors and mentors in the studio and from the yoga community in
+            Northeast Ohio. The strength of the Namaste instructors truly guided this business
+            past a pandemic that many small businesses did not survive.
+          </p>
+          <p className="font-body text-sm text-stone-200 leading-relaxed mb-8">
+            Jolynn believes the student community at Namaste Yoga is the heart of the business,
+            and their passion for health, healing, and love for one another maintains the spirit
+            upon which Namaste Yoga was founded many years ago. We are grateful to call Namaste
+            Yoga <span className="text-stone-50 italic">h<span className="text-sage-300">O</span>Me</span>.
+          </p>
 
-          {/* Text */}
-          <div className="md:pt-4">
-            <p className="font-body text-[10px] tracking-[0.3em] uppercase text-sage-500 mb-3">The Owner</p>
-            <h2 className="font-display text-4xl font-light text-stone-100 mb-6">Jolynn McFerren</h2>
-            <div className="w-8 h-px bg-gold-500/40 mb-7" />
-            <p className="font-body text-sm text-stone-400 leading-relaxed mb-5">
-              Jolynn McFerren is the owner of Namaste Yoga, a mom to three wonderful children,
-              wife to Brent, and an active volunteer in the community and schools.
-            </p>
-            <p className="font-body text-sm text-stone-400 leading-relaxed mb-5">
-              Throughout her years of owning Namaste Yoga, she has had the support of so many
-              wonderful instructors and mentors in the studio and from the yoga community in
-              Northeast Ohio. The strength of the Namaste instructors truly guided this business
-              past a pandemic that many small businesses did not survive.
-            </p>
-            <p className="font-body text-sm text-stone-400 leading-relaxed mb-8">
-              Jolynn believes the student community at Namaste Yoga is the heart of the business,
-              and their passion for health, healing, and love for one another maintains the spirit
-              upon which Namaste Yoga was founded many years ago. We are grateful to call Namaste
-              Yoga <span className="text-stone-300 italic">h<span className="text-sage-400">O</span>Me</span>.
-            </p>
-
-            <div className="border border-stone-800/60 p-6 rounded-sm mb-6">
-              <p className="font-body text-[10px] tracking-[0.25em] uppercase text-sage-600 mb-3">Certifications</p>
-              <ul className="space-y-1.5">
-                {["RYT 500", "YACEP (Continuing Education Provider)", "2× 200-hr Teacher Training", "300-hr Advanced Training", "Thai Yoga Massage"].map((cert) => (
-                  <li key={cert} className="flex items-center gap-2.5 text-xs text-stone-400">
-                    <span className="w-1 h-1 rounded-full bg-sage-600 flex-shrink-0" />
-                    {cert}
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div className="border border-stone-700/60 p-6 rounded-sm mb-6 bg-stone-950/50 backdrop-blur-sm">
+            <p className="font-body text-[10px] tracking-[0.25em] uppercase text-sage-500 mb-3">Certifications</p>
+            <ul className="space-y-1.5">
+              {["RYT 500", "YACEP (Continuing Education Provider)", "2× 200-hr Teacher Training", "300-hr Advanced Training", "Thai Yoga Massage"].map((cert) => (
+                <li key={cert} className="flex items-center gap-2.5 text-xs text-stone-200">
+                  <span className="w-1 h-1 rounded-full bg-sage-500 flex-shrink-0" />
+                  {cert}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>

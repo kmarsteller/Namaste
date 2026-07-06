@@ -101,8 +101,8 @@ function VineDecor({ visible }: { visible: boolean }) {
       width="210"
       height="52"
       fill="none"
-      className="absolute left-0 top-1/2 -translate-y-1/2 pointer-events-none select-none"
-      style={{ zIndex: 0, marginLeft: "-6px" }}
+      className="absolute top-1/2 -translate-y-1/2 pointer-events-none select-none"
+      style={{ zIndex: 0, left: "78px" }}
       aria-hidden
     >
       {/* Main stem */}
@@ -185,8 +185,8 @@ function TurtleDecor({ visible }: { visible: boolean }) {
         }
       `}</style>
       <div
-        className="absolute left-0 top-1/2 -translate-y-1/2 pointer-events-none select-none"
-        style={{ zIndex: 0 }}
+        className="absolute pointer-events-none select-none"
+        style={{ zIndex: 0, left: "160px", top: "4px" }}
         aria-hidden
       >
         <div
@@ -258,8 +258,8 @@ function WaveDecor({ visible }: { visible: boolean }) {
       `}</style>
 
       <div
-        className="absolute left-0 pointer-events-none select-none overflow-hidden"
-        style={{ bottom: "-12px", width: "320px", height: "40px", zIndex: 0 }}
+        className="absolute pointer-events-none select-none overflow-hidden"
+        style={{ top: "4px", left: "72px", width: "320px", height: "40px", zIndex: 0 }}
         aria-hidden
       >
         {/* Background swell — steady rolling base */}
