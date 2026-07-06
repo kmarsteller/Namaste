@@ -32,7 +32,7 @@ export default function Hero() {
         className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[2000ms] ${
           loaded ? "opacity-100" : "opacity-0"
         }`}
-        src="/hero.mov"
+        src="/hero-web.mp4"
         autoPlay
         muted
         loop
