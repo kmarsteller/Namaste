@@ -10,7 +10,11 @@ export default function GiftCardsContent() {
   useEffect(() => {
     const t1 = setTimeout(() => setHeroVisible(true), 100);
     const t2 = setTimeout(() => setEmbedVisible(true), 400);
-    return () => { clearTimeout(t1); clearTimeout(t2); };
+    const s = document.createElement("script");
+    s.src = "https://app.arketa.co/scripts/embed.js";
+    s.async = true;
+    document.body.appendChild(s);
+    return () => { clearTimeout(t1); clearTimeout(t2); document.body.removeChild(s); };
   }, []);
 
   return (
@@ -74,12 +78,6 @@ export default function GiftCardsContent() {
         </div>
       </section>
 
-      {/* Arketa resize script */}
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `(function(){var s=document.createElement('script');s.src='https://app.arketa.co/scripts/embed.js';s.async=true;document.body.appendChild(s);})();`,
-        }}
-      />
 
       {/* ── Bottom note ── */}
       <section className="bg-stone-950 px-6 py-16 text-center border-t border-stone-800/40">

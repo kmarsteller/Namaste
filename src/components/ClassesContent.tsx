@@ -10,7 +10,11 @@ export default function ClassesContent({ notice }: { notice: string }) {
   useEffect(() => {
     const t1 = setTimeout(() => setHeroVisible(true), 100);
     const t2 = setTimeout(() => setEmbedVisible(true), 400);
-    return () => { clearTimeout(t1); clearTimeout(t2); };
+    const s = document.createElement("script");
+    s.src = "https://app.arketa.co/scripts/embed.js";
+    s.async = true;
+    document.body.appendChild(s);
+    return () => { clearTimeout(t1); clearTimeout(t2); document.body.removeChild(s); };
   }, []);
 
   return (
@@ -94,31 +98,27 @@ export default function ClassesContent({ notice }: { notice: string }) {
 
       {/* ── Arketa embed ── */}
       <section
-        className={`bg-stone-950 px-4 md:px-8 pb-16 transition-all duration-1000 ${
+        className={`relative bg-stone-950 pb-16 transition-all duration-1000 ${
           embedVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
         }`}
       >
-        <div className="max-w-5xl mx-auto">
-          <div className="rounded-sm overflow-hidden border border-stone-800/60 bg-stone-900/30 backdrop-blur-sm">
-            <iframe
-              id="sutraWidgetIframe"
-              src="https://app.arketa.co/iframe/namasteyogaohio/schedule"
-              width="100%"
-              style={{ minHeight: "720px", border: "none", display: "block" }}
-              allow="payment;fullscreen"
-              allowFullScreen
-              title="Class Schedule"
-            />
-          </div>
-        </div>
+        {/* Gradient overlays blend the white iframe into the dark page */}
+        <div className="absolute top-0 inset-x-0 h-20 bg-gradient-to-b from-stone-950 to-transparent z-10 pointer-events-none" />
+        <div className="absolute bottom-0 inset-x-0 h-28 bg-gradient-to-t from-stone-950 to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-stone-950 to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-stone-950 to-transparent z-10 pointer-events-none" />
+
+        <iframe
+          id="sutraWidgetIframe"
+          src="https://app.arketa.co/iframe/namasteyogaohio/schedule"
+          width="100%"
+          style={{ minHeight: "720px", border: "none", display: "block" }}
+          allow="payment;fullscreen"
+          allowFullScreen
+          title="Class Schedule"
+        />
       </section>
 
-      {/* Arketa resize script */}
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `(function(){var s=document.createElement('script');s.src='https://app.arketa.co/scripts/embed.js';s.async=true;document.body.appendChild(s);})();`,
-        }}
-      />
 
       {/* ── First class CTA ── */}
       <section className="bg-stone-950 px-6 py-16 text-center border-t border-stone-800/40">
