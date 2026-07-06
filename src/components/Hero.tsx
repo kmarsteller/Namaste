@@ -16,6 +16,9 @@ export default function Hero() {
     v.play().catch(() => {
       /* autoplay blocked — video stays paused, poster shows */
     });
+    // Fallback: trigger Om drawing after 3s even if video never fires onCanPlay
+    const t = setTimeout(() => setLoaded(true), 3000);
+    return () => clearTimeout(t);
   }, []);
 
   // React doesn't sync the `muted` prop after mount — control it via ref
