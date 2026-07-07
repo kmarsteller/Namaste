@@ -10,7 +10,7 @@ async function deriveToken(password: string): Promise<string> {
   return btoa(String.fromCharCode(...new Uint8Array(sig)));
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   // Let the login page through
   if (request.nextUrl.pathname === "/admin/login") return NextResponse.next();
 

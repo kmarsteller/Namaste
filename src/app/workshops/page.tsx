@@ -13,10 +13,11 @@ export const metadata = {
 };
 
 async function getNotice(): Promise<string> {
-  if (process.env.KV_REST_API_URL) {
+  if (process.env.UPSTASH_REDIS_REST_URL) {
     try {
-      const { kv } = await import("@vercel/kv");
-      const data = await kv.get<{ notice: string }>("workshop-notice");
+      const { Redis } = await import("@upstash/redis");
+      const redis = new Redis({ url: process.env.UPSTASH_REDIS_REST_URL, token: process.env.UPSTASH_REDIS_REST_TOKEN! });
+      const data = await redis.get<{ notice: string }>("workshop-notice");
       return data?.notice ?? "";
     } catch {
       return "";

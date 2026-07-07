@@ -6,9 +6,10 @@ const KEY = "workshop-notice";
 const FILE = path.join(process.cwd(), "data", "workshop-notice.json");
 
 async function readNotice() {
-  if (process.env.KV_REST_API_URL) {
-    const { kv } = await import("@vercel/kv");
-    return await kv.get<{ notice: string; updatedAt: string }>(KEY) ?? { notice: "", updatedAt: "" };
+  if (process.env.UPSTASH_REDIS_REST_URL) {
+    const { Redis } = await import("@upstash/redis");
+    const redis = new Redis({ url: process.env.UPSTASH_REDIS_REST_URL, token: process.env.UPSTASH_REDIS_REST_TOKEN! });
+    return await redis.get<{ notice: string; updatedAt: string }>(KEY) ?? { notice: "", updatedAt: "" };
   }
   try {
     return JSON.parse(fs.readFileSync(FILE, "utf8"));
@@ -18,9 +19,10 @@ async function readNotice() {
 }
 
 async function writeNotice(data: { notice: string; updatedAt: string }) {
-  if (process.env.KV_REST_API_URL) {
-    const { kv } = await import("@vercel/kv");
-    await kv.set(KEY, data);
+  if (process.env.UPSTASH_REDIS_REST_URL) {
+    const { Redis } = await import("@upstash/redis");
+    const redis = new Redis({ url: process.env.UPSTASH_REDIS_REST_URL, token: process.env.UPSTASH_REDIS_REST_TOKEN! });
+    await redis.set(KEY, data);
     return;
   }
   fs.writeFileSync(FILE, JSON.stringify(data, null, 2));
