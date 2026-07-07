@@ -94,7 +94,7 @@ export default function PricingContent() {
             id="sutraWidgetIframe"
             src="https://app.arketa.co/iframe/namasteyogaohio/pricing/cards"
             width="100%"
-            style={{ minHeight: "1500px", border: "none", display: "block" }}
+            style={{ minHeight: "1500px", border: "none", display: "block", filter: "invert(1) hue-rotate(180deg)" }}
             allow="payment"
             allowFullScreen
             title="Pricing Options"
