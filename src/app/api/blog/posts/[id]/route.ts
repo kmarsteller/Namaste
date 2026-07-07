@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
-import { sql } from "@vercel/postgres";
-import { ensureTable, slugify, type Post } from "@/lib/blog-db";
+import { getSQL, ensureTable, slugify, type Post } from "@/lib/blog-db";
 
 export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     await ensureTable();
     const { id } = await params;
-    const result = await sql<Post>`SELECT * FROM posts WHERE id = ${id}`;
-    if (!result.rows[0]) return NextResponse.json({ error: "Not found" }, { status: 404 });
-    return NextResponse.json(result.rows[0]);
+    const sql = getSQL();
+    const rows = await sql`SELECT * FROM posts WHERE id = ${id}`;
+    if (!rows[0]) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    return NextResponse.json(rows[0] as Post);
   } catch (e) {
     console.error(e);
     return NextResponse.json({ error: "Database error" }, { status: 500 });
@@ -19,11 +19,12 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
   try {
     await ensureTable();
     const { id } = await params;
+    const sql = getSQL();
     const { title, author, excerpt, body, hero_image_url, published } = await req.json();
     if (!title?.trim()) return NextResponse.json({ error: "Title required" }, { status: 400 });
 
     const slug = slugify(title);
-    const result = await sql<Post>`
+    const rows = await sql`
       UPDATE posts SET
         title          = ${title.trim()},
         slug           = ${slug},
@@ -36,8 +37,8 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
       WHERE id = ${id}
       RETURNING *
     `;
-    if (!result.rows[0]) return NextResponse.json({ error: "Not found" }, { status: 404 });
-    return NextResponse.json(result.rows[0]);
+    if (!rows[0]) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    return NextResponse.json(rows[0] as Post);
   } catch (e) {
     console.error(e);
     return NextResponse.json({ error: "Database error" }, { status: 500 });
@@ -46,8 +47,8 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
 
 export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    await ensureTable();
     const { id } = await params;
+    const sql = getSQL();
     await sql`DELETE FROM posts WHERE id = ${id}`;
     return NextResponse.json({ ok: true });
   } catch (e) {

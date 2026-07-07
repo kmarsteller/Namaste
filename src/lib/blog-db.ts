@@ -1,4 +1,4 @@
-import { sql } from "@vercel/postgres";
+import { neon } from "@neondatabase/serverless";
 
 export type Post = {
   id: number;
@@ -13,7 +13,18 @@ export type Post = {
   updated_at: string;
 };
 
+export function getSQL() {
+  const url = process.env.POSTGRES_URL ?? process.env.DATABASE_URL;
+  if (!url) throw new Error("No database URL configured (POSTGRES_URL or DATABASE_URL)");
+  return neon(url);
+}
+
+export function hasDB() {
+  return !!(process.env.POSTGRES_URL ?? process.env.DATABASE_URL);
+}
+
 export async function ensureTable() {
+  const sql = getSQL();
   await sql`
     CREATE TABLE IF NOT EXISTS posts (
       id           SERIAL PRIMARY KEY,

@@ -1,9 +1,8 @@
-import { sql } from "@vercel/postgres";
 import Image from "next/image";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import { ensureTable, type Post } from "@/lib/blog-db";
+import { getSQL, ensureTable, hasDB, type Post } from "@/lib/blog-db";
 
 export const dynamic = "force-dynamic";
 
@@ -13,11 +12,12 @@ export const metadata = {
 };
 
 async function getPosts(): Promise<Post[]> {
-  if (!process.env.POSTGRES_URL) return [];
+  if (!hasDB()) return [];
   try {
     await ensureTable();
-    const result = await sql<Post>`SELECT * FROM posts WHERE published = true ORDER BY created_at DESC`;
-    return result.rows;
+    const sql = getSQL();
+    const rows = await sql`SELECT * FROM posts WHERE published = true ORDER BY created_at DESC`;
+    return rows as Post[];
   } catch {
     return [];
   }
@@ -98,7 +98,7 @@ export default async function MindfulMusingsPage() {
                       )}
                       <Link
                         href={`/mindful-musings/${post.slug}`}
-                        className="font-body text-[10px] tracking-[0.2em] uppercase text-sage-400 hover:text-sage-300 transition-colors"
+                        className="font-body text-[10px] tracking-[0.2em] uppercase text-burgundy-400 hover:text-burgundy-300 transition-colors"
                       >
                         Read more →
                       </Link>
