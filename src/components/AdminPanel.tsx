@@ -249,11 +249,23 @@ export default function AdminPanel() {
           apiPath="/api/classes-notice"
         />
 
-        {/* Placeholder for future sections */}
-        <div className="rounded-sm border border-stone-800/40 border-dashed px-6 py-5 text-center">
-          <p className="font-body text-[10px] tracking-[0.2em] uppercase text-stone-700">
-            More admin tools coming soon
-          </p>
+        {/* Blog */}
+        <div className="rounded-sm border border-stone-800/70 bg-stone-900/40 p-8 flex items-center justify-between gap-6">
+          <div>
+            <h2 className="font-display text-2xl font-light text-stone-100 mb-1">Mindful Musings</h2>
+            <p className="font-body text-xs text-stone-500 leading-relaxed">
+              Write, edit, and publish blog posts.{" "}
+              <Link href="/mindful-musings" target="_blank" className="text-stone-400 hover:text-stone-200 underline underline-offset-2 transition-colors">
+                View blog →
+              </Link>
+            </p>
+          </div>
+          <Link
+            href="/admin/blog"
+            className="flex-shrink-0 px-6 py-2.5 border border-stone-700/60 hover:border-stone-500 text-stone-300 hover:text-stone-100 font-body text-xs tracking-[0.18em] uppercase rounded-sm transition-all"
+          >
+            Manage Posts
+          </Link>
         </div>
 
       </div>
