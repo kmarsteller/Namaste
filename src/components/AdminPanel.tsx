@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -152,6 +153,13 @@ function NoticeCard({
 
 // ── Main admin panel ────────────────────────────────────────────────────────
 export default function AdminPanel() {
+  const router = useRouter();
+
+  async function handleLogout() {
+    await fetch("/api/admin-logout", { method: "POST" });
+    router.push("/admin/login");
+  }
+
   return (
     <div className="min-h-screen bg-stone-950">
 
@@ -192,6 +200,12 @@ export default function AdminPanel() {
             >
               ← Site
             </Link>
+            <button
+              onClick={handleLogout}
+              className="font-body text-xs text-stone-600 hover:text-red-400 transition-colors tracking-wide"
+            >
+              Sign out
+            </button>
           </nav>
         </div>
       </header>

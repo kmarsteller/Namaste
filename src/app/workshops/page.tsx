@@ -4,7 +4,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import WorkshopsContent from "@/components/WorkshopsContent";
 
-export const dynamic = "force-dynamic"; // always re-read the file on each request
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Workshops & Events | Namaste Yoga Studio",
@@ -12,7 +12,16 @@ export const metadata = {
     "Special workshops, events, and immersive experiences at Namaste Yoga Studio in Northfield, Ohio.",
 };
 
-function getNotice(): string {
+async function getNotice(): Promise<string> {
+  if (process.env.KV_REST_API_URL) {
+    try {
+      const { kv } = await import("@vercel/kv");
+      const data = await kv.get<{ notice: string }>("workshop-notice");
+      return data?.notice ?? "";
+    } catch {
+      return "";
+    }
+  }
   try {
     const file = path.join(process.cwd(), "data", "workshop-notice.json");
     const data = JSON.parse(fs.readFileSync(file, "utf8"));
@@ -22,8 +31,8 @@ function getNotice(): string {
   }
 }
 
-export default function WorkshopsPage() {
-  const notice = getNotice();
+export default async function WorkshopsPage() {
+  const notice = await getNotice();
   return (
     <>
       <Nav />
