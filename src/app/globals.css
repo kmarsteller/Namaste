@@ -30,6 +30,13 @@
 
   --color-gold-500: #c9a96e;
   --color-gold-300: #e2cc9a;
+
+  --color-burgundy-900: #2d0f18;
+  --color-burgundy-700: #5c1f30;
+  --color-burgundy-500: #8b2e45;
+  --color-burgundy-400: #b03d57;
+  --color-burgundy-300: #c97080;
+  --color-burgundy-200: #e4b0ba;
 }
 
 /* ── Typography base ── */

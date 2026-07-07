@@ -31,16 +31,34 @@ export default async function MindfulMusingsPage() {
       <Nav />
       <main>
         {/* Hero */}
-        <section className="relative pt-40 pb-20 px-6 md:px-12 bg-stone-950 border-b border-stone-800/40">
-          <div className="max-w-4xl mx-auto">
+        <section className="relative pt-40 pb-24 px-6 md:px-12 overflow-hidden">
+          {/* Background photo */}
+          <Image
+            src="/sanskrit_pen.png"
+            alt=""
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
+            priority
+          />
+          {/* Dark base + burgundy tint */}
+          <div className="absolute inset-0 bg-stone-950/75" />
+          <div className="absolute inset-0 bg-burgundy-900/40" />
+          {/* Side fades */}
+          <div className="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-stone-950 to-transparent" />
+          <div className="absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-stone-950 to-transparent" />
+          {/* Bottom fade into content */}
+          <div className="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-stone-950 to-transparent" />
+
+          <div className="relative z-10 max-w-4xl mx-auto">
             <div className="flex items-center gap-4 mb-6">
-              <span className="block w-10 h-px bg-gold-500/40" />
-              <span className="font-body text-[10px] tracking-[0.35em] uppercase text-gold-400/70">The Blog</span>
+              <span className="block w-10 h-px bg-burgundy-400/50" />
+              <span className="font-body text-[10px] tracking-[0.35em] uppercase text-burgundy-300/80">The Blog</span>
             </div>
             <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-light text-stone-50 mb-5">
               Mindful Musings
             </h1>
-            <p className="font-body font-light text-stone-400 text-sm leading-relaxed max-w-xl">
+            <p className="font-body font-light text-stone-300 text-sm leading-relaxed max-w-xl">
               Reflections, wellness tips, and stories from our studio and community.
             </p>
           </div>
