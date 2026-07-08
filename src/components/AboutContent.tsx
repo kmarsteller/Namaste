@@ -191,54 +191,60 @@ export default function AboutContent() {
       </section>
 
       {/* ── Jolynn's story ── */}
-      <section className="relative py-24 px-6 md:px-12 overflow-hidden border-t border-stone-800/40">
-        {/* Background photo */}
-        <Image
-          src="/jolynn.jpeg"
-          alt=""
-          fill
-          className="object-contain object-top grayscale-[20%]"
-          sizes="100vw"
-        />
-        {/* Dark center overlay */}
-        <div className="absolute inset-0 bg-stone-950/55" />
-        {/* Left/right fades */}
-        <div className="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-stone-950 to-transparent" />
-        <div className="absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-stone-950 to-transparent" />
+      <section className="py-24 px-6 md:px-12 bg-stone-950 border-t border-stone-800/40">
+        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center">
 
-        {/* Content */}
-        <div className="relative z-10 max-w-2xl mx-auto">
-          <p className="font-body text-[10px] tracking-[0.3em] uppercase text-sage-400 mb-3">The Owner</p>
-          <h2 className="font-display text-4xl font-light text-stone-50 mb-6">Jolynn McFerren</h2>
-          <div className="w-8 h-px bg-gold-500/40 mb-7" />
-          <p className="font-body text-sm text-stone-200 leading-relaxed mb-5">
-            Jolynn McFerren is the owner of Namaste Yoga, a mom to three wonderful children,
-            wife to Brent, and an active volunteer in the community and schools.
-          </p>
-          <p className="font-body text-sm text-stone-200 leading-relaxed mb-5">
-            Throughout her years of owning Namaste Yoga, she has had the support of so many
-            wonderful instructors and mentors in the studio and from the yoga community in
-            Northeast Ohio. The strength of the Namaste instructors truly guided this business
-            past a pandemic that many small businesses did not survive.
-          </p>
-          <p className="font-body text-sm text-stone-200 leading-relaxed mb-8">
-            Jolynn believes the student community at Namaste Yoga is the heart of the business,
-            and their passion for health, healing, and love for one another maintains the spirit
-            upon which Namaste Yoga was founded many years ago. We are grateful to call Namaste
-            Yoga <span className="text-stone-50 italic">h<span className="text-sage-300">O</span>Me</span>.
-          </p>
+          {/* Text column */}
+          <div>
+            <p className="font-body text-[10px] tracking-[0.3em] uppercase text-sage-400 mb-3">The Owner</p>
+            <h2 className="font-display text-4xl font-light text-stone-50 mb-6">Jolynn McFerren</h2>
+            <div className="w-8 h-px bg-gold-500/40 mb-7" />
+            <p className="font-body text-sm text-stone-400 leading-relaxed mb-5">
+              Jolynn McFerren is the owner of Namaste Yoga, a mom to three wonderful children,
+              wife to Brent, and an active volunteer in the community and schools.
+            </p>
+            <p className="font-body text-sm text-stone-400 leading-relaxed mb-5">
+              Throughout her years of owning Namaste Yoga, she has had the support of so many
+              wonderful instructors and mentors in the studio and from the yoga community in
+              Northeast Ohio. The strength of the Namaste instructors truly guided this business
+              past a pandemic that many small businesses did not survive.
+            </p>
+            <p className="font-body text-sm text-stone-400 leading-relaxed mb-8">
+              Jolynn believes the student community at Namaste Yoga is the heart of the business,
+              and their passion for health, healing, and love for one another maintains the spirit
+              upon which Namaste Yoga was founded many years ago. We are grateful to call Namaste
+              Yoga <span className="text-stone-200 italic">h<span className="text-sage-300">O</span>Me</span>.
+            </p>
 
-          <div className="border border-stone-700/60 p-6 rounded-sm mb-6 bg-stone-950/50 backdrop-blur-sm">
-            <p className="font-body text-[10px] tracking-[0.25em] uppercase text-sage-500 mb-3">Certifications</p>
-            <ul className="space-y-1.5">
-              {["RYT 500", "YACEP (Continuing Education Provider)", "2× 200-hr Teacher Training", "300-hr Advanced Training", "Thai Yoga Massage"].map((cert) => (
-                <li key={cert} className="flex items-center gap-2.5 text-xs text-stone-200">
-                  <span className="w-1 h-1 rounded-full bg-sage-500 flex-shrink-0" />
-                  {cert}
-                </li>
-              ))}
-            </ul>
+            <div className="border border-stone-800/60 p-6 rounded-sm bg-stone-900/40">
+              <p className="font-body text-[10px] tracking-[0.25em] uppercase text-sage-500 mb-3">Certifications</p>
+              <ul className="space-y-1.5">
+                {["RYT 500", "YACEP (Continuing Education Provider)", "2× 200-hr Teacher Training", "300-hr Advanced Training", "Thai Yoga Massage"].map((cert) => (
+                  <li key={cert} className="flex items-center gap-2.5 text-xs text-stone-400">
+                    <span className="w-1 h-1 rounded-full bg-sage-500 flex-shrink-0" />
+                    {cert}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
+
+          {/* Photo column */}
+          <div className="relative">
+            <div className="relative overflow-hidden rounded-sm" style={{ clipPath: "inset(0 round 50% 50% 6px 6px / 22% 22% 6px 6px)" }}>
+              <Image
+                src="/jolynn.jpeg"
+                alt="Jolynn McFerren"
+                width={600}
+                height={800}
+                className="w-full h-auto object-cover grayscale-[15%]"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
+            {/* Subtle glow behind photo */}
+            <div className="absolute -inset-4 -z-10 bg-sage-900/20 blur-2xl rounded-full" />
+          </div>
+
         </div>
       </section>
 
