@@ -185,7 +185,7 @@ function InstructorCard({
               onClick={(e) => { e.stopPropagation(); onScheduleClick(); }}
               className="inline-flex items-center justify-center gap-1.5 py-2 px-3 border border-sage-600/60 text-sage-300 hover:bg-sage-700/30 hover:border-sage-400 transition-all duration-200 rounded-sm text-[10px] tracking-[0.18em] uppercase w-full"
             >
-              View {instructor.name.split(" ")[0]}&apos;s Schedule →
+              View {instructor.name.split(" ")[0]}&apos;s {instructor.bio ? "Bio & Schedule" : "Schedule"} →
             </button>
           ) : (
             <Link
@@ -197,9 +197,12 @@ function InstructorCard({
           )}
         </div>
 
-        {/* Owner badge */}
+        {/* Owner badge — hidden on hover */}
         {instructor.owner && (
-          <div className="absolute top-3 left-3 px-2 py-0.5 bg-gold-500/90 rounded-sm z-10">
+          <div
+            className="absolute bottom-20 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-gold-500/90 rounded-sm z-10 whitespace-nowrap transition-opacity duration-200"
+            style={{ opacity: spotlit ? 0 : 1 }}
+          >
             <span className="font-body text-[9px] tracking-[0.2em] uppercase text-stone-950 font-medium">
               Owner
             </span>
@@ -316,6 +319,8 @@ export default function InstructorsGrid() {
         <ScheduleLightbox
           instructorName={lightboxInstructor.name}
           arketaId={lightboxInstructor.arketaId}
+          bio={lightboxInstructor.bio}
+          certs={lightboxInstructor.certs}
           onClose={() => setLightboxInstructor(null)}
         />
       )}

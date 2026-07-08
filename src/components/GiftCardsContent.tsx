@@ -22,7 +22,7 @@ export default function GiftCardsContent() {
       {/* ── Page hero ── */}
       <section className="relative pt-40 pb-16 px-6 md:px-12 bg-stone-950 overflow-hidden">
         {/* Hero photo */}
-        <Image src="/hero-studio3.jpeg" alt="" fill className="object-cover object-center" priority />
+        <Image src="/hero-retail.jpg" alt="" fill className="object-cover object-center" priority />
         <div className="absolute inset-0 bg-gradient-to-b from-stone-950/70 via-stone-950/50 to-stone-950" />
         <div className="absolute inset-0 bg-gradient-to-r from-stone-950/40 via-transparent to-stone-950/40" />
 
@@ -69,7 +69,7 @@ export default function GiftCardsContent() {
               id="sutraWidgetIframe"
               src="https://app.arketa.co/iframe/namasteyogaohio/gifting"
               width="100%"
-              style={{ minHeight: "600px", border: "none", display: "block" }}
+              style={{ minHeight: "600px", border: "none", display: "block", filter: "invert(1) hue-rotate(180deg)" }}
               allow="payment"
               allowFullScreen
               title="Gift Cards"
