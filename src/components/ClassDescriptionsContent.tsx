@@ -61,7 +61,7 @@ const SECTIONS = [
     name: "Flow",
     tagline: "Dynamic, creative, energizing",
     accent: "text-terra-400",
-    bar: "bg-terra-500/40",
+    bar: "bg-blue-500/40",
     classes: [
       {
         name: "All Level Flow",
@@ -87,111 +87,128 @@ const SECTIONS = [
   },
 ];
 
-// ── Grow: vine that draws itself in ──────────────────────────────────────────
+// ── Grow: vine that keeps growing across the page ────────────────────────────
 function VineDecor({ visible }: { visible: boolean }) {
-  const t = (delay: number): React.CSSProperties => ({
-    strokeDasharray: 1,
-    strokeDashoffset: visible ? 0 : 1,
-    transition: `stroke-dashoffset 2.4s cubic-bezier(0.4,0,0.2,1) ${delay}s`,
-  });
-
-  return (
-    <svg
-      viewBox="0 0 210 52"
-      width="210"
-      height="52"
-      fill="none"
-      className="absolute top-1/2 -translate-y-1/2 pointer-events-none select-none"
-      style={{ zIndex: 0, left: "78px" }}
-      aria-hidden
-    >
-      {/* Main stem */}
-      <path
-        d="M8 26 C35 20, 55 8, 85 16 C115 24, 138 6, 168 12 C182 14, 196 8, 210 4"
-        stroke="#a8d870"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-        pathLength={1}
-        style={t(0.1)}
-      />
-      {/* Leaf 1 */}
-      <path
-        d="M58 12 C53 2, 70 -2, 72 11 C65 15, 58 12 58 12Z"
-        stroke="#a8d870"
-        strokeWidth="1"
-        fill="#a8d87018"
-        pathLength={1}
-        style={t(0.8)}
-      />
-      {/* Leaf 2 */}
-      <path
-        d="M130 8 C125 -2, 142 -5, 144 8 C137 13, 130 8 130 8Z"
-        stroke="#a8d870"
-        strokeWidth="1"
-        fill="#a8d87018"
-        pathLength={1}
-        style={t(1.3)}
-      />
-      {/* Tendril 1 */}
-      <path
-        d="M78 17 C83 5, 94 4, 89 16"
-        stroke="#a8d870"
-        strokeWidth="0.9"
-        strokeLinecap="round"
-        pathLength={1}
-        style={t(1.0)}
-      />
-      {/* Tendril 2 */}
-      <path
-        d="M155 10 C160 -1, 170 0, 164 11"
-        stroke="#a8d870"
-        strokeWidth="0.9"
-        strokeLinecap="round"
-        pathLength={1}
-        style={t(1.6)}
-      />
-      {/* Small bud */}
-      <circle
-        cx="210"
-        cy="4"
-        r="2.5"
-        stroke="#a8d870"
-        strokeWidth="1"
-        fill="#a8d87028"
-        style={{
-          opacity: visible ? 1 : 0,
-          transition: "opacity 0.4s ease 2.4s",
-        }}
-      />
-    </svg>
-  );
-}
-
-// ── Slow: turtle walking out from behind the word ─────────────────────────────
-function TurtleDecor({ visible }: { visible: boolean }) {
   return (
     <>
       <style>{`
-        @keyframes turtle-emerge {
-          0%   { transform: translateX(-70px); opacity: 0; }
-          8%   { opacity: 1; }
-          65%  { transform: translateX(55px);  opacity: 1; }
-          80%  { transform: translateX(60px);  opacity: 0; }
-          81%, 100% { transform: translateX(-70px); opacity: 0; }
+        @keyframes vine-stem {
+          0%    { stroke-dashoffset: 1; opacity: 0; }
+          4%    { opacity: 0.85; }
+          57%   { stroke-dashoffset: 0; opacity: 0.85; }
+          80%   { stroke-dashoffset: 0; opacity: 0.85; }
+          92%   { stroke-dashoffset: 0; opacity: 0; }
+          100%  { stroke-dashoffset: 1; opacity: 0; }
+        }
+        @keyframes vine-e1 { 0%,15%{opacity:0;stroke-dashoffset:1} 21%{opacity:0.75;stroke-dashoffset:0} 80%{opacity:0.75;stroke-dashoffset:0} 92%{opacity:0} 100%{opacity:0;stroke-dashoffset:1} }
+        @keyframes vine-e2 { 0%,27%{opacity:0;stroke-dashoffset:1} 33%{opacity:0.75;stroke-dashoffset:0} 80%{opacity:0.75;stroke-dashoffset:0} 92%{opacity:0} 100%{opacity:0;stroke-dashoffset:1} }
+        @keyframes vine-e3 { 0%,41%{opacity:0;stroke-dashoffset:1} 47%{opacity:0.75;stroke-dashoffset:0} 80%{opacity:0.75;stroke-dashoffset:0} 92%{opacity:0} 100%{opacity:0;stroke-dashoffset:1} }
+        @keyframes vine-e4 { 0%,53%{opacity:0;stroke-dashoffset:1} 58%{opacity:0.75;stroke-dashoffset:0} 80%{opacity:0.75;stroke-dashoffset:0} 92%{opacity:0} 100%{opacity:0;stroke-dashoffset:1} }
+        @keyframes vine-bud { 0%,57%{opacity:0} 63%,80%{opacity:0.9} 92%,100%{opacity:0} }
+      `}</style>
+      <svg
+        viewBox="0 0 370 52"
+        width="370"
+        height="52"
+        fill="none"
+        className="absolute top-1/2 -translate-y-1/2 pointer-events-none select-none"
+        style={{ zIndex: 0, left: "78px" }}
+        aria-hidden
+      >
+        <path
+          d="M8 26 C35 20, 55 8, 85 16 C115 24, 138 6, 168 12 C182 14, 196 8, 220 4 C245 0, 268 16, 295 10 C315 6, 338 2, 365 8"
+          stroke="#a8d870" strokeWidth="1.4" strokeLinecap="round"
+          pathLength={1} strokeDasharray={1}
+          style={{ opacity: 0, animation: visible ? "vine-stem 14s ease-in-out 0.3s infinite" : "none" }}
+        />
+        <path d="M58 12 C53 2, 70 -2, 72 11 C65 15, 58 12 58 12Z"
+          stroke="#a8d870" strokeWidth="1" fill="#a8d87018"
+          pathLength={1} strokeDasharray={1}
+          style={{ opacity: 0, animation: visible ? "vine-e1 14s ease-in-out 0.3s infinite" : "none" }} />
+        <path d="M78 17 C83 5, 94 4, 89 16"
+          stroke="#a8d870" strokeWidth="0.9" strokeLinecap="round"
+          pathLength={1} strokeDasharray={1}
+          style={{ opacity: 0, animation: visible ? "vine-e1 14s ease-in-out 0.3s infinite" : "none" }} />
+        <path d="M130 8 C125 -2, 142 -5, 144 8 C137 13, 130 8 130 8Z"
+          stroke="#a8d870" strokeWidth="1" fill="#a8d87018"
+          pathLength={1} strokeDasharray={1}
+          style={{ opacity: 0, animation: visible ? "vine-e2 14s ease-in-out 0.3s infinite" : "none" }} />
+        <path d="M155 10 C160 -1, 170 0, 164 11"
+          stroke="#a8d870" strokeWidth="0.9" strokeLinecap="round"
+          pathLength={1} strokeDasharray={1}
+          style={{ opacity: 0, animation: visible ? "vine-e2 14s ease-in-out 0.3s infinite" : "none" }} />
+        <path d="M220 6 C215 -4, 232 -7, 234 6 C227 11, 220 6 220 6Z"
+          stroke="#a8d870" strokeWidth="1" fill="#a8d87018"
+          pathLength={1} strokeDasharray={1}
+          style={{ opacity: 0, animation: visible ? "vine-e3 14s ease-in-out 0.3s infinite" : "none" }} />
+        <path d="M248 8 C253 -3, 264 -2, 258 9"
+          stroke="#a8d870" strokeWidth="0.9" strokeLinecap="round"
+          pathLength={1} strokeDasharray={1}
+          style={{ opacity: 0, animation: visible ? "vine-e3 14s ease-in-out 0.3s infinite" : "none" }} />
+        <path d="M295 12 C290 2, 307 -1, 309 12 C302 17, 295 12 295 12Z"
+          stroke="#a8d870" strokeWidth="1" fill="#a8d87018"
+          pathLength={1} strokeDasharray={1}
+          style={{ opacity: 0, animation: visible ? "vine-e4 14s ease-in-out 0.3s infinite" : "none" }} />
+        <path d="M330 5 C335 -6, 346 -5, 340 6"
+          stroke="#a8d870" strokeWidth="0.9" strokeLinecap="round"
+          pathLength={1} strokeDasharray={1}
+          style={{ opacity: 0, animation: visible ? "vine-e4 14s ease-in-out 0.3s infinite" : "none" }} />
+        <circle cx="365" cy="8" r="2.5" stroke="#a8d870" strokeWidth="1" fill="#a8d87028"
+          style={{ opacity: 0, animation: visible ? "vine-bud 14s ease-in-out 0.3s infinite" : "none" }} />
+      </svg>
+    </>
+  );
+}
+
+// ── Slow: turtle walking slowly with footprints ───────────────────────────────
+function TurtleDecor({ visible }: { visible: boolean }) {
+  const fps = [
+    { x: 20,  anim: "fp1", flip: false },
+    { x: 68,  anim: "fp2", flip: true  },
+    { x: 116, anim: "fp3", flip: false },
+    { x: 164, anim: "fp4", flip: true  },
+    { x: 212, anim: "fp5", flip: false },
+  ];
+  return (
+    <>
+      <style>{`
+        @keyframes turtle-walk {
+          0%    { transform: translateX(-80px); opacity: 0; }
+          6%    { opacity: 0.9; }
+          82%   { transform: translateX(270px); opacity: 0.9; }
+          88%   { opacity: 0; }
+          89%, 100% { transform: translateX(-80px); opacity: 0; }
         }
         @keyframes turtle-bob {
           0%, 100% { transform: translateY(0px); }
           50%       { transform: translateY(-2px); }
         }
+        @keyframes fp1 { 0%,24%{opacity:0} 28%,82%{opacity:0.5} 88%,100%{opacity:0} }
+        @keyframes fp2 { 0%,36%{opacity:0} 40%,82%{opacity:0.5} 88%,100%{opacity:0} }
+        @keyframes fp3 { 0%,48%{opacity:0} 52%,82%{opacity:0.5} 88%,100%{opacity:0} }
+        @keyframes fp4 { 0%,60%{opacity:0} 64%,82%{opacity:0.5} 88%,100%{opacity:0} }
+        @keyframes fp5 { 0%,71%{opacity:0} 75%,82%{opacity:0.5} 88%,100%{opacity:0} }
       `}</style>
       <div
         className="absolute pointer-events-none select-none"
         style={{ zIndex: 0, left: "160px", top: "4px" }}
         aria-hidden
       >
+        {fps.map(({ x, anim, flip }) => (
+          <div key={x} style={{
+            position: "absolute", left: x, top: "26px", opacity: 0,
+            transform: flip ? "scaleX(-1)" : "none",
+            animation: visible ? `${anim} 22s linear 0.6s infinite` : "none",
+          }}>
+            <svg viewBox="0 0 14 12" width="14" height="12" fill="none">
+              <ellipse cx="3.5" cy="3.5" rx="2" ry="2.8" fill="#b8963e45" />
+              <ellipse cx="10.5" cy="9"   rx="2" ry="2.8" fill="#b8963e35" />
+            </svg>
+          </div>
+        ))}
         <div
           style={{
-            animation: visible ? "turtle-emerge 10s ease-in-out 0.6s infinite" : "none",
+            animation: visible ? "turtle-walk 22s linear 0.6s infinite" : "none",
             opacity: 0,
           }}
         >
@@ -202,25 +219,18 @@ function TurtleDecor({ visible }: { visible: boolean }) {
             fill="none"
             style={{ animation: visible ? "turtle-bob 1.1s ease-in-out infinite" : "none" }}
           >
-            {/* Shell body */}
             <ellipse cx="26" cy="22" rx="17" ry="12" fill="#b8963e18" stroke="#b8963e" strokeWidth="1.3" />
-            {/* Shell dome lines */}
             <path d="M14 22 C18 13, 26 10, 34 13" stroke="#b8963e" strokeWidth="0.8" strokeLinecap="round" fill="none" />
             <path d="M11 26 C15 31, 26 33, 37 30" stroke="#b8963e" strokeWidth="0.8" strokeLinecap="round" fill="none" />
             <path d="M26 10 L26 33" stroke="#b8963e" strokeWidth="0.7" strokeLinecap="round" />
             <path d="M17 12 L15 31" stroke="#b8963e" strokeWidth="0.6" strokeLinecap="round" />
             <path d="M35 12 L37 31" stroke="#b8963e" strokeWidth="0.6" strokeLinecap="round" />
-            {/* Head */}
             <ellipse cx="44" cy="21" rx="6.5" ry="5.5" fill="#b8963e18" stroke="#b8963e" strokeWidth="1.2" />
-            {/* Eye */}
             <circle cx="46.5" cy="19" r="1.3" fill="#b8963e" />
-            {/* Front legs */}
             <path d="M32 31 L36 39" stroke="#b8963e" strokeWidth="1.2" strokeLinecap="round" />
             <path d="M20 32 L16 39" stroke="#b8963e" strokeWidth="1.2" strokeLinecap="round" />
-            {/* Back legs */}
             <path d="M38 29 L43 37" stroke="#b8963e" strokeWidth="1.2" strokeLinecap="round" />
             <path d="M14 28 L9 36" stroke="#b8963e" strokeWidth="1.2" strokeLinecap="round" />
-            {/* Tail */}
             <path d="M9 23 L3 25" stroke="#b8963e" strokeWidth="1" strokeLinecap="round" />
           </svg>
         </div>
@@ -239,21 +249,22 @@ function WaveDecor({ visible }: { visible: boolean }) {
           from { transform: translateX(0); }
           to   { transform: translateX(-50%); }
         }
-        /* Foreground crest — builds, peaks, then crashes hard */
+        /* Foreground crest — rolls in from right, builds, peaks, crashes, resets */
         @keyframes wave-crest {
-          0%   { transform: translateX(0px)   scaleY(0.6); opacity: 0.5; }
-          30%  { transform: translateX(-40px) scaleY(1.6); opacity: 0.85; }
-          48%  { transform: translateX(-65px) scaleY(2.6); opacity: 1; }
-          58%  { transform: translateX(-80px) scaleY(0.25); opacity: 0.25; }
-          72%  { transform: translateX(-105px) scaleY(0.9); opacity: 0.55; }
-          100% { transform: translateX(-145px) scaleY(0.6); opacity: 0.5; }
+          0%    { transform: translateX(180px) scaleY(0.3); opacity: 0; }
+          6%    { opacity: 0.5; }
+          42%   { transform: translateX(50px)  scaleY(1.4); opacity: 0.9; }
+          54%   { transform: translateX(20px)  scaleY(2.2) skewX(-6deg); opacity: 1; }
+          63%   { transform: translateX(8px)   scaleY(0.12) skewX(2deg); opacity: 0.5; }
+          72%   { transform: translateX(0px)   scaleY(0.05); opacity: 0; }
+          73%, 100% { transform: translateX(180px) scaleY(0.3); opacity: 0; }
         }
-        /* Foam burst right after crash */
+        /* Foam — spreads from crash point */
         @keyframes wave-foam {
-          0%, 46%  { opacity: 0;   transform: scaleX(0.1); }
-          58%      { opacity: 0.6; transform: scaleX(1);   }
-          78%      { opacity: 0;   transform: scaleX(1.4); }
-          100%     { opacity: 0;   transform: scaleX(1.4); }
+          0%, 60%  { opacity: 0;   transform: scaleX(0.1); }
+          68%      { opacity: 0.7; transform: scaleX(1);   }
+          80%      { opacity: 0;   transform: scaleX(1.8); }
+          100%     { opacity: 0;   transform: scaleX(1.8); }
         }
       `}</style>
 
@@ -279,27 +290,26 @@ function WaveDecor({ visible }: { visible: boolean }) {
           </svg>
         </div>
 
-        {/* Foreground crest — builds and crashes */}
+        {/* Foreground crest — rolls in, builds, crashes */}
         <div
           style={{
             position: "absolute", bottom: 0, left: 0,
             width: "180px", height: "40px",
-            transformOrigin: "left bottom",
-            opacity: visible ? 1 : 0,
-            transition: "opacity 0.6s ease 0.5s",
-            animation: visible ? "wave-crest 4s ease-in-out 0.8s infinite" : "none",
+            transformOrigin: "center bottom",
+            animation: visible ? "wave-crest 7s ease-in-out 0.6s infinite" : "none",
           }}
         >
           <svg viewBox="0 0 180 40" width="180" height="40" fill="none">
+            {/* Asymmetric wave: gentle left rise, steep peak, quick right drop */}
             <path
-              d="M0 38 C30 20, 70 8, 100 16 C125 22, 145 34, 180 38"
+              d="M0 38 C35 34, 68 6, 90 6 C102 6, 118 18, 145 30 C158 35, 170 38, 180 38"
               stroke="#60a5fa" strokeWidth="2" strokeLinecap="round"
-              fill="#3b82f610"
+              fill="#3b82f612"
             />
-            {/* Crest curl at the top */}
+            {/* Curl hooking over at the peak */}
             <path
-              d="M85 18 C92 10, 104 12, 100 20"
-              stroke="#93c5fd" strokeWidth="1.2" strokeLinecap="round" fill="none"
+              d="M82 8 C90 0, 104 4, 98 14"
+              stroke="#93c5fd" strokeWidth="1.4" strokeLinecap="round" fill="none"
             />
           </svg>
         </div>
@@ -307,10 +317,10 @@ function WaveDecor({ visible }: { visible: boolean }) {
         {/* Foam — brief horizontal burst right after crash */}
         <div
           style={{
-            position: "absolute", bottom: "4px", left: "60px",
-            width: "80px", height: "8px",
+            position: "absolute", bottom: "4px", left: "20px",
+            width: "90px", height: "8px",
             transformOrigin: "left center",
-            animation: visible ? "wave-foam 4s ease-out 0.8s infinite" : "none",
+            animation: visible ? "wave-foam 7s ease-out 0.6s infinite" : "none",
           }}
         >
           <svg viewBox="0 0 80 8" width="80" height="8" fill="none">
@@ -452,7 +462,7 @@ export default function ClassDescriptionsContent() {
 
       {/* ── Sections ── */}
       {SECTIONS.map((section) => (
-        <section key={section.name} className="bg-stone-950 px-6 md:px-12 py-14">
+        <section key={section.name} id={section.name.toLowerCase()} className="bg-stone-950 px-6 md:px-12 py-14 scroll-mt-20">
           <div className="max-w-4xl mx-auto">
             <SectionHeader
               name={section.name}
@@ -469,6 +479,20 @@ export default function ClassDescriptionsContent() {
                   index={i}
                 />
               ))}
+            </div>
+            <div className="mt-8 pt-6 border-t border-stone-800/40">
+              <Link
+                href={`/classes?family=${section.name.toLowerCase()}`}
+                className={`inline-flex items-center gap-2 font-body text-xs tracking-[0.18em] uppercase pb-0.5 border-b transition-colors ${
+                  section.name === "Grow"
+                    ? "text-sage-400 hover:text-sage-200 border-sage-700/50 hover:border-sage-400"
+                    : section.name === "Slow"
+                    ? "text-gold-400 hover:text-gold-200 border-gold-700/50 hover:border-gold-400"
+                    : "text-terra-400 hover:text-terra-200 border-terra-700/50 hover:border-terra-400"
+                }`}
+              >
+                {`Find ${section.name} Classes`} &rarr;
+              </Link>
             </div>
           </div>
         </section>

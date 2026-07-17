@@ -22,7 +22,7 @@ export default function PricingContent() {
       {/* ── Page hero ── */}
       <section className="relative pt-40 pb-16 px-6 md:px-12 bg-stone-950 overflow-hidden">
         {/* Hero photo */}
-        <Image src="/lobbywallart-scaled-e1736886920534.jpg" alt="" fill className="object-cover object-center" priority />
+        <Image src="/hero-merch.jpg" alt="" fill className="object-cover object-top" priority />
         <div className="absolute inset-0 bg-gradient-to-b from-stone-950/70 via-stone-950/50 to-stone-950" />
         <div className="absolute inset-0 bg-gradient-to-r from-stone-950/40 via-transparent to-stone-950/40" />
 

@@ -20,6 +20,64 @@ function useInView(threshold = 0.12) {
   return { ref, visible };
 }
 
+const stats = [
+  { prefix: "", value: 200, suffix: "", label: "Training Hours", sub: "Yoga Alliance RYS 200" },
+  { prefix: "", value: 10, suffix: "th", label: "Year of the Program", sub: "Established tradition" },
+  { prefix: "", value: 9, suffix: "", label: "Monthly Weekends", sub: "Sept 2026 – May 2027" },
+  { prefix: "$", value: 3000, suffix: "", label: "Full Tuition", sub: "Unlimited pass included" },
+];
+
+function useCountUp(target: number, active: boolean, duration = 1200) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!active) return;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.round(eased * target));
+      if (progress < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }, [active, target, duration]);
+  return count;
+}
+
+function StatPill({ stat, active, delay }: { stat: typeof stats[0]; active: boolean; delay: number }) {
+  const count = useCountUp(stat.value, active);
+  const display = stat.prefix + (stat.value >= 1000 ? count.toLocaleString() : count) + stat.suffix;
+  return (
+    <div
+      className="flex items-center gap-4 px-6 py-4 rounded-full border border-stone-700/60 bg-stone-900/40 backdrop-blur-sm transition-all duration-700"
+      style={{
+        opacity: active ? 1 : 0,
+        transform: active ? "translateY(0)" : "translateY(12px)",
+        transitionDelay: `${delay}ms`,
+      }}
+    >
+      <span className="font-display text-2xl font-light text-sage-300 min-w-[4rem] text-right tabular-nums">
+        {display}
+      </span>
+      <div className="w-px h-8 bg-stone-700/60" />
+      <div>
+        <p className="font-body text-xs text-stone-300 tracking-wide leading-tight">{stat.label}</p>
+        <p className="font-body text-[10px] text-stone-600 mt-0.5">{stat.sub}</p>
+      </div>
+    </div>
+  );
+}
+
+function StatPills() {
+  const { ref, visible } = useInView(0.3);
+  return (
+    <div ref={ref} className="flex flex-col gap-3">
+      {stats.map((s, i) => (
+        <StatPill key={s.label} stat={s} active={visible} delay={i * 120} />
+      ))}
+    </div>
+  );
+}
+
 const curriculum = [
   "A structure around the 7 chakras — aligning energy, breath, meditation & the physical practice of yoga",
   "Analysis of asanas: principles of alignment, benefits, precautions, contraindications & modifications",
@@ -36,6 +94,7 @@ const curriculum = [
 ];
 
 const schedule = [
+  { dates: "August 7", year: "2026", qna: true },
   { dates: "September 12 & 13", year: "2026" },
   { dates: "October 10 & 11", year: "2026" },
   { dates: "November 14 & 15", year: "2026" },
@@ -130,8 +189,28 @@ function ScheduleSection() {
           <h2 className="font-display text-4xl md:text-5xl font-light text-stone-100">Course Schedule</h2>
         </div>
 
+        {/* Q&A Night callout */}
+        {schedule.filter((s) => s.qna).map((s, i) => (
+          <div
+            key="qna"
+            className={`mb-6 flex items-center gap-5 p-5 border border-sage-700/50 bg-sage-900/20 rounded-sm transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+            style={{ transitionDelay: `${i * 70}ms` }}
+          >
+            <div className="w-10 h-10 flex-shrink-0 rounded-full border border-sage-600/60 flex items-center justify-center">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-sage-400" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+            </div>
+            <div>
+              <p className="font-body text-[9px] tracking-[0.25em] uppercase text-sage-500 mb-0.5">{s.year} · Free &amp; Open to All</p>
+              <p className="font-display text-lg text-stone-100">Q&amp;A Night — <span className="text-sage-300">{s.dates} at 6:30 pm</span></p>
+              <p className="font-body text-xs text-stone-500 mt-0.5">Have questions about the program? Come meet the instructors.</p>
+            </div>
+          </div>
+        ))}
+
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {schedule.map((s, i) => (
+          {schedule.filter((s) => !s.qna).map((s, i) => (
             <div
               key={i}
               className={`relative p-5 border rounded-sm transition-all duration-700 ${
@@ -139,7 +218,7 @@ function ScheduleSection() {
                   ? "border-gold-500/50 bg-gold-500/5"
                   : "border-stone-800/60 bg-stone-900/40"
               } ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
-              style={{ transitionDelay: `${i * 70}ms` }}
+              style={{ transitionDelay: `${(i + 1) * 70}ms` }}
             >
               {s.graduation && (
                 <span className="absolute top-3 right-3 font-body text-[9px] tracking-[0.2em] uppercase text-gold-400 bg-gold-500/10 px-2 py-0.5 rounded-sm">
@@ -370,6 +449,18 @@ export default function TeacherTrainingContent() {
             >
               Apply / Contact
             </a>
+            <a
+              href="/ytt-200-2026-2027.pdf"
+              download
+              className="inline-flex items-center gap-2 px-8 py-3.5 border border-gold-500/50 text-gold-300 hover:bg-gold-500/10 transition-all duration-200 rounded-sm font-body text-[10px] tracking-[0.2em] uppercase"
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              Download Program Info
+            </a>
           </div>
         </div>
       </section>
@@ -405,20 +496,7 @@ export default function TeacherTrainingContent() {
           </div>
 
           {/* At-a-glance stats */}
-          <div className="grid grid-cols-2 gap-4">
-            {[
-              { value: "200", label: "Training Hours", sub: "Yoga Alliance RYS 200" },
-              { value: "10th", label: "Year of the Program", sub: "Established tradition" },
-              { value: "9", label: "Monthly Weekends", sub: "Sept 2026 – May 2027" },
-              { value: "$3,000", label: "Full Tuition", sub: "Unlimited pass included" },
-            ].map((s) => (
-              <div key={s.label} className="p-6 border border-stone-800/60 rounded-sm bg-stone-900/30">
-                <p className="font-display text-3xl font-light text-sage-300 mb-1">{s.value}</p>
-                <p className="font-body text-xs text-stone-300 tracking-wide mb-1">{s.label}</p>
-                <p className="font-body text-[10px] text-stone-600">{s.sub}</p>
-              </div>
-            ))}
-          </div>
+          <StatPills />
         </div>
       </section>
 

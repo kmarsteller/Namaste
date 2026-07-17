@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { Suspense } from "react";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import ClassesContent from "@/components/ClassesContent";
@@ -38,7 +39,9 @@ export default async function ClassesPage() {
     <>
       <Nav />
       <main>
-        <ClassesContent notice={notice} />
+        <Suspense fallback={null}>
+          <ClassesContent notice={notice} />
+        </Suspense>
       </main>
       <Footer />
     </>
