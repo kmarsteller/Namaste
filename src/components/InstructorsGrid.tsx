@@ -3,8 +3,29 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { instructors } from "@/data/instructors";
+import { instructors, type Instructor } from "@/data/instructors";
 import ScheduleLightbox from "@/components/ScheduleLightbox";
+
+type ArketaInstructor = { id: string; name: string; photo: string; bio: string };
+
+type MergedInstructor = Omit<Instructor, "arketaId"> & {
+  photo: string;
+  bio?: string;
+  arketaId?: string;
+};
+
+function mergeWithArketa(arketa: ArketaInstructor[]): MergedInstructor[] {
+  const byName = new Map(arketa.map((a) => [a.name.toLowerCase().trim(), a]));
+  return instructors.map((inst) => {
+    const ark = byName.get(inst.name.toLowerCase().trim());
+    return {
+      ...inst,
+      photo: ark?.photo || inst.photo,
+      bio: ark?.bio || undefined,
+      arketaId: ark?.id || inst.arketaId,
+    };
+  });
+}
 
 function useIsTouch() {
   const [isTouch, setIsTouch] = useState(false);
@@ -43,7 +64,7 @@ function InstructorCard({
   onTap,
   onScheduleClick,
 }: {
-  instructor: typeof instructors[0];
+  instructor: MergedInstructor;
   index: number;
   spotlit: boolean;
   dimmed: boolean;
@@ -227,11 +248,18 @@ function InstructorCard({
 export default function InstructorsGrid() {
   const [heroVisible, setHeroVisible] = useState(false);
   const [hoveredName, setHoveredName] = useState<string | null>(null);
-  const [lightboxInstructor, setLightboxInstructor] = useState<typeof instructors[0] | null>(null);
+  const [lightboxInstructor, setLightboxInstructor] = useState<MergedInstructor | null>(null);
+  const [merged, setMerged] = useState<MergedInstructor[]>(() => mergeWithArketa([]));
   const isTouch = useIsTouch();
 
   useEffect(() => {
     const t = setTimeout(() => setHeroVisible(true), 100);
+    fetch("/api/instructors")
+      .then((r) => r.json())
+      .then(({ instructors: arketa }: { instructors: ArketaInstructor[] }) => {
+        setMerged(mergeWithArketa(arketa));
+      })
+      .catch(() => {/* keep local fallbacks */});
     return () => clearTimeout(t);
   }, []);
 
@@ -279,7 +307,7 @@ export default function InstructorsGrid() {
       {/* Grid */}
       <section className="py-16 px-6 md:px-12 bg-stone-950">
         <div className="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 md:gap-8">
-          {instructors.map((instructor, i) => (
+          {merged.map((instructor, i) => (
             <InstructorCard
               key={instructor.name}
               instructor={instructor}
