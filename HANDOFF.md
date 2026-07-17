@@ -49,11 +49,11 @@ All Arketa iframes are dark-mode'd with CSS: `filter: invert(1) hue-rotate(180de
 | `/gift-cards` | `GiftCardsContent.tsx` | Arketa gifting iframe |
 | `/new-students` | `NewStudentsContent.tsx` | First class free info |
 | `/contact` | `ContactContent.tsx` | Map + contact details |
+| `/teacher-training` | `TeacherTrainingContent.tsx` | YTT 200-hr program info + schedule |
+| `/customize-your-event` | `CustomizeEventContent.tsx` | Private/group event inquiry form |
 | `/mindful-musings` | `src/app/mindful-musings/` | Blog listing + post detail pages |
 | `/admin` | `AdminPanel.tsx` | Password-gated admin dashboard |
 | `/admin/blog` | `src/app/admin/blog/` | Blog post management (list, new, edit) |
-
-**Pages still to build:** `/teacher-training`, `/customize-your-event`
 
 ---
 
@@ -136,6 +136,58 @@ Use `\n\n` for paragraph breaks inside the string.
 | `BLOB_READ_WRITE_TOKEN` | Blog image uploads | Needs setup (Vercel Blob) |
 | `UPSTASH_REDIS_REST_URL` | Notice banners | Needs setup (Upstash) |
 | `UPSTASH_REDIS_REST_TOKEN` | Notice banners | Needs setup (Upstash) |
+| `RESEND_API_KEY` | Contact & event inquiry emails | Needs setup (see below) |
+| `CONTACT_TO` | Where contact form emails are sent | Set to `namasteyogaohio@gmail.com` |
+
+---
+
+## Email (Contact & Event Inquiry Forms) — CURRENTLY STUBBED
+
+Both the `/contact` form and the `/customize-your-event` inquiry form submit to Next.js API routes.
+Email sending via **Resend** is coded but commented out — the forms currently just validate and silently succeed.
+Once the domain is verified and env vars are set, it takes one uncommenting step to go live.
+
+### What needs to happen first
+
+1. **namasteyogaohio.com must be pointed to Vercel** (DNS managed by your domain registrar)
+2. **namasteyogaohio.com must be verified in Resend** (adds DNS records so Resend can send from `hello@namasteyogaohio.com`)
+3. **`RESEND_API_KEY` and `CONTACT_TO` must be added to Vercel environment variables**
+
+### Step-by-step
+
+#### A. Verify your domain in Resend
+
+1. Go to **resend.com** → sign in (or create a free account)
+2. Go to **Domains** → click **Add Domain**
+3. Enter `namasteyogaohio.com`
+4. Resend will show you 3–4 DNS records (TXT, MX, DKIM CNAME) to add at your registrar
+5. Log in to your domain registrar (wherever you bought the domain), add those DNS records
+6. Back in Resend, click **Verify** — it may take a few minutes for DNS to propagate
+
+#### B. Get your Resend API key
+
+1. In Resend → **API Keys** → click **Create API Key**
+2. Name it something like `namaste-website`
+3. Copy the key (you only see it once)
+
+#### C. Add env vars to Vercel
+
+1. Vercel dashboard → your **Namaste** project → **Settings** → **Environment Variables**
+2. Add:
+   - **Name:** `RESEND_API_KEY` → **Value:** the key you copied
+   - **Name:** `CONTACT_TO` → **Value:** `namasteyogaohio@gmail.com`
+3. Click Save, then **redeploy** (push any commit, or Deployments → Redeploy)
+
+### How to activate the code (one-time edit)
+
+Open **`src/app/api/contact/route.ts`** and **`src/app/api/event-inquiry/route.ts`**.
+
+In each file:
+1. Uncomment the `import { Resend }` line and the lines below it
+2. Delete the line `return NextResponse.json({ ok: true });` (the stub)
+3. The commented-out `await resend.emails.send(...)` block is already complete — just uncomment it
+
+Save, commit, push — forms will deliver email from that point on.
 
 ---
 
