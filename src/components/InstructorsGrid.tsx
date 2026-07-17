@@ -30,16 +30,6 @@ function useInView(threshold = 0.05) {
   return { ref, visible };
 }
 
-// ── Blob shapes — each card gets its own organic silhouette ──────────────────
-const BLOBS = [
-  "62% 38% 46% 54% / 60% 44% 56% 40%",
-  "44% 56% 36% 64% / 48% 60% 40% 52%",
-  "54% 46% 62% 38% / 40% 56% 44% 60%",
-  "38% 62% 54% 46% / 56% 40% 60% 44%",
-  "50% 50% 40% 60% / 44% 54% 46% 56%",
-  "66% 34% 44% 56% / 52% 48% 58% 42%",
-  "36% 64% 58% 42% / 60% 50% 40% 54%",
-];
 
 // ── Tilt card ────────────────────────────────────────────────────────────────
 function InstructorCard({
@@ -137,15 +127,12 @@ function InstructorCard({
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}
     >
-      {/* ── Photo frame ── */}
+      {/* ── Photo frame — no arch, seamless rectangle ── */}
       <div
         className="relative overflow-hidden bg-stone-900 aspect-[3/4]"
         style={{
-          clipPath: "inset(0 round 50% 50% 6px 6px / 22% 22% 6px 6px)",
-          boxShadow: spotlit
-            ? "0 30px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(143,175,151,0.15)"
-            : "0 4px 12px rgba(0,0,0,0.3)",
-          transition: "box-shadow 200ms ease",
+          boxShadow: spotlit ? "0 20px 50px rgba(0,0,0,0.8), 0 0 0 1px rgba(143,175,151,0.1)" : "none",
+          transition: "box-shadow 300ms ease",
         }}
       >
         <Image
@@ -153,87 +140,84 @@ function InstructorCard({
           alt={instructor.name}
           fill
           className={`object-cover object-top transition-all duration-500 ${
-            spotlit ? "scale-105 grayscale-0" : "grayscale-[30%]"
+            spotlit ? "scale-105 grayscale-0 brightness-100" : "grayscale-[70%] brightness-75"
           }`}
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
         />
 
-        {/* Permanent subtle gradient at bottom for name legibility */}
-        <div className="absolute inset-0 bg-gradient-to-t from-stone-950/60 via-transparent to-transparent" />
+        {/* Dark muting overlay — lifts on hover */}
+        <div
+          className="absolute inset-0 bg-stone-950 transition-opacity duration-500"
+          style={{ opacity: spotlit ? 0 : 0.35 }}
+        />
+
+        {/* Bottom gradient — always on for name legibility */}
+        <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/30 to-transparent" />
+
+        {/* Name + owner badge — visible by default, hidden when panel is up */}
+        <div
+          className="absolute bottom-0 inset-x-0 px-3 pb-3 transition-opacity duration-200"
+          style={{ opacity: panelVisible ? 0 : 1 }}
+        >
+          <p className="font-display text-sm font-light text-stone-200 leading-tight truncate">
+            {instructor.name}
+          </p>
+          {instructor.owner && (
+            <span className="font-body text-[9px] tracking-[0.2em] uppercase text-gold-400">
+              Owner
+            </span>
+          )}
+        </div>
 
         {/* ── Slide-up info panel ── */}
         <div
-          className="absolute inset-x-0 bottom-0 bg-stone-950/92 backdrop-blur-sm px-4 pt-4 pb-5 flex flex-col gap-3"
+          className="absolute inset-x-0 bottom-0 bg-stone-950/96 backdrop-blur-sm px-3 pt-3 pb-4 flex flex-col gap-3"
           style={{
             transform: panelVisible ? "translateY(0)" : "translateY(100%)",
             transition: "transform 340ms cubic-bezier(0.33, 1, 0.68, 1)",
           }}
         >
-          {/* Certs */}
+          <p className="font-display text-sm font-light text-stone-100 leading-tight">
+            {instructor.name}
+          </p>
+
+          {/* Certs — larger text, lighter color */}
           <ul className="space-y-1.5">
             {instructor.certs.map((c) => (
-              <li key={c} className="flex items-center gap-2 text-[10px] text-stone-300 tracking-wide">
-                <span className="w-1 h-1 rounded-full bg-sage-400 flex-shrink-0" />
+              <li key={c} className="flex items-start gap-2 text-xs text-stone-200 leading-snug">
+                <span className="w-1 h-1 rounded-full bg-sage-400 flex-shrink-0 mt-[5px]" />
                 {c}
               </li>
             ))}
           </ul>
 
-          {/* Schedule link — lightbox if arketaId present, else fallback to /classes */}
+          {/* Schedule / bio link */}
           {instructor.arketaId ? (
             <button
               onClick={(e) => { e.stopPropagation(); onScheduleClick(); }}
               className="inline-flex items-center justify-center gap-1.5 py-2 px-3 border border-sage-600/60 text-sage-300 hover:bg-sage-700/30 hover:border-sage-400 transition-all duration-200 rounded-sm text-[10px] tracking-[0.18em] uppercase w-full"
             >
-              View {instructor.name.split(" ")[0]}&apos;s {instructor.bio ? "Bio & Schedule" : "Schedule"} →
+              {instructor.bio ? "Bio & Schedule" : "Schedule"} →
             </button>
           ) : (
             <Link
               href="/classes"
               className="inline-flex items-center justify-center gap-1.5 py-2 px-3 border border-sage-600/60 text-sage-300 hover:bg-sage-700/30 hover:border-sage-400 transition-all duration-200 rounded-sm text-[10px] tracking-[0.18em] uppercase"
             >
-              View {instructor.name.split(" ")[0]}&apos;s Schedule →
+              Schedule →
             </Link>
           )}
         </div>
 
-        {/* Owner badge — hidden on hover */}
-        {instructor.owner && (
-          <div
-            className="absolute bottom-20 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-gold-500/90 rounded-sm z-10 whitespace-nowrap transition-opacity duration-200"
-            style={{ opacity: spotlit ? 0 : 1 }}
-          >
-            <span className="font-body text-[9px] tracking-[0.2em] uppercase text-stone-950 font-medium">
-              Owner
-            </span>
-          </div>
-        )}
-
-        {/* Tilt shine — subtle highlight that moves with tilt */}
+        {/* Tilt shine */}
         {spotlit && (
           <div
-            className="absolute inset-0 pointer-events-none rounded-sm"
+            className="absolute inset-0 pointer-events-none"
             style={{
               background: `radial-gradient(circle at ${50 + tilt.y * 3}% ${50 + tilt.x * -3}%, rgba(255,255,255,0.06) 0%, transparent 70%)`,
             }}
           />
         )}
-      </div>
-
-      {/* ── Name below card ── */}
-      <div
-        className="mt-3 px-0.5 transition-all duration-200"
-        style={{ transform: spotlit ? "translateY(-2px)" : "translateY(0)" }}
-      >
-        <p className="font-display text-base font-light text-stone-200 leading-tight">
-          {instructor.name}
-        </p>
-        <p className="font-body text-[10px] tracking-[0.12em] text-stone-600 mt-0.5">
-          {instructor.certs[0]}
-          {instructor.certs.length > 1 && (
-            <span className="text-stone-700"> +{instructor.certs.length - 1}</span>
-          )}
-        </p>
       </div>
     </div>
   );

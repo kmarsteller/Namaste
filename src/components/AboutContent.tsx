@@ -191,11 +191,27 @@ export default function AboutContent() {
       </section>
 
       {/* ── Jolynn's story ── */}
-      <section className="py-24 px-6 md:px-12 bg-stone-950 border-t border-stone-800/40">
-        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center">
+      <section className="relative py-24 px-6 md:px-12 bg-stone-950 border-t border-stone-800/40 overflow-hidden">
 
-          {/* Text column */}
-          <div>
+        {/* Photo — bleeds into background on all sides */}
+        <div className="absolute inset-0 md:left-[44%]">
+          <Image
+            src="/jolynn.jpeg"
+            alt="Jolynn McFerren"
+            fill
+            className="object-cover object-center grayscale-[30%]"
+            sizes="(max-width: 768px) 100vw, 56vw"
+          />
+          {/* Mobile: heavy veil so text stays readable */}
+          <div className="absolute inset-0 bg-stone-950/80 md:hidden" />
+          {/* Desktop: strong left fade into text area, soft edges everywhere else */}
+          <div className="absolute inset-0 hidden md:block bg-gradient-to-r from-stone-950 via-stone-950/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-b from-stone-950/60 via-transparent to-stone-950" />
+        </div>
+
+        {/* Text — floats over the left half */}
+        <div className="relative z-10 max-w-5xl mx-auto">
+          <div className="md:max-w-[46%]">
             <p className="font-body text-[10px] tracking-[0.3em] uppercase text-sage-400 mb-3">The Owner</p>
             <h2 className="font-display text-4xl font-light text-stone-50 mb-6">Jolynn McFerren</h2>
             <div className="w-8 h-px bg-gold-500/40 mb-7" />
@@ -228,23 +244,6 @@ export default function AboutContent() {
               </ul>
             </div>
           </div>
-
-          {/* Photo column */}
-          <div className="relative">
-            <div className="relative overflow-hidden rounded-sm" style={{ clipPath: "inset(0 round 50% 50% 6px 6px / 22% 22% 6px 6px)" }}>
-              <Image
-                src="/jolynn.jpeg"
-                alt="Jolynn McFerren"
-                width={600}
-                height={800}
-                className="w-full h-auto object-cover grayscale-[15%]"
-                sizes="(max-width: 768px) 100vw, 50vw"
-              />
-            </div>
-            {/* Subtle glow behind photo */}
-            <div className="absolute -inset-4 -z-10 bg-sage-900/20 blur-2xl rounded-full" />
-          </div>
-
         </div>
       </section>
 
