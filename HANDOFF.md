@@ -29,7 +29,12 @@ Hosted on **Vercel**, auto-deploys on every `git push` to `main`.
 | Admin auth | HMAC cookie derived from `ADMIN_PASSWORD` env var |
 
 **Fonts:** Cormorant Garamond (`font-display`) + Inter (`font-body`)
-**Color palette:** stone-950 base, sage green (`sage-*`), gold (`gold-*`), burgundy (`burgundy-*`)
+**Color palette:** stone-950 base, sage green (`sage-*` = Grow), gold (`gold-*` = Slow), blue (`blue-*` = Flow), terra (`terra-*` = accents only)
+
+**Navigation structure** (`src/components/Nav.tsx`):
+- **Yoga**: Classes, Workshops, Class Descriptions, New Students
+- **Studio**: Our Story, Faculty, Contact, Mindful Musings, Yoga Teacher Training
+- **Shop**: Buy Passes, Gift Cards, Custom Event
 
 All Arketa iframes are dark-mode'd with CSS: `filter: invert(1) hue-rotate(180deg)`
 

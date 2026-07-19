@@ -13,6 +13,7 @@ const tiers = [
     href: "/class-descriptions#grow",
     accent: "text-sage-300",
     bar: "bg-sage-500/60",
+    linkClass: "text-sage-400 hover:text-sage-200 border-sage-700/50 hover:border-sage-400",
   },
   {
     name: "Slow",
@@ -23,6 +24,7 @@ const tiers = [
     href: "/class-descriptions#slow",
     accent: "text-gold-300",
     bar: "bg-gold-500/60",
+    linkClass: "text-gold-400 hover:text-gold-200 border-gold-700/50 hover:border-gold-400",
   },
   {
     name: "Flow",
@@ -31,8 +33,9 @@ const tiers = [
       "All Level Vinyasa, Challenge Flow, and Yoga/Barre Fusion. Dynamic sequences for those ready to go deeper.",
     classes: ["All Level Flow", "All Level Vinyasa", "Challenge Flow", "Yoga / Barre Fusion"],
     href: "/class-descriptions#flow",
-    accent: "text-terra-300",
+    accent: "text-blue-300",
     bar: "bg-blue-500/60",
+    linkClass: "text-blue-400 hover:text-blue-200 border-blue-700/50 hover:border-blue-400",
   },
 ];
 
@@ -287,7 +290,7 @@ function TierCard({ tier, index }: { tier: typeof tiers[0]; index: number }) {
       </ul>
       <Link
         href={tier.href}
-        className="font-body text-xs tracking-[0.18em] uppercase text-sage-400 hover:text-sage-200 transition-colors border-b border-sage-700/50 hover:border-sage-400 pb-0.5"
+        className={`font-body text-xs tracking-[0.18em] uppercase transition-colors border-b pb-0.5 ${tier.linkClass}`}
       >
         Explore &rarr;
       </Link>

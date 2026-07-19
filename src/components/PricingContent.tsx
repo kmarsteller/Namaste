@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function PricingContent() {
   const [heroVisible, setHeroVisible] = useState(false);
@@ -80,6 +81,27 @@ export default function PricingContent() {
         </div>
       </div>
 
+      {/* ── Gift card callout ── */}
+      <section className="bg-stone-950 px-6 md:px-12 pb-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex items-center justify-between gap-6 px-6 py-4 border border-gold-600/30 bg-gold-900/10 rounded-sm">
+            <div className="flex items-center gap-3">
+              <span className="w-1.5 h-1.5 rounded-full bg-gold-400 flex-shrink-0" />
+              <p className="font-body text-sm text-stone-300">
+                Looking to give the gift of yoga?{" "}
+                <span className="text-gold-300">Gift cards are available.</span>
+              </p>
+            </div>
+            <Link
+              href="/gift-cards"
+              className="flex-shrink-0 font-body text-xs tracking-[0.18em] uppercase text-gold-400 hover:text-gold-200 border-b border-gold-700/50 hover:border-gold-400 transition-colors pb-0.5"
+            >
+              Shop Gift Cards &rarr;
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* ── Arketa pricing embed ── */}
       {/* Arketa's pricing cards widget is designed wide (1500px). We let it  */}
       {/* fill the viewport at full width with generous side padding so cards */}
@@ -102,6 +124,19 @@ export default function PricingContent() {
         </div>
       </section>
 
+
+      {/* ── Gift card note ── */}
+      <section className="bg-stone-950 px-6 md:px-12 pt-0 pb-8">
+        <div className="max-w-4xl mx-auto text-center">
+          <p className="font-body text-sm text-stone-500">
+            Want to purchase a gift card?{" "}
+            <Link href="/gift-cards" className="text-gold-400 hover:text-gold-200 underline underline-offset-2 transition-colors">
+              Visit our Gift Cards page
+            </Link>
+            {" "}for a dedicated gifting experience.
+          </p>
+        </div>
+      </section>
 
       {/* ── Questions CTA ── */}
       <section className="bg-stone-950 px-6 py-16 text-center border-t border-stone-800/40">

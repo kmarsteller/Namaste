@@ -60,7 +60,7 @@ const SECTIONS = [
   {
     name: "Flow",
     tagline: "Dynamic, creative, energizing",
-    accent: "text-terra-400",
+    accent: "text-blue-400",
     bar: "bg-blue-500/40",
     classes: [
       {
@@ -488,7 +488,7 @@ export default function ClassDescriptionsContent() {
                     ? "text-sage-400 hover:text-sage-200 border-sage-700/50 hover:border-sage-400"
                     : section.name === "Slow"
                     ? "text-gold-400 hover:text-gold-200 border-gold-700/50 hover:border-gold-400"
-                    : "text-terra-400 hover:text-terra-200 border-terra-700/50 hover:border-terra-400"
+                    : "text-blue-400 hover:text-blue-200 border-blue-700/50 hover:border-blue-400"
                 }`}
               >
                 {`Find ${section.name} Classes`} &rarr;

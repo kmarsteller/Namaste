@@ -128,6 +128,8 @@ const instructors = [
   },
 ];
 
+type ArketaInstructor = { name: string; photo: string };
+
 const testimonials = [
   {
     quote: "The program is in depth, well balanced, and incredibly organized. The instructors are so knowledgeable in all aspects of Yoga and the course material. I feel very prepared to start my journey as a yoga teacher and would recommend this program to anyone who is interested in becoming certified.",
@@ -245,7 +247,7 @@ function ScheduleSection() {
   );
 }
 
-function InstructorsSection() {
+function InstructorsSection({ photoMap }: { photoMap: Map<string, string> }) {
   const { ref, visible } = useInView();
   return (
     <section ref={ref} className="py-24 px-6 md:px-12 bg-stone-950 border-t border-stone-800/40">
@@ -255,30 +257,30 @@ function InstructorsSection() {
           <h2 className="font-display text-4xl md:text-5xl font-light text-stone-100">Lead Instructors</h2>
         </div>
         <div className="grid sm:grid-cols-3 gap-8">
-          {instructors.map((inst, i) => (
-            <div
-              key={inst.name}
-              className={`transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
-              style={{ transitionDelay: `${i * 120}ms` }}
-            >
+          {instructors.map((inst, i) => {
+            const photo = photoMap.get(inst.name.toLowerCase().trim()) || inst.photo;
+            return (
               <div
-                className="relative overflow-hidden bg-stone-900 aspect-[3/4] mb-4"
-                style={{ clipPath: "inset(0 round 50% 50% 6px 6px / 22% 22% 6px 6px)" }}
+                key={inst.name}
+                className={`transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+                style={{ transitionDelay: `${i * 120}ms` }}
               >
-                <Image
-                  src={inst.photo}
-                  alt={inst.name}
-                  fill
-                  className="object-cover object-top grayscale-[15%]"
-                  sizes="(max-width: 640px) 100vw, 33vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-stone-950/50 via-transparent to-transparent" />
+                <div className="relative overflow-hidden bg-stone-900 aspect-[3/4] mb-4">
+                  <Image
+                    src={photo}
+                    alt={inst.name}
+                    fill
+                    className="object-cover object-top grayscale-[15%]"
+                    sizes="(max-width: 640px) 100vw, 33vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950/50 via-transparent to-transparent" />
+                </div>
+                <p className="font-display text-xl font-light text-stone-100 mb-1">{inst.name}</p>
+                <p className="font-body text-[10px] tracking-[0.2em] uppercase text-sage-400 mb-1">{inst.role}</p>
+                <p className="font-body text-[10px] text-stone-600 tracking-wide">{inst.certs}</p>
               </div>
-              <p className="font-display text-xl font-light text-stone-100 mb-1">{inst.name}</p>
-              <p className="font-body text-[10px] tracking-[0.2em] uppercase text-sage-400 mb-1">{inst.role}</p>
-              <p className="font-body text-[10px] text-stone-600 tracking-wide">{inst.certs}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
@@ -390,9 +392,16 @@ function CTASection() {
 
 export default function TeacherTrainingContent() {
   const [heroVisible, setHeroVisible] = useState(false);
+  const [photoMap, setPhotoMap] = useState<Map<string, string>>(new Map());
 
   useEffect(() => {
     const t = setTimeout(() => setHeroVisible(true), 100);
+    fetch("/api/instructors")
+      .then((r) => r.json())
+      .then(({ instructors: arketa }: { instructors: ArketaInstructor[] }) => {
+        setPhotoMap(new Map(arketa.map((a) => [a.name.toLowerCase().trim(), a.photo])));
+      })
+      .catch(() => {});
     return () => clearTimeout(t);
   }, []);
 
@@ -505,7 +514,7 @@ export default function TeacherTrainingContent() {
       <span id="schedule" />
       <ScheduleSection />
 
-      <InstructorsSection />
+      <InstructorsSection photoMap={photoMap} />
 
       <TestimonialsSection />
 

@@ -12,35 +12,30 @@ type NavItem =
 
 const NAV: NavItem[] = [
   {
-    label: "Studio",
+    label: "Yoga",
     children: [
       { label: "Classes", href: "/classes" },
       { label: "Workshops", href: "/workshops" },
       { label: "Class Descriptions", href: "/class-descriptions" },
-      { label: "Pricing", href: "/pricing" },
-    ],
-  },
-  {
-    label: "Yoga",
-    children: [
       { label: "New Students", href: "/new-students" },
-      { label: "Customize Your Event", href: "/customize-your-event" },
     ],
   },
   {
-    label: "About",
+    label: "Studio",
     children: [
       { label: "Our Story", href: "/about" },
       { label: "Faculty", href: "/instructors" },
       { label: "Contact", href: "/contact" },
+      { label: "Mindful Musings", href: "/mindful-musings" },
+      { label: "Yoga Teacher Training", href: "/teacher-training" },
     ],
   },
   {
-    label: "Other",
+    label: "Shop",
     children: [
-      { label: "Mindful Musings", href: "/mindful-musings" },
-      { label: "Yoga Teacher Training", href: "/teacher-training" },
+      { label: "Buy Passes", href: "/pricing" },
       { label: "Gift Cards", href: "/gift-cards" },
+      { label: "Custom Event", href: "/customize-your-event" },
     ],
   },
 ];
