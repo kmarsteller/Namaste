@@ -73,16 +73,16 @@ From the admin panel you can:
 
 ## The Blog (Mindful Musings) — CURRENTLY BROKEN
 
-The blog requires three Vercel services that have not been fully connected yet.
-Until these are set up, blog posts will not save and image uploads will not work.
+The blog needs two more Vercel services before it will work.
+The notice banners (Workshop/Classes) are already working — Upstash Redis is connected.
 
-### What needs to be set up in Vercel
+### What still needs to be set up
 
 Go to **Vercel dashboard → your project → Settings → Environment Variables**
 
 #### 1. Neon Postgres (blog posts database)
 
-1. Go to neon.tech, create a free account
+1. Go to **neon.tech** → create a free account
 2. Create a new project / database
 3. Copy the connection string (looks like `postgresql://user:pass@host/dbname?sslmode=require`)
 4. In Vercel, add env var:
@@ -92,38 +92,36 @@ Go to **Vercel dashboard → your project → Settings → Environment Variables
 
 The blog table (`posts`) is created automatically on first use — no SQL to run manually.
 
-#### 2. Vercel Blob (image uploads in blog editor)
+#### 2. Vercel Blob (hero image uploads in blog editor)
 
-1. In Vercel dashboard → Storage → Create → **Blob store**
+1. In **Vercel dashboard → Storage → Create → Blob store**
 2. Once created, go to the Blob store → Settings → copy the **Read/Write token**
 3. Add env var:
    - **Name:** `BLOB_READ_WRITE_TOKEN`
    - **Value:** the token
+4. Redeploy
 
-#### 3. Upstash Redis (classes/workshops notice banners)
-
-1. In Vercel dashboard → Storage → Create → **Upstash Redis** (or go to upstash.com)
-2. Once created, copy the REST URL and REST token
-3. Add env vars:
-   - **Name:** `UPSTASH_REDIS_REST_URL`
-   - **Name:** `UPSTASH_REDIS_REST_TOKEN`
-
-After adding all three, redeploy and everything will work.
+After both are added and redeployed, the blog will be fully functional.
 
 ---
 
-## Instructor Bios
+## Instructor Data
 
-Instructor data lives in `src/data/instructors.ts`. Each instructor object has:
-- `name`, `photo`, `certs` — always present
-- `bio` — optional; when set, a **Bio** tab appears in the schedule lightbox
-- `arketaId` — the Arketa host ID for their personal schedule iframe
+`src/data/instructors.ts` is the **allow-list** — it controls who appears on the instructors page.
+Photos, bios, and Arketa IDs are pulled **live from Arketa** (cached 1 hour) and merged by name.
 
-To add or edit a bio, open `instructors.ts` and add/edit the `bio` field.
-Use `\n\n` for paragraph breaks inside the string.
+Each entry only needs:
+- `name` — must match the name in Arketa exactly (used for the merge)
+- `certs` — maintained manually here; not stored in Arketa
+- `owner` — optional flag for the gold "Owner" badge
+- `photo` — local fallback image if Arketa photo isn't available
+- `arketaId` — fallback if instructor has no upcoming classes in the 8-week Arketa scan
 
-**Important:** Use escaped straight quotes (`\"`) inside bio strings, NOT curly/smart quotes
-(`"` `"`) — the TypeScript parser rejects them and will break the build.
+**To add an instructor:** add an entry to `instructors.ts` with their name and certs. Their photo and bio will appear automatically once they're in Arketa and have a scheduled class.
+
+**To remove an instructor:** delete their entry from `instructors.ts`. They will no longer appear on the site regardless of whether they're still in Arketa.
+
+**To update certs:** edit the `certs` array in `instructors.ts` and push. Everything else updates automatically from Arketa.
 
 ---
 
@@ -131,13 +129,13 @@ Use `\n\n` for paragraph breaks inside the string.
 
 | Variable | What it's for | Status |
 |---|---|---|
-| `ADMIN_PASSWORD` | Admin panel login | Already set in Vercel |
-| `POSTGRES_URL` | Blog post database | Needs setup (Neon) |
-| `BLOB_READ_WRITE_TOKEN` | Blog image uploads | Needs setup (Vercel Blob) |
-| `UPSTASH_REDIS_REST_URL` | Notice banners | Needs setup (Upstash) |
-| `UPSTASH_REDIS_REST_TOKEN` | Notice banners | Needs setup (Upstash) |
-| `RESEND_API_KEY` | Contact & event inquiry emails | Needs setup (see below) |
-| `CONTACT_TO` | Where contact form emails are sent | Set to `namasteyogaohio@gmail.com` |
+| `ADMIN_PASSWORD` | Admin panel login | ✅ Already set in Vercel |
+| `UPSTASH_REDIS_REST_URL` | Notice banners (Workshop/Classes) | ✅ Already set in Vercel |
+| `UPSTASH_REDIS_REST_TOKEN` | Notice banners (Workshop/Classes) | ✅ Already set in Vercel |
+| `POSTGRES_URL` | Blog post database | ❌ Needs setup (Neon) |
+| `BLOB_READ_WRITE_TOKEN` | Blog image uploads | ❌ Needs setup (Vercel Blob) |
+| `RESEND_API_KEY` | Contact & event inquiry emails | ❌ Needs setup (see Email section) |
+| `CONTACT_TO` | Where contact form emails are sent | ❌ Set to `namasteyogaohio@gmail.com` |
 
 ---
 
@@ -196,7 +194,7 @@ Save, commit, push — forms will deliver email from that point on.
 ```
 src/
   data/
-    instructors.ts          instructor list, bios, Arketa IDs
+    instructors.ts          instructor allow-list (name + certs); photos/bios/IDs from Arketa
   components/
     Nav.tsx                 navigation (desktop + mobile)
     Footer.tsx              footer with social links
