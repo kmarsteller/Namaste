@@ -133,11 +133,11 @@ export default function Hero() {
         <div className="w-px h-10 bg-gradient-to-b from-stone-400 to-transparent animate-pulse" />
       </div>
 
-      {/* ── Ambient music toggle ── */}
+      {/* ── Ambient music toggle — fixed so it follows the user while scrolling ── */}
       <button
         onClick={toggleMusic}
         aria-label={playing ? "Mute ambient music" : "Play ambient music"}
-        className="absolute bottom-10 right-6 z-20 flex items-center gap-2 px-3 py-2 rounded-sm border border-stone-600/40 bg-stone-950/40 backdrop-blur-sm text-stone-400 hover:text-stone-200 hover:border-stone-500/60 transition-all duration-200"
+        className="fixed bottom-8 right-6 z-50 flex items-center gap-2 px-3 py-2 rounded-sm border border-stone-600/40 bg-stone-950/60 backdrop-blur-sm text-stone-400 hover:text-stone-200 hover:border-stone-500/60 transition-all duration-200"
       >
         {playing ? (
           <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4" aria-hidden>
