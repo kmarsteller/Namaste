@@ -118,7 +118,7 @@ export default function ManageFacultyPage() {
             <span className="text-stone-700 select-none">·</span>
             <span className="font-body text-[10px] tracking-[0.3em] uppercase text-stone-500">Manage Faculty</span>
           </div>
-          <Link href="/about#instructors" target="_blank"
+          <Link href="/instructors" target="_blank"
             className="font-body text-xs text-stone-600 hover:text-stone-300 transition-colors tracking-wide">
             View instructors ↗
           </Link>

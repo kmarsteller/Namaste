@@ -274,7 +274,7 @@ export default function AdminPanel() {
             <h2 className="font-display text-2xl font-light text-stone-100 mb-1">Faculty</h2>
             <p className="font-body text-xs text-stone-500 leading-relaxed">
               Show or hide instructors, and add new teachers from Arketa.{" "}
-              <Link href="/about#instructors" target="_blank" className="text-stone-400 hover:text-stone-200 underline underline-offset-2 transition-colors">
+              <Link href="/instructors" target="_blank" className="text-stone-400 hover:text-stone-200 underline underline-offset-2 transition-colors">
                 View instructors →
               </Link>
             </p>
