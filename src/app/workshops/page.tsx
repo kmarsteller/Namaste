@@ -1,8 +1,7 @@
-import fs from "fs";
-import path from "path";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import WorkshopsContent from "@/components/WorkshopsContent";
+import { getSQL, hasDB } from "@/lib/blog-db";
 
 export const dynamic = "force-dynamic";
 
@@ -13,20 +12,11 @@ export const metadata = {
 };
 
 async function getNotice(): Promise<string> {
-  if (process.env.UPSTASH_REDIS_REST_URL) {
-    try {
-      const { Redis } = await import("@upstash/redis");
-      const redis = new Redis({ url: process.env.UPSTASH_REDIS_REST_URL, token: process.env.UPSTASH_REDIS_REST_TOKEN! });
-      const data = await redis.get<{ notice: string }>("workshop-notice");
-      return data?.notice ?? "";
-    } catch {
-      return "";
-    }
-  }
+  if (!hasDB()) return "";
   try {
-    const file = path.join(process.cwd(), "data", "workshop-notice.json");
-    const data = JSON.parse(fs.readFileSync(file, "utf8"));
-    return data.notice ?? "";
+    const sql = getSQL();
+    const rows = await sql`SELECT notice FROM workshop_notice WHERE id = 1`;
+    return rows[0]?.notice ?? "";
   } catch {
     return "";
   }
