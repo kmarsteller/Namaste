@@ -1,31 +1,99 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import OmDraw from "@/components/OmDraw";
 
+// Web Audio API ambient drone — 432 Hz root with soft upper harmonics and
+// a slow 0.1 Hz tremolo so it breathes rather than flatlines.
+function createAmbientDrone(ctx: AudioContext): () => void {
+  const masterGain = ctx.createGain();
+  masterGain.gain.setValueAtTime(0, ctx.currentTime);
+  masterGain.gain.linearRampToValueAtTime(0.18, ctx.currentTime + 4); // fade in over 4s
+  masterGain.connect(ctx.destination);
+
+  // Slow tremolo LFO (0.1 Hz)
+  const lfo = ctx.createOscillator();
+  const lfoGain = ctx.createGain();
+  lfo.frequency.value = 0.1;
+  lfoGain.gain.value = 0.04;
+  lfo.connect(lfoGain);
+  lfoGain.connect(masterGain.gain);
+  lfo.start();
+
+  // Harmonics: root 432, octave 864, fifth 648, soft third 540
+  const partials: [number, number][] = [
+    [432, 0.7],
+    [648, 0.25],
+    [864, 0.15],
+    [540, 0.1],
+    [216, 0.3], // sub-octave for warmth
+  ];
+
+  const oscs = partials.map(([freq, gain]) => {
+    const osc = ctx.createOscillator();
+    const g = ctx.createGain();
+    // Tiny detune per partial so they slowly drift in/out of phase
+    osc.type = "sine";
+    osc.frequency.value = freq;
+    osc.detune.value = (Math.random() - 0.5) * 4;
+    g.gain.value = gain;
+    osc.connect(g);
+    g.connect(masterGain);
+    osc.start();
+    return { osc, g };
+  });
+
+  // Return a teardown function
+  return () => {
+    masterGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 2);
+    setTimeout(() => {
+      oscs.forEach(({ osc }) => osc.stop());
+      lfo.stop();
+    }, 2200);
+  };
+}
+
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [loaded, setLoaded] = useState(false);
-  const [muted, setMuted] = useState(true);
+  const [playing, setPlaying] = useState(false);
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const stopRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
-    v.play().catch(() => {
-      /* autoplay blocked — video stays paused, poster shows */
-    });
-    // Fallback: trigger Om drawing after 3s even if video never fires onCanPlay
+    v.play().catch(() => {});
     const t = setTimeout(() => setLoaded(true), 3000);
     return () => clearTimeout(t);
   }, []);
 
-  // React doesn't sync the `muted` prop after mount — control it via ref
+  // Clean up audio on unmount
   useEffect(() => {
-    const v = videoRef.current;
-    if (v) v.muted = muted;
-  }, [muted]);
+    return () => {
+      stopRef.current?.();
+      audioCtxRef.current?.close();
+    };
+  }, []);
+
+  const toggleMusic = useCallback(() => {
+    if (playing) {
+      stopRef.current?.();
+      stopRef.current = null;
+      setPlaying(false);
+    } else {
+      // AudioContext must be created (or resumed) from a user gesture
+      if (!audioCtxRef.current) {
+        audioCtxRef.current = new AudioContext();
+      } else if (audioCtxRef.current.state === "suspended") {
+        audioCtxRef.current.resume();
+      }
+      stopRef.current = createAmbientDrone(audioCtxRef.current);
+      setPlaying(true);
+    }
+  }, [playing]);
 
   return (
     <section className="relative h-screen w-full overflow-hidden flex items-center justify-center">
@@ -44,11 +112,11 @@ export default function Hero() {
         onCanPlay={() => setLoaded(true)}
       />
 
-      {/* ── Gradient overlay — dark vignette, slight warm tint ── */}
+      {/* ── Gradient overlay ── */}
       <div className="absolute inset-0 bg-gradient-to-b from-stone-950/60 via-stone-950/30 to-stone-950/80" />
       <div className="absolute inset-0 bg-gradient-to-r from-stone-950/40 via-transparent to-stone-950/40" />
 
-      {/* ── Hand-drawn Om — sits above video/gradients, below text ── */}
+      {/* ── Hand-drawn Om ── */}
       <OmDraw trigger={loaded} />
 
       {/* ── Content ── */}
@@ -57,7 +125,6 @@ export default function Hero() {
           loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         }`}
       >
-        {/* Logo */}
         <div className="flex justify-center mb-10">
           <Image
             src="/logo-greige.png"
@@ -88,12 +155,10 @@ export default function Hero() {
           </Link>
         </div>
 
-        {/* First class free badge */}
         <p className="mt-8 font-body text-xs tracking-[0.12em] text-sage-400/80">
           First in-studio class free &nbsp;·&nbsp; 45+ weekly classes
         </p>
 
-        {/* Social icons */}
         <div className="mt-6 flex items-center justify-center gap-5">
           <a href="https://www.facebook.com/namasteyogaohio" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-stone-600 hover:text-stone-300 transition-colors duration-200">
             <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5" aria-hidden="true">
@@ -121,28 +186,26 @@ export default function Hero() {
         <div className="w-px h-10 bg-gradient-to-b from-stone-400 to-transparent animate-pulse" />
       </div>
 
-      {/* ── Mute toggle ── */}
+      {/* ── Ambient music toggle ── */}
       <button
-        onClick={() => setMuted((m) => !m)}
-        aria-label={muted ? "Unmute video" : "Mute video"}
+        onClick={toggleMusic}
+        aria-label={playing ? "Mute ambient music" : "Play ambient music"}
         className="absolute bottom-10 right-6 z-20 flex items-center gap-2 px-3 py-2 rounded-sm border border-stone-600/40 bg-stone-950/40 backdrop-blur-sm text-stone-400 hover:text-stone-200 hover:border-stone-500/60 transition-all duration-200"
       >
-        {muted ? (
-          /* Speaker with X */
-          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4" aria-hidden>
-            <path d="M4 7.5H2a1 1 0 00-1 1v3a1 1 0 001 1h2l4 3V4.5L4 7.5z" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M16 7l-4 4m0-4l4 4" strokeLinecap="round" />
-          </svg>
-        ) : (
-          /* Speaker with waves */
+        {playing ? (
           <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4" aria-hidden>
             <path d="M4 7.5H2a1 1 0 00-1 1v3a1 1 0 001 1h2l4 3V4.5L4 7.5z" strokeLinecap="round" strokeLinejoin="round" />
             <path d="M13 7a4 4 0 010 6" strokeLinecap="round" />
             <path d="M15.5 4.5a7 7 0 010 11" strokeLinecap="round" />
           </svg>
+        ) : (
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4" aria-hidden>
+            <path d="M4 7.5H2a1 1 0 00-1 1v3a1 1 0 001 1h2l4 3V4.5L4 7.5z" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M16 7l-4 4m0-4l4 4" strokeLinecap="round" />
+          </svg>
         )}
         <span className="font-body text-[10px] tracking-[0.15em] uppercase">
-          {muted ? "Sound off" : "Sound on"}
+          {playing ? "Sound on" : "Sound off"}
         </span>
       </button>
     </section>
