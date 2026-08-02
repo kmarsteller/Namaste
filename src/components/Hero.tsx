@@ -3,14 +3,25 @@
 // Music: "Meditation Impromptu 01" by Kevin MacLeod (incompetech.com)
 // Licensed under Creative Commons Attribution 4.0 — https://creativecommons.org/licenses/by/4.0/
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import OmDraw from "@/components/OmDraw";
 
+// Module-level singleton — one Audio instance for the lifetime of the page,
+// never recreated by React renders or StrictMode double-invocation.
+let ambientAudio: HTMLAudioElement | null = null;
+function getAudio(): HTMLAudioElement {
+  if (!ambientAudio) {
+    ambientAudio = new Audio("/ambient.mp3");
+    ambientAudio.loop = true;
+    ambientAudio.volume = 0.35;
+  }
+  return ambientAudio;
+}
+
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [playing, setPlaying] = useState(false);
 
@@ -22,24 +33,15 @@ export default function Hero() {
     return () => clearTimeout(t);
   }, []);
 
-  useEffect(() => {
-    const audio = new Audio("/ambient.mp3");
-    audio.loop = true;
-    audio.volume = 0.35;
-    audioRef.current = audio;
-    return () => { audio.pause(); audio.src = ""; };
-  }, []);
-
-  const toggleMusic = useCallback(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
+  function toggleMusic() {
+    const audio = getAudio();
     if (playing) {
       audio.pause();
       setPlaying(false);
     } else {
       audio.play().then(() => setPlaying(true)).catch(() => {});
     }
-  }, [playing]);
+  }
 
   return (
     <section className="relative h-screen w-full overflow-hidden flex items-center justify-center">
