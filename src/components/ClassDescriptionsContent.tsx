@@ -88,6 +88,12 @@ const SECTIONS = [
 ];
 
 // ── Grow: vine that keeps growing across the page ────────────────────────────
+// Vine: M8,40 C35,34 55,22 85,30 C115,38 138,20 168,26 C182,28 196,22 220,18 C245,14 268,30 295,24 C315,20 338,16 365,22
+// Leaves placed at segment endpoints and computed midpoints (t=0.5):
+//   seg1 mid ≈ (45,30)  seg1 end = (85,30)
+//   seg2 mid ≈ (127,29) seg2 end = (168,26)
+//   seg3 end = (220,18)
+//   seg4 mid ≈ (257,22) seg4 end = (295,24)
 function VineDecor({ visible }: { visible: boolean }) {
   return (
     <>
@@ -100,60 +106,81 @@ function VineDecor({ visible }: { visible: boolean }) {
           92%   { stroke-dashoffset: 0; opacity: 0; }
           100%  { stroke-dashoffset: 1; opacity: 0; }
         }
-        @keyframes vine-e1 { 0%,15%{opacity:0;stroke-dashoffset:1} 21%{opacity:0.75;stroke-dashoffset:0} 80%{opacity:0.75;stroke-dashoffset:0} 92%{opacity:0} 100%{opacity:0;stroke-dashoffset:1} }
-        @keyframes vine-e2 { 0%,27%{opacity:0;stroke-dashoffset:1} 33%{opacity:0.75;stroke-dashoffset:0} 80%{opacity:0.75;stroke-dashoffset:0} 92%{opacity:0} 100%{opacity:0;stroke-dashoffset:1} }
-        @keyframes vine-e3 { 0%,41%{opacity:0;stroke-dashoffset:1} 47%{opacity:0.75;stroke-dashoffset:0} 80%{opacity:0.75;stroke-dashoffset:0} 92%{opacity:0} 100%{opacity:0;stroke-dashoffset:1} }
-        @keyframes vine-e4 { 0%,53%{opacity:0;stroke-dashoffset:1} 58%{opacity:0.75;stroke-dashoffset:0} 80%{opacity:0.75;stroke-dashoffset:0} 92%{opacity:0} 100%{opacity:0;stroke-dashoffset:1} }
+        @keyframes vine-e1 { 0%,10%{opacity:0;stroke-dashoffset:1} 16%{opacity:0.75;stroke-dashoffset:0} 80%{opacity:0.75;stroke-dashoffset:0} 92%{opacity:0} 100%{opacity:0;stroke-dashoffset:1} }
+        @keyframes vine-e2 { 0%,18%{opacity:0;stroke-dashoffset:1} 24%{opacity:0.75;stroke-dashoffset:0} 80%{opacity:0.75;stroke-dashoffset:0} 92%{opacity:0} 100%{opacity:0;stroke-dashoffset:1} }
+        @keyframes vine-e3 { 0%,26%{opacity:0;stroke-dashoffset:1} 32%{opacity:0.75;stroke-dashoffset:0} 80%{opacity:0.75;stroke-dashoffset:0} 92%{opacity:0} 100%{opacity:0;stroke-dashoffset:1} }
+        @keyframes vine-e4 { 0%,34%{opacity:0;stroke-dashoffset:1} 40%{opacity:0.75;stroke-dashoffset:0} 80%{opacity:0.75;stroke-dashoffset:0} 92%{opacity:0} 100%{opacity:0;stroke-dashoffset:1} }
+        @keyframes vine-e5 { 0%,42%{opacity:0;stroke-dashoffset:1} 48%{opacity:0.75;stroke-dashoffset:0} 80%{opacity:0.75;stroke-dashoffset:0} 92%{opacity:0} 100%{opacity:0;stroke-dashoffset:1} }
+        @keyframes vine-e6 { 0%,49%{opacity:0;stroke-dashoffset:1} 55%{opacity:0.75;stroke-dashoffset:0} 80%{opacity:0.75;stroke-dashoffset:0} 92%{opacity:0} 100%{opacity:0;stroke-dashoffset:1} }
         @keyframes vine-bud { 0%,57%{opacity:0} 63%,80%{opacity:0.9} 92%,100%{opacity:0} }
       `}</style>
       <svg
-        viewBox="0 0 370 52"
+        viewBox="0 0 370 56"
         width="370"
-        height="52"
+        height="56"
         fill="none"
         className="absolute top-1/2 -translate-y-1/2 pointer-events-none select-none"
         style={{ zIndex: 0, left: "78px" }}
         aria-hidden
       >
+        {/* Main vine stem */}
         <path
-          d="M8 26 C35 20, 55 8, 85 16 C115 24, 138 6, 168 12 C182 14, 196 8, 220 4 C245 0, 268 16, 295 10 C315 6, 338 2, 365 8"
+          d="M8 40 C35 34, 55 22, 85 30 C115 38, 138 20, 168 26 C182 28, 196 22, 220 18 C245 14, 268 30, 295 24 C315 20, 338 16, 365 22"
           stroke="#a8d870" strokeWidth="1.4" strokeLinecap="round"
           pathLength={1} strokeDasharray={1}
           style={{ opacity: 0, animation: visible ? "vine-stem 14s ease-in-out 0.3s infinite" : "none" }}
         />
-        <path d="M58 12 C53 2, 70 -2, 72 11 C65 15, 58 12 58 12Z"
-          stroke="#a8d870" strokeWidth="1" fill="#a8d87018"
+
+        {/* Leaf 1 — seg1 mid ≈(45,30), growing upward */}
+        <path d="M45,30 L45,23" stroke="#a8d870" strokeWidth="0.9" strokeLinecap="round"
+          style={{ opacity: 0, animation: visible ? "vine-e1 14s ease-in-out 0.3s infinite" : "none" }} />
+        <path d="M45,23 C41,20 41,14 45,12 C49,14 49,20 45,23 Z"
+          stroke="#a8d870" strokeWidth="1" fill="#a8d87020"
           pathLength={1} strokeDasharray={1}
           style={{ opacity: 0, animation: visible ? "vine-e1 14s ease-in-out 0.3s infinite" : "none" }} />
-        <path d="M78 17 C83 5, 94 4, 89 16"
-          stroke="#a8d870" strokeWidth="0.9" strokeLinecap="round"
-          pathLength={1} strokeDasharray={1}
-          style={{ opacity: 0, animation: visible ? "vine-e1 14s ease-in-out 0.3s infinite" : "none" }} />
-        <path d="M130 8 C125 -2, 142 -5, 144 8 C137 13, 130 8 130 8Z"
-          stroke="#a8d870" strokeWidth="1" fill="#a8d87018"
+
+        {/* Leaf 2 — seg1 end (85,30), growing downward-right */}
+        <path d="M85,30 L90,37" stroke="#a8d870" strokeWidth="0.9" strokeLinecap="round"
+          style={{ opacity: 0, animation: visible ? "vine-e2 14s ease-in-out 0.3s infinite" : "none" }} />
+        <path d="M90,37 C86,40 86,46 90,49 C94,46 94,40 90,37 Z"
+          stroke="#a8d870" strokeWidth="1" fill="#a8d87020"
           pathLength={1} strokeDasharray={1}
           style={{ opacity: 0, animation: visible ? "vine-e2 14s ease-in-out 0.3s infinite" : "none" }} />
-        <path d="M155 10 C160 -1, 170 0, 164 11"
-          stroke="#a8d870" strokeWidth="0.9" strokeLinecap="round"
-          pathLength={1} strokeDasharray={1}
-          style={{ opacity: 0, animation: visible ? "vine-e2 14s ease-in-out 0.3s infinite" : "none" }} />
-        <path d="M220 6 C215 -4, 232 -7, 234 6 C227 11, 220 6 220 6Z"
-          stroke="#a8d870" strokeWidth="1" fill="#a8d87018"
+
+        {/* Leaf 3 — seg2 mid ≈(127,29), growing upward */}
+        <path d="M127,29 L127,22" stroke="#a8d870" strokeWidth="0.9" strokeLinecap="round"
+          style={{ opacity: 0, animation: visible ? "vine-e3 14s ease-in-out 0.3s infinite" : "none" }} />
+        <path d="M127,22 C123,19 123,13 127,11 C131,13 131,19 127,22 Z"
+          stroke="#a8d870" strokeWidth="1" fill="#a8d87020"
           pathLength={1} strokeDasharray={1}
           style={{ opacity: 0, animation: visible ? "vine-e3 14s ease-in-out 0.3s infinite" : "none" }} />
-        <path d="M248 8 C253 -3, 264 -2, 258 9"
-          stroke="#a8d870" strokeWidth="0.9" strokeLinecap="round"
-          pathLength={1} strokeDasharray={1}
-          style={{ opacity: 0, animation: visible ? "vine-e3 14s ease-in-out 0.3s infinite" : "none" }} />
-        <path d="M295 12 C290 2, 307 -1, 309 12 C302 17, 295 12 295 12Z"
-          stroke="#a8d870" strokeWidth="1" fill="#a8d87018"
+
+        {/* Leaf 4 — seg2 end (168,26), growing downward-left */}
+        <path d="M168,26 L163,33" stroke="#a8d870" strokeWidth="0.9" strokeLinecap="round"
+          style={{ opacity: 0, animation: visible ? "vine-e4 14s ease-in-out 0.3s infinite" : "none" }} />
+        <path d="M163,33 C158,36 158,42 163,45 C167,42 167,36 163,33 Z"
+          stroke="#a8d870" strokeWidth="1" fill="#a8d87020"
           pathLength={1} strokeDasharray={1}
           style={{ opacity: 0, animation: visible ? "vine-e4 14s ease-in-out 0.3s infinite" : "none" }} />
-        <path d="M330 5 C335 -6, 346 -5, 340 6"
-          stroke="#a8d870" strokeWidth="0.9" strokeLinecap="round"
+
+        {/* Leaf 5 — seg3 end (220,18), growing upward */}
+        <path d="M220,18 L220,11" stroke="#a8d870" strokeWidth="0.9" strokeLinecap="round"
+          style={{ opacity: 0, animation: visible ? "vine-e5 14s ease-in-out 0.3s infinite" : "none" }} />
+        <path d="M220,11 C216,8 216,2 220,0 C224,2 224,8 220,11 Z"
+          stroke="#a8d870" strokeWidth="1" fill="#a8d87020"
           pathLength={1} strokeDasharray={1}
-          style={{ opacity: 0, animation: visible ? "vine-e4 14s ease-in-out 0.3s infinite" : "none" }} />
-        <circle cx="365" cy="8" r="2.5" stroke="#a8d870" strokeWidth="1" fill="#a8d87028"
+          style={{ opacity: 0, animation: visible ? "vine-e5 14s ease-in-out 0.3s infinite" : "none" }} />
+
+        {/* Leaf 6 — seg4 end (295,24), growing upward-right */}
+        <path d="M295,24 L299,17" stroke="#a8d870" strokeWidth="0.9" strokeLinecap="round"
+          style={{ opacity: 0, animation: visible ? "vine-e6 14s ease-in-out 0.3s infinite" : "none" }} />
+        <path d="M299,17 C295,13 296,8 300,6 C304,8 303,14 299,17 Z"
+          stroke="#a8d870" strokeWidth="1" fill="#a8d87020"
+          pathLength={1} strokeDasharray={1}
+          style={{ opacity: 0, animation: visible ? "vine-e6 14s ease-in-out 0.3s infinite" : "none" }} />
+
+        {/* Bud at vine tip */}
+        <circle cx="365" cy="22" r="2.5" stroke="#a8d870" strokeWidth="1" fill="#a8d87028"
           style={{ opacity: 0, animation: visible ? "vine-bud 14s ease-in-out 0.3s infinite" : "none" }} />
       </svg>
     </>
@@ -239,94 +266,36 @@ function TurtleDecor({ visible }: { visible: boolean }) {
   );
 }
 
-// ── Flow: wave that crests and crashes ───────────────────────────────────────
+// ── Flow: flowing water lines ─────────────────────────────────────────────────
 function WaveDecor({ visible }: { visible: boolean }) {
   return (
     <>
       <style>{`
-        /* Background swell — rolls in slowly and continuously */
         @keyframes wave-swell {
           from { transform: translateX(0); }
           to   { transform: translateX(-50%); }
-        }
-        /* Foreground crest — rolls in from right, builds, peaks, crashes, resets */
-        @keyframes wave-crest {
-          0%    { transform: translateX(180px) scaleY(0.3); opacity: 0; }
-          6%    { opacity: 0.5; }
-          42%   { transform: translateX(50px)  scaleY(1.4); opacity: 0.9; }
-          54%   { transform: translateX(20px)  scaleY(2.2) skewX(-6deg); opacity: 1; }
-          63%   { transform: translateX(8px)   scaleY(0.12) skewX(2deg); opacity: 0.5; }
-          72%   { transform: translateX(0px)   scaleY(0.05); opacity: 0; }
-          73%, 100% { transform: translateX(180px) scaleY(0.3); opacity: 0; }
-        }
-        /* Foam — spreads from crash point */
-        @keyframes wave-foam {
-          0%, 60%  { opacity: 0;   transform: scaleX(0.1); }
-          68%      { opacity: 0.7; transform: scaleX(1);   }
-          80%      { opacity: 0;   transform: scaleX(1.8); }
-          100%     { opacity: 0;   transform: scaleX(1.8); }
         }
       `}</style>
 
       <div
         className="absolute pointer-events-none select-none overflow-hidden"
-        style={{ top: "4px", left: "72px", width: "320px", height: "40px", zIndex: 0 }}
+        style={{ top: "-4px", left: "60px", width: "340px", height: "40px", zIndex: 0 }}
         aria-hidden
       >
-        {/* Background swell — steady rolling base */}
-        <div
-          style={{
-            position: "absolute", bottom: 0, width: "200%",
-            opacity: visible ? 0.4 : 0,
-            transition: "opacity 1s ease 0.3s",
-            animation: visible ? "wave-swell 4s linear infinite" : "none",
-          }}
-        >
-          <svg viewBox="0 0 640 40" width="640" height="40" fill="none">
+        <div style={{
+          position: "absolute", bottom: 0, width: "200%",
+          opacity: visible ? 0.45 : 0,
+          transition: "opacity 1s ease 0.3s",
+          animation: visible ? "wave-swell 4s linear infinite" : "none",
+        }}>
+          <svg viewBox="0 0 680 40" width="680" height="40" fill="none">
             <path
-              d="M0 28 C27 14, 53 38, 80 28 C107 14, 133 38, 160 28 C187 14, 213 38, 240 28 C267 14, 293 38, 320 28 C347 14, 373 38, 400 28 C427 14, 453 38, 480 28 C507 14, 533 38, 560 28 C587 14, 613 38, 640 28"
+              d="M0 28 C28 14, 56 38, 84 28 C112 14, 140 38, 168 28 C196 14, 224 38, 252 28 C280 14, 308 38, 336 28 C364 14, 392 38, 420 28 C448 14, 476 38, 504 28 C532 14, 560 38, 588 28 C616 14, 652 38, 680 28"
               stroke="#3b82f6" strokeWidth="1.5" strokeLinecap="round"
             />
-          </svg>
-        </div>
-
-        {/* Foreground crest — rolls in, builds, crashes */}
-        <div
-          style={{
-            position: "absolute", bottom: 0, left: 0,
-            width: "180px", height: "40px",
-            transformOrigin: "center bottom",
-            animation: visible ? "wave-crest 7s ease-in-out 0.6s infinite" : "none",
-          }}
-        >
-          <svg viewBox="0 0 180 40" width="180" height="40" fill="none">
-            {/* Asymmetric wave: gentle left rise, steep peak, quick right drop */}
             <path
-              d="M0 38 C35 34, 68 6, 90 6 C102 6, 118 18, 145 30 C158 35, 170 38, 180 38"
-              stroke="#60a5fa" strokeWidth="2" strokeLinecap="round"
-              fill="#3b82f612"
-            />
-            {/* Curl hooking over at the peak */}
-            <path
-              d="M82 8 C90 0, 104 4, 98 14"
-              stroke="#93c5fd" strokeWidth="1.4" strokeLinecap="round" fill="none"
-            />
-          </svg>
-        </div>
-
-        {/* Foam — brief horizontal burst right after crash */}
-        <div
-          style={{
-            position: "absolute", bottom: "4px", left: "20px",
-            width: "90px", height: "8px",
-            transformOrigin: "left center",
-            animation: visible ? "wave-foam 7s ease-out 0.6s infinite" : "none",
-          }}
-        >
-          <svg viewBox="0 0 80 8" width="80" height="8" fill="none">
-            <path
-              d="M0 4 C15 1, 35 7, 55 3 C65 1, 72 5, 80 4"
-              stroke="#bfdbfe" strokeWidth="1" strokeLinecap="round" opacity="0.7"
+              d="M0 34 C28 24, 56 40, 84 34 C112 24, 140 40, 168 34 C196 24, 224 40, 252 34 C280 24, 308 40, 336 34 C364 24, 392 40, 420 34 C448 24, 476 40, 504 34 C532 24, 560 40, 588 34 C616 24, 652 40, 680 34"
+              stroke="#60a5fa" strokeWidth="1" strokeLinecap="round" opacity="0.5"
             />
           </svg>
         </div>
