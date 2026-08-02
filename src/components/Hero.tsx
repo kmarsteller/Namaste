@@ -1,66 +1,18 @@
 "use client";
 
+// Music: "Meditation Impromptu 01" by Kevin MacLeod (incompetech.com)
+// Licensed under Creative Commons Attribution 4.0 — https://creativecommons.org/licenses/by/4.0/
+
 import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import OmDraw from "@/components/OmDraw";
 
-// Web Audio API ambient drone — 432 Hz root with soft upper harmonics and
-// a slow 0.1 Hz tremolo so it breathes rather than flatlines.
-function createAmbientDrone(ctx: AudioContext): () => void {
-  const masterGain = ctx.createGain();
-  masterGain.gain.setValueAtTime(0, ctx.currentTime);
-  masterGain.gain.linearRampToValueAtTime(0.18, ctx.currentTime + 4); // fade in over 4s
-  masterGain.connect(ctx.destination);
-
-  // Slow tremolo LFO (0.1 Hz)
-  const lfo = ctx.createOscillator();
-  const lfoGain = ctx.createGain();
-  lfo.frequency.value = 0.1;
-  lfoGain.gain.value = 0.04;
-  lfo.connect(lfoGain);
-  lfoGain.connect(masterGain.gain);
-  lfo.start();
-
-  // Harmonics: root 432, octave 864, fifth 648, soft third 540
-  const partials: [number, number][] = [
-    [432, 0.7],
-    [648, 0.25],
-    [864, 0.15],
-    [540, 0.1],
-    [216, 0.3], // sub-octave for warmth
-  ];
-
-  const oscs = partials.map(([freq, gain]) => {
-    const osc = ctx.createOscillator();
-    const g = ctx.createGain();
-    // Tiny detune per partial so they slowly drift in/out of phase
-    osc.type = "sine";
-    osc.frequency.value = freq;
-    osc.detune.value = (Math.random() - 0.5) * 4;
-    g.gain.value = gain;
-    osc.connect(g);
-    g.connect(masterGain);
-    osc.start();
-    return { osc, g };
-  });
-
-  // Return a teardown function
-  return () => {
-    masterGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 2);
-    setTimeout(() => {
-      oscs.forEach(({ osc }) => osc.stop());
-      lfo.stop();
-    }, 2200);
-  };
-}
-
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [playing, setPlaying] = useState(false);
-  const audioCtxRef = useRef<AudioContext | null>(null);
-  const stopRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     const v = videoRef.current;
@@ -70,27 +22,22 @@ export default function Hero() {
     return () => clearTimeout(t);
   }, []);
 
-  // Clean up audio on unmount
   useEffect(() => {
-    return () => {
-      stopRef.current?.();
-      audioCtxRef.current?.close();
-    };
+    const audio = new Audio("/ambient.mp3");
+    audio.loop = true;
+    audio.volume = 0.35;
+    audioRef.current = audio;
+    return () => { audio.pause(); audio.src = ""; };
   }, []);
 
   const toggleMusic = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
     if (playing) {
-      stopRef.current?.();
-      stopRef.current = null;
+      audio.pause();
       setPlaying(false);
     } else {
-      // AudioContext must be created (or resumed) from a user gesture
-      if (!audioCtxRef.current) {
-        audioCtxRef.current = new AudioContext();
-      } else if (audioCtxRef.current.state === "suspended") {
-        audioCtxRef.current.resume();
-      }
-      stopRef.current = createAmbientDrone(audioCtxRef.current);
+      audio.play().catch(() => {});
       setPlaying(true);
     }
   }, [playing]);
