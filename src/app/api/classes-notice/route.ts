@@ -1,31 +1,36 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { getSQL, hasDB } from "@/lib/blog-db";
 
-const KEY = "classes-notice";
-const FILE = path.join(process.cwd(), "data", "classes-notice.json");
-
-async function readNotice() {
-  if (process.env.UPSTASH_REDIS_REST_URL) {
-    const { Redis } = await import("@upstash/redis");
-    const redis = new Redis({ url: process.env.UPSTASH_REDIS_REST_URL, token: process.env.UPSTASH_REDIS_REST_TOKEN! });
-    return await redis.get<{ notice: string; updatedAt: string }>(KEY) ?? { notice: "", updatedAt: "" };
-  }
-  try {
-    return JSON.parse(fs.readFileSync(FILE, "utf8"));
-  } catch {
-    return { notice: "", updatedAt: "" };
-  }
+async function ensureTable() {
+  const sql = getSQL();
+  await sql`
+    CREATE TABLE IF NOT EXISTS classes_notice (
+      id         INTEGER PRIMARY KEY DEFAULT 1,
+      notice     TEXT    NOT NULL DEFAULT '',
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    )
+  `;
+  await sql`INSERT INTO classes_notice (id) VALUES (1) ON CONFLICT DO NOTHING`;
 }
 
-async function writeNotice(data: { notice: string; updatedAt: string }) {
-  if (process.env.UPSTASH_REDIS_REST_URL) {
-    const { Redis } = await import("@upstash/redis");
-    const redis = new Redis({ url: process.env.UPSTASH_REDIS_REST_URL, token: process.env.UPSTASH_REDIS_REST_TOKEN! });
-    await redis.set(KEY, data);
-    return;
-  }
-  fs.writeFileSync(FILE, JSON.stringify(data, null, 2));
+async function readNotice() {
+  if (!hasDB()) return { notice: "", updatedAt: "" };
+  await ensureTable();
+  const sql = getSQL();
+  const rows = await sql`SELECT notice, updated_at FROM classes_notice WHERE id = 1`;
+  const row = rows[0];
+  return { notice: row?.notice ?? "", updatedAt: row?.updated_at ?? "" };
+}
+
+async function writeNotice(notice: string) {
+  if (!hasDB()) return new Date().toISOString();
+  await ensureTable();
+  const sql = getSQL();
+  const rows = await sql`
+    UPDATE classes_notice SET notice = ${notice}, updated_at = NOW() WHERE id = 1
+    RETURNING updated_at
+  `;
+  return rows[0].updated_at;
 }
 
 export async function GET() {
@@ -34,7 +39,6 @@ export async function GET() {
 
 export async function POST(req: Request) {
   const { notice } = await req.json();
-  const data = { notice: String(notice ?? ""), updatedAt: new Date().toISOString() };
-  await writeNotice(data);
-  return NextResponse.json({ ok: true, updatedAt: data.updatedAt });
+  const updatedAt = await writeNotice(String(notice ?? ""));
+  return NextResponse.json({ ok: true, updatedAt });
 }
