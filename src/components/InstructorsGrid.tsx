@@ -250,14 +250,24 @@ export default function InstructorsGrid() {
   const [hoveredName, setHoveredName] = useState<string | null>(null);
   const [lightboxInstructor, setLightboxInstructor] = useState<MergedInstructor | null>(null);
   const [merged, setMerged] = useState<MergedInstructor[]>(() => mergeWithArketa([]));
+  const [hidden, setHidden] = useState<Set<string>>(new Set());
   const isTouch = useIsTouch();
 
   useEffect(() => {
     const t = setTimeout(() => setHeroVisible(true), 100);
-    fetch("/api/instructors")
-      .then((r) => r.json())
-      .then(({ instructors: arketa }: { instructors: ArketaInstructor[] }) => {
-        setMerged(mergeWithArketa(arketa));
+    Promise.all([
+      fetch("/api/instructors").then((r) => r.json()),
+      fetch("/api/faculty").then((r) => r.json()),
+    ])
+      .then(([{ instructors: arketa }, { muted: mutedIds, deleted: deletedIds, added }]: [
+        { instructors: ArketaInstructor[] },
+        { muted: string[]; deleted: string[]; added: { arketa_id: string; name: string; certs: string; photo: string }[] }
+      ]) => {
+        setHidden(new Set([...(mutedIds ?? []), ...(deletedIds ?? [])]));
+        const addedAsArketa: ArketaInstructor[] = (added ?? []).map((a) => ({
+          id: a.arketa_id, name: a.name, photo: a.photo, bio: "",
+        }));
+        setMerged(mergeWithArketa([...arketa, ...addedAsArketa]));
       })
       .catch(() => {/* keep local fallbacks */});
     return () => clearTimeout(t);
@@ -298,7 +308,7 @@ export default function InstructorsGrid() {
             Meet Your Instructors
           </h1>
           <p className="font-body font-light text-stone-400 text-sm leading-relaxed max-w-xl">
-            {instructors.length} certified teachers. Hundreds of combined training hours.
+            {merged.filter((inst) => !hidden.has(inst.arketaId ?? inst.name)).length} certified teachers. Hundreds of combined training hours.
             One shared belief — that yoga belongs to everyone.
           </p>
         </div>
@@ -307,7 +317,7 @@ export default function InstructorsGrid() {
       {/* Grid */}
       <section className="py-16 px-6 md:px-12 bg-stone-950">
         <div className="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 md:gap-8">
-          {merged.map((instructor, i) => (
+          {merged.filter((inst) => !hidden.has(inst.arketaId ?? inst.name)).map((instructor, i) => (
             <InstructorCard
               key={instructor.name}
               instructor={instructor}

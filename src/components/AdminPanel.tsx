@@ -268,6 +268,25 @@ export default function AdminPanel() {
           </Link>
         </div>
 
+        {/* Faculty */}
+        <div className="rounded-sm border border-stone-800/70 bg-stone-900/40 p-8 flex items-center justify-between gap-6">
+          <div>
+            <h2 className="font-display text-2xl font-light text-stone-100 mb-1">Faculty</h2>
+            <p className="font-body text-xs text-stone-500 leading-relaxed">
+              Show or hide instructors, and add new teachers from Arketa.{" "}
+              <Link href="/about#instructors" target="_blank" className="text-stone-400 hover:text-stone-200 underline underline-offset-2 transition-colors">
+                View instructors →
+              </Link>
+            </p>
+          </div>
+          <Link
+            href="/admin/faculty"
+            className="flex-shrink-0 px-6 py-2.5 border border-stone-700/60 hover:border-stone-500 text-stone-300 hover:text-stone-100 font-body text-xs tracking-[0.18em] uppercase rounded-sm transition-all"
+          >
+            Manage Faculty
+          </Link>
+        </div>
+
       </div>
     </div>
   );
