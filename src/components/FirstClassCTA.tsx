@@ -58,13 +58,13 @@ export default function FirstClassCTA() {
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
-            href="/schedule"
+            href="/classes"
             className="px-10 py-4 text-xs tracking-[0.22em] uppercase bg-sage-500 hover:bg-sage-400 text-stone-950 font-medium transition-all duration-300 rounded-sm"
           >
             Book Your First Class
           </Link>
           <Link
-            href="/about#new-students"
+            href="/new-students"
             className="px-10 py-4 text-xs tracking-[0.22em] uppercase text-stone-500 hover:text-stone-300 transition-colors"
           >
             What to expect &rarr;
