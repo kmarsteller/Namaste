@@ -63,6 +63,46 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-b from-stone-950/60 via-stone-950/30 to-stone-950/80" />
       <div className="absolute inset-0 bg-gradient-to-r from-stone-950/40 via-transparent to-stone-950/40" />
 
+      {/* ── Warm colour grade ── */}
+      <div className="absolute inset-0 pointer-events-none"
+        style={{ background: "linear-gradient(160deg, rgba(180,100,30,0.13) 0%, rgba(210,140,40,0.07) 50%, rgba(120,60,20,0.10) 100%)", mixBlendMode: "screen" }} />
+
+      {/* ── Lens flare ── */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden>
+        {/* Main orb — upper-left, like sun coming through a window */}
+        <div style={{
+          position: "absolute", top: "-8%", left: "-4%",
+          width: "55vw", height: "55vw", maxWidth: 700, maxHeight: 700,
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(255,210,120,0.18) 0%, rgba(255,170,60,0.08) 40%, transparent 70%)",
+          filter: "blur(18px)",
+        }} />
+        {/* Secondary soft bloom — slightly offset */}
+        <div style={{
+          position: "absolute", top: "4%", left: "8%",
+          width: "30vw", height: "30vw", maxWidth: 420, maxHeight: 420,
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(255,240,180,0.10) 0%, transparent 65%)",
+          filter: "blur(10px)",
+        }} />
+        {/* Anamorphic streak — thin horizontal bar through the orb */}
+        <div style={{
+          position: "absolute", top: "12%", left: "-10%",
+          width: "60%", height: "2px",
+          background: "linear-gradient(to right, transparent, rgba(255,220,140,0.22), rgba(255,240,200,0.10), transparent)",
+          filter: "blur(2px)",
+          transform: "rotate(-2deg)",
+        }} />
+        {/* Ghost flare dot — classic secondary lens reflection */}
+        <div style={{
+          position: "absolute", top: "38%", right: "22%",
+          width: "80px", height: "80px",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(255,200,100,0.09) 0%, transparent 70%)",
+          filter: "blur(6px)",
+        }} />
+      </div>
+
       {/* ── Hand-drawn Om ── */}
       <OmDraw trigger={loaded} />
 
