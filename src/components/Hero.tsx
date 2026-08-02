@@ -192,7 +192,7 @@ export default function Hero() {
           </svg>
         )}
         <span className="font-body text-[10px] tracking-[0.15em] uppercase">
-          {playing ? "Sound on" : "Sound off"}
+          {playing ? "Sound: On" : "Sound off"}
         </span>
       </button>
     </section>
