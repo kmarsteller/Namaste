@@ -81,7 +81,7 @@ export default function Hero() {
             View Schedule
           </Link>
           <Link
-            href="/classes"
+            href="/class-descriptions"
             className="px-8 py-3.5 text-xs tracking-[0.2em] uppercase border border-stone-500/50 text-stone-300 hover:border-stone-300 hover:text-stone-100 transition-all duration-300 rounded-sm"
           >
             Explore Classes
