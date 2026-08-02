@@ -37,8 +37,7 @@ export default function Hero() {
       audio.pause();
       setPlaying(false);
     } else {
-      audio.play().catch(() => {});
-      setPlaying(true);
+      audio.play().then(() => setPlaying(true)).catch(() => {});
     }
   }, [playing]);
 
