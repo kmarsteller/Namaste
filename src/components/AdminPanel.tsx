@@ -223,19 +223,6 @@ export default function AdminPanel() {
           </p>
         </div>
 
-        {/* Workshop notice */}
-        <NoticeCard
-          title="Workshop Notice"
-          description="Appears as a highlighted callout at the top of the"
-          pageHref="/workshops"
-          pageLabel="Workshops & Events page"
-          accentClass="border-gold-500/20 bg-gold-500/5"
-          accentBarClass="bg-gold-500/40"
-          labelText="bg-gold-500/90 hover:bg-gold-400"
-          placeholder="e.g. • Renee Hill returns April 19th for Sound Bath & Yin, 2:30–4pm."
-          apiPath="/api/workshop-notice"
-        />
-
         {/* Classes notice */}
         <NoticeCard
           title="Classes Notice"
@@ -247,6 +234,19 @@ export default function AdminPanel() {
           labelText="bg-sage-500 hover:bg-sage-400"
           placeholder="e.g. Studio closed Monday, May 26 for Memorial Day."
           apiPath="/api/classes-notice"
+        />
+
+        {/* Workshop notice */}
+        <NoticeCard
+          title="Workshop Notice"
+          description="Appears as a highlighted callout at the top of the"
+          pageHref="/workshops"
+          pageLabel="Workshops & Events page"
+          accentClass="border-gold-500/20 bg-gold-500/5"
+          accentBarClass="bg-gold-500/40"
+          labelText="bg-gold-500/90 hover:bg-gold-400"
+          placeholder="e.g. • Renee Hill returns April 19th for Sound Bath & Yin, 2:30–4pm."
+          apiPath="/api/workshop-notice"
         />
 
         {/* Blog */}
