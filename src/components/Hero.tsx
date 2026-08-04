@@ -23,37 +23,49 @@ function getAudio(): HTMLAudioElement {
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [loaded, setLoaded] = useState(false);
-  const [loopFading, setLoopFading] = useState(false);
   const [playing, setPlaying] = useState(false);
-  const fadingRef = useRef(false);
+  const reversingRef = useRef(false);
 
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
-    v.play().catch(() => {});
-    const t = setTimeout(() => setLoaded(true), 3000);
-    return () => clearTimeout(t);
-  }, []);
+    let destroyed = false;
 
-  function handleTimeUpdate() {
-    const v = videoRef.current;
-    if (!v || fadingRef.current || !v.duration) return;
-    if (v.currentTime >= v.duration - 1.5) {
-      fadingRef.current = true;
-      setLoopFading(true);
+    function stepBackward() {
+      if (destroyed) return;
+      const next = Math.max(0, v.currentTime - 1 / 24);
+      v.currentTime = next;
+      v.addEventListener(
+        "seeked",
+        function onSeeked() {
+          if (destroyed) return;
+          if (next <= 0) {
+            reversingRef.current = false;
+            v.play().catch(() => {});
+          } else {
+            stepBackward();
+          }
+        },
+        { once: true }
+      );
     }
-  }
 
-  function handleEnded() {
-    const v = videoRef.current;
-    if (!v) return;
-    v.currentTime = 0;
+    function handleEnded() {
+      if (destroyed || reversingRef.current) return;
+      reversingRef.current = true;
+      stepBackward();
+    }
+
     v.play().catch(() => {});
-    setTimeout(() => {
-      setLoopFading(false);
-      fadingRef.current = false;
-    }, 300);
-  }
+    v.addEventListener("ended", handleEnded);
+    const t = setTimeout(() => setLoaded(true), 3000);
+
+    return () => {
+      destroyed = true;
+      v.removeEventListener("ended", handleEnded);
+      clearTimeout(t);
+    };
+  }, []);
 
   function toggleMusic() {
     const audio = getAudio();
@@ -70,21 +82,15 @@ export default function Hero() {
       {/* ── Video layer ── */}
       <video
         ref={videoRef}
-        className="absolute inset-0 w-full h-full object-cover"
-        style={{
-          opacity: !loaded || loopFading ? 0 : 1,
-          transition: loopFading
-            ? "opacity 1200ms ease-in-out"
-            : "opacity 2000ms ease-in",
-        }}
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[2000ms] ${
+          loaded ? "opacity-100" : "opacity-0"
+        }`}
         src="/hero-web.mp4"
         autoPlay
         muted
         playsInline
         preload="auto"
         onCanPlay={() => setLoaded(true)}
-        onTimeUpdate={handleTimeUpdate}
-        onEnded={handleEnded}
       />
 
       {/* ── Gradient overlay ── */}
