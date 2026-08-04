@@ -27,7 +27,7 @@ export default function Hero() {
   const reversingRef = useRef(false);
 
   useEffect(() => {
-    const v = videoRef.current;
+    const v = videoRef.current as HTMLVideoElement;
     if (!v) return;
     let destroyed = false;
 
