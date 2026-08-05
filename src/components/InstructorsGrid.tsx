@@ -276,7 +276,9 @@ export default function InstructorsGrid() {
             owner: false,
           };
         });
-        setMerged([...staticMerged, ...addedMerged]);
+        const all = [...staticMerged, ...addedMerged];
+        all.sort((a, b) => a.name.split(" ").pop()!.localeCompare(b.name.split(" ").pop()!));
+        setMerged(all);
       })
       .catch(() => {/* keep local fallbacks */});
     return () => clearTimeout(t);
