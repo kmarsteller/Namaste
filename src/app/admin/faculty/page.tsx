@@ -131,7 +131,7 @@ export default function ManageFacultyPage() {
           <h1 className="font-display text-3xl font-light text-stone-200 mb-1">Faculty</h1>
           <p className="font-body text-xs text-stone-600 tracking-wide leading-relaxed">
             <strong className="text-stone-500 font-normal">Mute</strong> hides an instructor temporarily — they stay in the list and you can unmute any time.{" "}
-            <strong className="text-stone-500 font-normal">Delete</strong> removes them from the site and sends them back to the Arketa candidates list.
+            <strong className="text-stone-500 font-normal">Remove from Site</strong> hides them and sends them back to the Arketa candidates list.
           </p>
         </div>
 
@@ -183,7 +183,7 @@ export default function ManageFacultyPage() {
                           disabled={isBusy}
                           className="px-3 py-1.5 rounded-sm border border-red-900/40 text-red-700 hover:border-red-700/60 hover:text-red-400 font-body text-[10px] tracking-[0.15em] uppercase transition-all disabled:opacity-40"
                         >
-                          Delete
+                          Remove
                         </button>
                       </div>
                     )}
@@ -191,13 +191,13 @@ export default function ManageFacultyPage() {
                     {/* Confirm delete inline */}
                     {isConfirming && (
                       <div className="flex items-center gap-2 flex-shrink-0">
-                        <span className="font-body text-[10px] text-stone-500">Remove from site?</span>
+                        <span className="font-body text-[10px] text-stone-500">Move back to Arketa list?</span>
                         <button
                           onClick={() => call("delete", { arketaId: inst.id })}
                           disabled={isBusy}
                           className="px-3 py-1.5 rounded-sm bg-red-900/40 border border-red-700/60 text-red-400 font-body text-[10px] tracking-[0.15em] uppercase transition-all disabled:opacity-40"
                         >
-                          {isBusy ? "…" : "Yes, delete"}
+                          {isBusy ? "…" : "Yes, remove"}
                         </button>
                         <button
                           onClick={() => setConfirmDelete(null)}
