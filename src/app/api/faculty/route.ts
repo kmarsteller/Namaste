@@ -74,14 +74,15 @@ export async function POST(req: Request) {
       // un-delete if previously deleted
       await sql`DELETE FROM faculty_deleted WHERE arketa_id = ${arketaId}`;
       break;
-    case "delete":
-      // For DB-added instructors: wipe the record entirely
-      await sql`DELETE FROM faculty_added WHERE arketa_id = ${arketaId}`;
-      // For static instructors: mark as deleted so they don't appear
-      await sql`INSERT INTO faculty_deleted (arketa_id) VALUES (${arketaId}) ON CONFLICT DO NOTHING`;
-      // Always clear muted too
+    case "delete": {
+      const removed = await sql`DELETE FROM faculty_added WHERE arketa_id = ${arketaId} RETURNING arketa_id`;
+      // Only mark deleted for static instructors (not DB-added ones — they just go back to candidates)
+      if (removed.length === 0) {
+        await sql`INSERT INTO faculty_deleted (arketa_id) VALUES (${arketaId}) ON CONFLICT DO NOTHING`;
+      }
       await sql`DELETE FROM faculty_muted WHERE arketa_id = ${arketaId}`;
       break;
+    }
     case "undelete":
       await sql`DELETE FROM faculty_deleted WHERE arketa_id = ${arketaId}`;
       break;
