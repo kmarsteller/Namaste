@@ -7,6 +7,7 @@ import { instructors as STATIC } from "@/data/instructors";
 
 type ArketaInstructor = { id: string; name: string; photo: string; bio: string };
 type AddedInstructor  = { arketa_id: string; name: string; certs: string; photo: string; created_at?: string };
+type DeletedRow = { arketa_id: string; deleted_at: string };
 
 function Avatar({ name, photo }: { name: string; photo: string }) {
   const isLocal = photo.startsWith("/");
@@ -29,10 +30,11 @@ function Avatar({ name, photo }: { name: string; photo: string }) {
 }
 
 export default function ManageFacultyPage() {
-  const [muted,   setMuted]   = useState<Set<string>>(new Set());
-  const [deleted, setDeleted] = useState<Set<string>>(new Set());
-  const [added,   setAdded]   = useState<AddedInstructor[]>([]);
-  const [arketa,  setArketa]  = useState<ArketaInstructor[]>([]);
+  const [muted,       setMuted]       = useState<Set<string>>(new Set());
+  const [deleted,     setDeleted]     = useState<Set<string>>(new Set());
+  const [deletedRows, setDeletedRows] = useState<DeletedRow[]>([]);
+  const [added,       setAdded]       = useState<AddedInstructor[]>([]);
+  const [arketa,      setArketa]      = useState<ArketaInstructor[]>([]);
   const [loading, setLoading]    = useState(true);
   const [busy, setBusy]          = useState<Record<string, boolean>>({});
   const [addingId, setAddingId]  = useState<string | null>(null);
@@ -47,6 +49,7 @@ export default function ManageFacultyPage() {
     ]);
     setMuted(new Set(fac.muted ?? []));
     setDeleted(new Set(fac.deleted ?? []));
+    setDeletedRows(fac.deletedRows ?? []);
     setAdded(fac.added ?? []);
     setArketa(ark.instructors ?? []);
     setLoading(false);
@@ -293,6 +296,43 @@ export default function ManageFacultyPage() {
           <p className="font-body text-xs text-stone-700 italic">
             All Arketa instructors are already on the site.
           </p>
+        )}
+
+        {/* ── Orphaned deletions (DB-added then removed — stuck in faculty_deleted) ── */}
+        {deletedRows.filter((d) => !staticIds.has(d.arketa_id)).length > 0 && (
+          <section>
+            <h2 className="font-body text-[10px] tracking-[0.3em] uppercase text-stone-500 mb-1">
+              Removed — Not in Arketa ({deletedRows.filter((d) => !staticIds.has(d.arketa_id)).length})
+            </h2>
+            <p className="font-body text-[10px] text-stone-700 mb-4">
+              These were added manually then removed. Restore to move them back to the candidates list.
+            </p>
+            <div className="space-y-2">
+              {deletedRows.filter((d) => !staticIds.has(d.arketa_id)).map((d) => {
+                const ark = arketa.find((a) => a.id === d.arketa_id);
+                return (
+                  <div key={d.arketa_id} className="rounded-sm border border-stone-800/40 bg-stone-900/20">
+                    <div className="flex items-center gap-4 px-4 py-3">
+                      <Avatar name={ark?.name ?? d.arketa_id} photo={ark?.photo ?? ""} />
+                      <div className="flex-1 min-w-0">
+                        <p className="font-body text-sm text-stone-500">{ark?.name ?? d.arketa_id}</p>
+                        <p className="font-body text-[10px] text-stone-700">
+                          removed {new Date(d.deleted_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => call("undelete", { arketaId: d.arketa_id })}
+                        disabled={!!busy[d.arketa_id]}
+                        className="flex-shrink-0 px-3 py-1.5 rounded-sm border border-stone-700/60 hover:border-sage-500/50 text-stone-400 hover:text-sage-300 font-body text-[10px] tracking-[0.15em] uppercase transition-all disabled:opacity-40"
+                      >
+                        {busy[d.arketa_id] ? "…" : "Restore to candidates"}
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
         )}
 
       </div>

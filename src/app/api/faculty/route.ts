@@ -36,12 +36,13 @@ export async function GET() {
   const [mutedRows, addedRows, deletedRows] = await Promise.all([
     sql`SELECT arketa_id FROM faculty_muted`,
     sql`SELECT arketa_id, name, certs, photo, sort_order, created_at FROM faculty_added ORDER BY sort_order, name`,
-    sql`SELECT arketa_id FROM faculty_deleted`,
+    sql`SELECT arketa_id, deleted_at FROM faculty_deleted`,
   ]);
   return NextResponse.json({
     muted:   mutedRows.map((r) => r.arketa_id as string),
     added:   addedRows,
     deleted: deletedRows.map((r) => r.arketa_id as string),
+    deletedRows: deletedRows.map((r) => ({ arketa_id: r.arketa_id as string, deleted_at: r.deleted_at as string })),
   });
 }
 
