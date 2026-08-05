@@ -277,7 +277,11 @@ export default function InstructorsGrid() {
           };
         });
         const all = [...staticMerged, ...addedMerged];
-        all.sort((a, b) => a.name.split(" ").pop()!.localeCompare(b.name.split(" ").pop()!));
+        all.sort((a, b) => {
+          if (a.owner) return -1;
+          if (b.owner) return 1;
+          return a.name.split(" ").pop()!.localeCompare(b.name.split(" ").pop()!);
+        });
         setMerged(all);
       })
       .catch(() => {/* keep local fallbacks */});
