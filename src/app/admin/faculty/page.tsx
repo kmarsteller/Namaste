@@ -6,7 +6,7 @@ import Link from "next/link";
 import { instructors as STATIC } from "@/data/instructors";
 
 type ArketaInstructor = { id: string; name: string; photo: string; bio: string };
-type AddedInstructor  = { arketa_id: string; name: string; certs: string; photo: string };
+type AddedInstructor  = { arketa_id: string; name: string; certs: string; photo: string; created_at?: string };
 
 function Avatar({ name, photo }: { name: string; photo: string }) {
   const isLocal = photo.startsWith("/");
@@ -81,6 +81,8 @@ export default function ManageFacultyPage() {
           name: i.name,
           photo: ark?.photo || i.photo,
           certs: i.certs.join(", "),
+          owner: i.owner ?? false,
+          addedAt: null as string | null,
           isStatic: true as const,
         };
       }),
@@ -89,9 +91,15 @@ export default function ManageFacultyPage() {
       name: a.name,
       photo: a.photo,
       certs: a.certs,
+      owner: false,
+      addedAt: a.created_at ?? null,
       isStatic: false as const,
     })),
-  ];
+  ].sort((a, b) => {
+    if (a.owner) return -1;
+    if (b.owner) return 1;
+    return a.name.split(" ").pop()!.localeCompare(b.name.split(" ").pop()!);
+  });
 
   // Arketa staff not in the roster and not deleted → candidates to add
   const candidates = arketa.filter(
@@ -157,9 +165,16 @@ export default function ManageFacultyPage() {
                   <div className="flex items-center gap-4 px-4 py-3">
                     <Avatar name={inst.name} photo={inst.photo} />
                     <div className="flex-1 min-w-0">
-                      <p className={`font-body text-sm ${isMuted ? "text-stone-500 line-through decoration-stone-700" : "text-stone-200"}`}>
-                        {inst.name}
-                      </p>
+                      <div className="flex items-baseline gap-2">
+                        <p className={`font-body text-sm ${isMuted ? "text-stone-500 line-through decoration-stone-700" : "text-stone-200"}`}>
+                          {inst.name}
+                        </p>
+                        {inst.addedAt && (
+                          <span className="font-body text-[9px] text-stone-600 tracking-wide">
+                            added {new Date(inst.addedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                          </span>
+                        )}
+                      </div>
                       <p className="font-body text-[10px] text-stone-600 truncate">{inst.certs}</p>
                     </div>
 

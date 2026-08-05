@@ -35,7 +35,7 @@ export async function GET() {
   const sql = getSQL();
   const [mutedRows, addedRows, deletedRows] = await Promise.all([
     sql`SELECT arketa_id FROM faculty_muted`,
-    sql`SELECT arketa_id, name, certs, photo, sort_order FROM faculty_added ORDER BY sort_order, name`,
+    sql`SELECT arketa_id, name, certs, photo, sort_order, created_at FROM faculty_added ORDER BY sort_order, name`,
     sql`SELECT arketa_id FROM faculty_deleted`,
   ]);
   return NextResponse.json({
