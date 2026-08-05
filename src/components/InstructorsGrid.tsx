@@ -264,10 +264,19 @@ export default function InstructorsGrid() {
         { muted: string[]; deleted: string[]; added: { arketa_id: string; name: string; certs: string; photo: string }[] }
       ]) => {
         setHidden(new Set([...(mutedIds ?? []), ...(deletedIds ?? [])]));
-        const addedAsArketa: ArketaInstructor[] = (added ?? []).map((a) => ({
-          id: a.arketa_id, name: a.name, photo: a.photo, bio: "",
-        }));
-        setMerged(mergeWithArketa([...arketa, ...addedAsArketa]));
+        const staticMerged = mergeWithArketa(arketa);
+        const addedMerged: MergedInstructor[] = (added ?? []).map((a) => {
+          const ark = arketa.find((ak) => ak.id === a.arketa_id);
+          return {
+            name: a.name,
+            certs: a.certs ? a.certs.split(",").map((c) => c.trim()) : [],
+            photo: ark?.photo || a.photo || "/instructors/placeholder.jpg",
+            bio: ark?.bio || undefined,
+            arketaId: a.arketa_id,
+            owner: false,
+          };
+        });
+        setMerged([...staticMerged, ...addedMerged]);
       })
       .catch(() => {/* keep local fallbacks */});
     return () => clearTimeout(t);
