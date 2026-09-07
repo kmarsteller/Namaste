@@ -62,6 +62,8 @@ const causes = [
   "Zellie's Home",
   "Because I Said I Would",
   "Individuals and families in the community in need of assistance (Good Karma classes New Year's Day)",
+  "Cleveland Roots Farm",
+  "Buddy Strong Academy",
 ];
 
 function TimelineSection() {
@@ -128,7 +130,7 @@ function CommunitySection() {
           <h2 className="font-display text-4xl md:text-5xl font-light text-stone-100 mb-5">Beyond the Mat</h2>
           <p className="font-body text-sm text-stone-400 leading-relaxed max-w-xl">
             Namaste Yoga&apos;s mission includes serving charitable organizations and local community
-            groups. Among those we have served in the past 12 years include:
+            groups. Among those we have served in the past 15+ years include:
           </p>
         </div>
 
@@ -177,15 +179,15 @@ export default function AboutContent() {
           </div>
 
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-light text-stone-50 leading-tight mb-8">
-            Twenty years of<br />
-            <span className="italic text-sage-300">community & breath.</span>
+            Twenty-five years of<br />
+            <span className="italic text-sage-300">breath & community.</span>
           </h1>
 
           <p className="font-body font-light text-stone-400 text-base leading-relaxed max-w-2xl mb-6">
-            Namaste Yoga Studio was born from a simple idea: that yoga belongs to everyone.
-            For over two decades, this studio has been a refuge — a place where competition
-            dissolves, where judgment is left at the door, and where the only thing asked of
-            you is that you show up.
+            Namaste Yoga celebrates community, connection, and the practice of yoga every day.
+            We are grateful for the foundation that was built over 25 years ago, and our current
+            community is blessed to continue nurturing those traditions and create new ones with
+            the love and compassion of our staff and students.
           </p>
         </div>
       </section>

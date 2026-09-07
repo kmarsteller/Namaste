@@ -323,7 +323,7 @@ export default function InstructorsGrid() {
             Meet Your Instructors
           </h1>
           <p className="font-body font-light text-stone-400 text-sm leading-relaxed max-w-xl">
-            {merged.filter((inst) => !hidden.has(inst.arketaId ?? inst.name)).length} certified teachers. Hundreds of combined training hours.
+            Certified teachers with hundreds of combined training hours.
             One shared belief — that yoga belongs to everyone.
           </p>
         </div>

@@ -1,6 +1,6 @@
 # Namaste Yoga Website — Project Handoff
 
-Everything you need to pick this up cold, including what's broken and how to fix it.
+Everything you need to pick this up cold.
 
 ---
 
@@ -11,7 +11,7 @@ Hosted on **Vercel**, auto-deploys on every `git push` to `main`.
 
 **Repo:** `github.com/kmarsteller/Namaste`
 **Live site:** Vercel dashboard → `Namaste` project
-**Local path:** `/Users/kmarsteller/Projects/2026_NamasteNewWebsite/namaste-web/`
+**Local path:** `/Users/kmarsteller/Projects/Namaste/`
 
 ---
 
@@ -22,14 +22,14 @@ Hosted on **Vercel**, auto-deploys on every `git push` to `main`.
 | Framework | Next.js 16.2.2, App Router, TypeScript |
 | Styling | Tailwind CSS v4 |
 | Hosting | Vercel (auto-deploy from GitHub) |
-| Booking / scheduling | Arketa (embedded iframes + API) |
-| Blog database | Neon Postgres (`@neondatabase/serverless`) |
+| Booking / scheduling | Arketa (embedded iframes + public widget API) |
+| Database | Neon Postgres (`@neondatabase/serverless`) |
 | Blog image uploads | Vercel Blob |
-| Studio notices (banner alerts) | Upstash Redis |
 | Admin auth | HMAC cookie derived from `ADMIN_PASSWORD` env var |
+| Email (pending) | Resend — coded but not yet activated |
 
 **Fonts:** Cormorant Garamond (`font-display`) + Inter (`font-body`)
-**Color palette:** stone-950 base, sage green (`sage-*` = Grow), gold (`gold-*` = Slow), blue (`blue-*` = Flow), terra (`terra-*` = accents only)
+**Color palette:** stone-950 base, sage green (`sage-*` = Grow), gold (`gold-*` = Slow), blue for Flow, terra for accents
 
 **Navigation structure** (`src/components/Nav.tsx`):
 - **Yoga**: Classes, Workshops, Class Descriptions, New Students
@@ -44,21 +44,22 @@ All Arketa iframes are dark-mode'd with CSS: `filter: invert(1) hue-rotate(180de
 
 | Route | Component | Notes |
 |---|---|---|
-| `/` | `Hero.tsx`, `ClassesTeaser.tsx`, etc. | Video hero, social icons, first class free CTA |
+| `/` | `Hero.tsx`, `ClassesTeaser.tsx`, etc. | Video hero, lens flare, ambient music toggle, social icons |
 | `/about` | `AboutContent.tsx` | Timeline, Jolynn bio, community causes |
-| `/instructors` | `InstructorsGrid.tsx` | Hover cards with Bio/Schedule lightbox |
-| `/classes` | `ClassesContent.tsx` | Arketa schedule iframe |
-| `/class-descriptions` | `ClassDescriptionsContent.tsx` | Grow / Slow / Flow descriptions |
-| `/workshops` | `WorkshopsContent.tsx` | Arketa workshops iframe |
+| `/instructors` | `InstructorsGrid.tsx` | Hover cards with Bio/Schedule lightbox; managed via Admin |
+| `/classes` | `ClassesContent.tsx` | Arketa schedule iframe + classes notice banner |
+| `/class-descriptions` | `ClassDescriptionsContent.tsx` | Grow / Slow / Flow descriptions with animations |
+| `/workshops` | `WorkshopsContent.tsx` | Arketa workshops iframe + workshop notice banner |
 | `/pricing` | `PricingContent.tsx` | Arketa pricing iframe |
 | `/gift-cards` | `GiftCardsContent.tsx` | Arketa gifting iframe |
 | `/new-students` | `NewStudentsContent.tsx` | First class free info |
-| `/contact` | `ContactContent.tsx` | Map + contact details |
+| `/contact` | `ContactContent.tsx` | Map + contact form (email stubbed — see Email section) |
 | `/teacher-training` | `TeacherTrainingContent.tsx` | YTT 200-hr program info + schedule |
-| `/customize-your-event` | `CustomizeEventContent.tsx` | Private/group event inquiry form |
+| `/customize-your-event` | `CustomizeEventContent.tsx` | Private/group event inquiry form (email stubbed) |
 | `/mindful-musings` | `src/app/mindful-musings/` | Blog listing + post detail pages |
 | `/admin` | `AdminPanel.tsx` | Password-gated admin dashboard |
 | `/admin/blog` | `src/app/admin/blog/` | Blog post management (list, new, edit) |
+| `/admin/faculty` | `src/app/admin/faculty/` | Faculty visibility management |
 
 ---
 
@@ -67,130 +68,108 @@ All Arketa iframes are dark-mode'd with CSS: `filter: invert(1) hue-rotate(180de
 Go to `yoursite.com/admin` — you will be prompted for a password.
 
 The password is the `ADMIN_PASSWORD` environment variable set in Vercel.
-Check Vercel dashboard → Settings → Environment Variables.
 
 From the admin panel you can:
-- Edit the **Classes page notice** (banner above the schedule)
+- Edit the **Classes page notice** (banner alert above the schedule)
 - Edit the **Workshops page notice**
-- **Manage blog posts** (create, edit, delete, publish/draft)
+- **Manage blog posts** (Mindful Musings — create, edit, delete, publish/draft)
+- **Manage Faculty** — mute/unmute instructors, add Arketa staff not yet on site, delete from roster
 
 ---
 
-## The Blog (Mindful Musings) — CURRENTLY BROKEN
+## Faculty Management
 
-The blog needs two more Vercel services before it will work.
-The notice banners (Workshop/Classes) are already working — Upstash Redis is connected.
+The instructors page (`/instructors`) is managed two ways:
 
-### What still needs to be set up
+### Static list
+`src/data/instructors.ts` — the base roster. Each entry has `name`, `certs`, optional `owner` flag, local fallback `photo`, and `arketaId`. Photos and bios are pulled **live from Arketa** (1-hour cache) and merged by name.
 
-Go to **Vercel dashboard → your project → Settings → Environment Variables**
+### Admin overrides (stored in Neon DB)
+The `/admin/faculty` page lets you:
+- **Mute** — hide an instructor temporarily (stays in list, button flips to Unmute)
+- **Unmute** — restore them
+- **Delete** — remove from site; moves them to the "In Arketa — Not on Site" section
+- **Add from Arketa** — pull in someone teaching on Arketa who isn't in `instructors.ts` yet (enter their certs, confirm)
 
-#### 1. Neon Postgres (blog posts database)
+Three Neon tables back this: `faculty_muted`, `faculty_added`, `faculty_deleted`.
 
-1. Go to **neon.tech** → create a free account
-2. Create a new project / database
-3. Copy the connection string (looks like `postgresql://user:pass@host/dbname?sslmode=require`)
-4. In Vercel, add env var:
-   - **Name:** `POSTGRES_URL`
-   - **Value:** the connection string from Neon
-5. Redeploy (push any commit, or go to Vercel → Deployments → Redeploy)
-
-The blog table (`posts`) is created automatically on first use — no SQL to run manually.
-
-#### 2. Vercel Blob (hero image uploads in blog editor)
-
-1. In **Vercel dashboard → Storage → Create → Blob store**
-2. Once created, go to the Blob store → Settings → copy the **Read/Write token**
-3. Add env var:
-   - **Name:** `BLOB_READ_WRITE_TOKEN`
-   - **Value:** the token
-4. Redeploy
-
-After both are added and redeployed, the blog will be fully functional.
+**To permanently add a new instructor to the base roster:** add an entry to `instructors.ts` with `name` and `certs`. Their photo and bio appear automatically from Arketa once they have a scheduled class.
 
 ---
 
-## Instructor Data
+## Notices (Banner Alerts)
 
-`src/data/instructors.ts` is the **allow-list** — it controls who appears on the instructors page.
-Photos, bios, and Arketa IDs are pulled **live from Arketa** (cached 1 hour) and merged by name.
-
-Each entry only needs:
-- `name` — must match the name in Arketa exactly (used for the merge)
-- `certs` — maintained manually here; not stored in Arketa
-- `owner` — optional flag for the gold "Owner" badge
-- `photo` — local fallback image if Arketa photo isn't available
-- `arketaId` — fallback if instructor has no upcoming classes in the 8-week Arketa scan
-
-**To add an instructor:** add an entry to `instructors.ts` with their name and certs. Their photo and bio will appear automatically once they're in Arketa and have a scheduled class.
-
-**To remove an instructor:** delete their entry from `instructors.ts`. They will no longer appear on the site regardless of whether they're still in Arketa.
-
-**To update certs:** edit the `certs` array in `instructors.ts` and push. Everything else updates automatically from Arketa.
+Both the Classes and Workshops pages support a highlighted notice banner at the top.
+These are stored in Neon Postgres (`classes_notice` and `workshop_notice` tables, auto-created).
+Edit them from `/admin` — changes appear on the next page load.
 
 ---
 
-## Environment Variables Summary
+## Ambient Music
+
+The homepage hero has a **Sound: Off / Sound: On** button (fixed bottom-right, follows scroll).
+Music: *"Meditation Impromptu 01"* by Kevin MacLeod (incompetech.com), CC BY 4.0.
+File: `public/ambient.mp3` — loops at 35% volume. Implemented as a module-level Audio singleton in `Hero.tsx`.
+
+---
+
+## Environment Variables
 
 | Variable | What it's for | Status |
 |---|---|---|
-| `ADMIN_PASSWORD` | Admin panel login | ✅ Already set in Vercel |
-| `UPSTASH_REDIS_REST_URL` | Notice banners (Workshop/Classes) | ✅ Already set in Vercel |
-| `UPSTASH_REDIS_REST_TOKEN` | Notice banners (Workshop/Classes) | ✅ Already set in Vercel |
-| `POSTGRES_URL` | Blog post database | ❌ Needs setup (Neon) |
-| `BLOB_READ_WRITE_TOKEN` | Blog image uploads | ❌ Needs setup (Vercel Blob) |
-| `RESEND_API_KEY` | Contact & event inquiry emails | ❌ Needs setup (see Email section) |
-| `CONTACT_TO` | Where contact form emails are sent | ❌ Set to `namasteyogaohio@gmail.com` |
+| `ADMIN_PASSWORD` | Admin panel login | ✅ Set in Vercel |
+| `POSTGRES_URL` | All Neon DB features (blog, notices, faculty) | ✅ Set in Vercel |
+| `BLOB_READ_WRITE_TOKEN` | Blog image uploads | ✅ Set in Vercel |
+| `RESEND_API_KEY` | Contact & event inquiry emails | ❌ Needs setup (see below) |
+| `CONTACT_TO` | Where contact form emails go | ❌ Set to `namasteyogaohio@gmail.com` once Resend is live |
+
+**Local development:** create `/Users/kmarsteller/Projects/Namaste/.env.local` with at minimum:
+```
+POSTGRES_URL=your-neon-connection-string
+```
+The admin panel works without a password locally (gate is skipped when `ADMIN_PASSWORD` is unset).
 
 ---
 
-## Email (Contact & Event Inquiry Forms) — CURRENTLY STUBBED
+## Email — ONE STEP AWAY FROM LIVE
 
-Both the `/contact` form and the `/customize-your-event` inquiry form submit to Next.js API routes.
-Email sending via **Resend** is coded but commented out — the forms currently just validate and silently succeed.
-Once the domain is verified and env vars are set, it takes one uncommenting step to go live.
+Both `/contact` and `/customize-your-event` forms submit to API routes. Email via **Resend** is fully coded but commented out — forms currently validate and silently succeed.
 
-### What needs to happen first
+### What needs to happen
 
-1. **namasteyogaohio.com must be pointed to Vercel** (DNS managed by your domain registrar)
-2. **namasteyogaohio.com must be verified in Resend** (adds DNS records so Resend can send from `hello@namasteyogaohio.com`)
-3. **`RESEND_API_KEY` and `CONTACT_TO` must be added to Vercel environment variables**
+1. **Sign in to resend.com** (requires Jolynn's 2FA — she has the account)
+2. **Domains → Add Domain →** `namasteyogaohio.com`
+3. Add the DNS records Resend shows you in **GoDaddy** (TXT + DKIM records)
+4. Click **Verify** in Resend
+5. **API Keys → Create API Key** → copy it
+6. In **Vercel → Settings → Environment Variables**, add:
+   - `RESEND_API_KEY` = the key
+   - `CONTACT_TO` = `namasteyogaohio@gmail.com`
+7. Tell the developer — one commit to uncomment two files and it's live
 
-### Step-by-step
+### The code activation (developer step)
 
-#### A. Verify your domain in Resend
+In `src/app/api/contact/route.ts` and `src/app/api/event-inquiry/route.ts`:
+1. Uncomment the `import { Resend }` line and everything below it
+2. Delete the stub `return NextResponse.json({ ok: true });`
+3. Push — emails will start flowing immediately
 
-1. Go to **resend.com** → sign in (or create a free account)
-2. Go to **Domains** → click **Add Domain**
-3. Enter `namasteyogaohio.com`
-4. Resend will show you 3–4 DNS records (TXT, MX, DKIM CNAME) to add at your registrar
-5. Log in to your domain registrar (wherever you bought the domain), add those DNS records
-6. Back in Resend, click **Verify** — it may take a few minutes for DNS to propagate
+The templates are already written and tested inside those comment blocks.
 
-#### B. Get your Resend API key
+---
 
-1. In Resend → **API Keys** → click **Create API Key**
-2. Name it something like `namaste-website`
-3. Copy the key (you only see it once)
+## Neon Database Tables
 
-#### C. Add env vars to Vercel
+All tables are auto-created on first use — no manual SQL needed.
 
-1. Vercel dashboard → your **Namaste** project → **Settings** → **Environment Variables**
-2. Add:
-   - **Name:** `RESEND_API_KEY` → **Value:** the key you copied
-   - **Name:** `CONTACT_TO` → **Value:** `namasteyogaohio@gmail.com`
-3. Click Save, then **redeploy** (push any commit, or Deployments → Redeploy)
-
-### How to activate the code (one-time edit)
-
-Open **`src/app/api/contact/route.ts`** and **`src/app/api/event-inquiry/route.ts`**.
-
-In each file:
-1. Uncomment the `import { Resend }` line and the lines below it
-2. Delete the line `return NextResponse.json({ ok: true });` (the stub)
-3. The commented-out `await resend.emails.send(...)` block is already complete — just uncomment it
-
-Save, commit, push — forms will deliver email from that point on.
+| Table | Purpose |
+|---|---|
+| `posts` | Blog posts (Mindful Musings) |
+| `classes_notice` | Classes page banner text |
+| `workshop_notice` | Workshops page banner text |
+| `faculty_muted` | Instructors hidden temporarily |
+| `faculty_added` | Instructors added via admin (not in instructors.ts) |
+| `faculty_deleted` | Static instructors removed from the public roster |
 
 ---
 
@@ -199,32 +178,43 @@ Save, commit, push — forms will deliver email from that point on.
 ```
 src/
   data/
-    instructors.ts          instructor allow-list (name + certs); photos/bios/IDs from Arketa
+    instructors.ts              base instructor roster (name, certs, photos)
   components/
-    Nav.tsx                 navigation (desktop + mobile)
-    Footer.tsx              footer with social links
-    Hero.tsx                homepage hero (video + social icons)
-    InstructorsGrid.tsx     instructor cards + lightbox trigger
-    ScheduleLightbox.tsx    Bio/Schedule lightbox modal
-    BlogEditor.tsx          markdown editor for blog posts
-    PostBody.tsx            renders markdown on public blog pages
-    AdminPanel.tsx          admin dashboard
+    Nav.tsx                     navigation (desktop + mobile)
+    Footer.tsx                  footer with social links
+    Hero.tsx                    homepage hero (video, lens flare, ambient music)
+    ClassesTeaser.tsx           homepage class tier cards (Grow/Slow/Flow animations)
+    ClassDescriptionsContent.tsx  full class descriptions page (same animations)
+    InstructorsGrid.tsx         instructor cards + lightbox
+    ScheduleLightbox.tsx        Bio/Schedule lightbox modal
+    OmDraw.tsx                  animated Om symbol (paths from studio logo)
+    BlogEditor.tsx              markdown editor for blog posts
+    PostBody.tsx                renders markdown on public blog pages
+    AdminPanel.tsx              admin dashboard
   app/
-    globals.css             all CSS variables (colors, fonts)
-    layout.tsx              root layout
-    mindful-musings/        public blog pages
-    admin/                  password-gated admin pages
-    api/                    backend API routes
+    globals.css                 CSS variables (colors, fonts, sage/gold palette)
+    layout.tsx                  root layout
+    mindful-musings/            public blog pages
+    admin/                      password-gated admin pages
+      blog/                     blog management
+      faculty/                  faculty management
+    api/
+      faculty/route.ts          mute/add/delete faculty
+      instructors/route.ts      pulls live data from Arketa widget API
+      classes-notice/route.ts   classes banner (Neon)
+      workshop-notice/route.ts  workshops banner (Neon)
+      blog/posts/route.ts       blog CRUD
+      contact/route.ts          contact form (Resend stubbed)
+      event-inquiry/route.ts    event inquiry form (Resend stubbed)
+      admin-login/route.ts      HMAC cookie auth
   lib/
-    blog-db.ts              Neon Postgres helpers for blog
-  proxy.ts                  admin auth middleware (Next.js 16 convention)
+    blog-db.ts                  Neon Postgres helpers (used across all DB routes)
+  proxy.ts                      admin auth middleware (Next.js 16 convention — not middleware.ts)
 public/
-  instructors/              instructor headshot photos
-  hero.mov                  homepage video hero
-  sanskrit_pen.png          Mindful Musings hero image
-  hero-retail.jpg           Gift Cards page hero
-  hero-classes.jpg          Class Descriptions page hero
-  hero-instructors.png      Instructors page calligraphy word
+  ambient.mp3                   homepage background music (Kevin MacLeod, CC BY 4.0)
+  hero-web.mp4                  homepage video hero
+  instructors/                  instructor headshot photos (local fallbacks)
+  sanskrit_pen.png              Mindful Musings hero image
 ```
 
 ---
@@ -232,13 +222,12 @@ public/
 ## Local Development
 
 ```bash
-cd /Users/kmarsteller/Projects/2026_NamasteNewWebsite/namaste-web
+cd /Users/kmarsteller/Projects/Namaste
 npm run dev
 # open http://localhost:3000
 ```
 
-- Admin panel works locally without a password (gate is skipped when `ADMIN_PASSWORD` is not set)
-- Blog and notices fall back gracefully when database env vars are not set locally
+Create `.env.local` with `POSTGRES_URL` to use DB features locally.
 
 ## Deploy
 
@@ -246,7 +235,7 @@ npm run dev
 git add -A
 git commit -m "your message"
 git push
-# Vercel auto-deploys in about 1-2 minutes
+# Vercel auto-deploys in ~1 minute
 ```
 
 ---
@@ -261,3 +250,4 @@ git push
 - **YouTube:** youtube.com/channel/UCcWvYPcl7tXWaGZlu6N5Qlg
 - **Booking system:** Arketa (studio ID: `namasteyogaohio`)
 - **Owner:** Jolynn McFerren (RYT 500)
+- **Domain registrar:** GoDaddy

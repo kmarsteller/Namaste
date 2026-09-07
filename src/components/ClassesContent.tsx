@@ -8,17 +8,17 @@ const FAMILY_INFO: Record<string, { label: string; color: string; classes: strin
   grow: {
     label: "Grow",
     color: "sage",
-    classes: ["Chair / Adaptive Yoga", "Yin Yoga", "Gentle Flow", "Movement and Meditation", "Gentle Strength"],
+    classes: ["Chair / Adaptive Yoga", "Yin Yoga", "Gentle Flow", "Movement + Meditation", "Yoga Nidra / Restorative Yoga"],
   },
   slow: {
     label: "Slow",
     color: "gold",
-    classes: ["Slow Flow", "Yinyasa Flow", "Slow Stretch", "Qigong, Yin Yoga & Sound Bath"],
+    classes: ["Slow Flow", "Yinyasa", "Slow Stretch", "Gentle Strength"],
   },
   flow: {
     label: "Flow",
     color: "terra",
-    classes: ["All Level Flow", "All Level Vinyasa Flow", "Challenge Flow", "Barre/Yoga Fusion", "Warm Vinyasa Flow"],
+    classes: ["All Level Flow", "All Level Vinyasa Flow", "Challenge Flow", "Yoga / Barre Fusion"],
   },
 };
 
@@ -106,16 +106,18 @@ export default function ClassesContent({ notice }: { notice: string }) {
 
           {/* Intro copy */}
           <p className="font-body font-light text-stone-400 text-sm leading-relaxed max-w-2xl mb-8">
-            Schedule a class by clicking the &ldquo;Sign Up&rdquo; button below. If this is your
-            first class at the studio, you will have the option to book free of charge.
-            We have classes and pricing options to suit ages 4–104. If you are new to yoga,
-            target anything labeled <span className="text-stone-300">Slow</span> or{" "}
+            Schedule a class by clicking the &ldquo;Book&rdquo; button. If this is your first class
+            at the studio, you will have the option to book the class free of charge and set up a new
+            account. We have classes and pricing options to suit ages 4–104 including a discounted
+            monthly unlimited for college students, discounted senior drop in and 10 class pass, and a
+            kids drop in rate. If you are new to yoga, target anything labeled{" "}
+            <span className="text-stone-300">Slow</span> or{" "}
             <span className="text-stone-300">Gentle</span>, or classes like{" "}
             <span className="text-stone-300">Movement &amp; Meditation</span> and{" "}
-            <span className="text-stone-300">Friday Night Light</span>! If you have an
-            existing practice and feel confident in your knowledge of the poses, you have
-            the pick of the schedule. We know you will find what you are looking for at
-            Namaste Yoga — offering yoga for everybody.
+            <span className="text-stone-300">Yinyasa</span>. If you have an existing practice and feel
+            confident in your knowledge of the poses, you have the pick of the schedule. We know you
+            will find what you are looking for at Namaste Yoga with our wide variety of classes and
+            instructors.
           </p>
 
         </div>

@@ -128,63 +128,88 @@ function VineDecor({ visible }: { visible: boolean }) {
 
 // ── Turtle (Slow) ─────────────────────────────────────────────────────────────
 function TurtleDecor({ visible }: { visible: boolean }) {
-  const fps = [
-    { x: 20,  anim: "fp1", flip: false },
-    { x: 68,  anim: "fp2", flip: true  },
-    { x: 116, anim: "fp3", flip: false },
-    { x: 164, anim: "fp4", flip: true  },
-    { x: 212, anim: "fp5", flip: false },
-  ];
+  const c = "#7aab6e"; // shell green
+  const cl = "#a8c8a0"; // light green
+  const cd = "#4d7a44"; // dark green
+  const sk = "#c8a86e"; // skin/head tan
   return (
     <>
       <style>{`
-        @keyframes turtle-walk {
-          0%    { transform: translateX(-80px); opacity: 0; }
-          6%    { opacity: 0.9; }
-          82%   { transform: translateX(270px); opacity: 0.9; }
-          88%   { opacity: 0; }
-          89%, 100% { transform: translateX(-80px); opacity: 0; }
+        @keyframes t-walk {
+          0%    { transform: translateX(-90px); opacity: 0; }
+          5%    { opacity: 1; }
+          78%   { transform: translateX(310px); opacity: 1; }
+          82%   { transform: translateX(340px); opacity: 0; }
+          82.01%, 100% { transform: translateX(-90px); opacity: 0; }
         }
-        @keyframes turtle-bob {
-          0%, 100% { transform: translateY(0px); }
-          50%       { transform: translateY(-2px); }
+        @keyframes t-bob {
+          0%,100% { transform: translateY(0); }
+          50%     { transform: translateY(-1.5px); }
         }
-        @keyframes fp1 { 0%,24%{opacity:0} 28%,82%{opacity:0.5} 88%,100%{opacity:0} }
-        @keyframes fp2 { 0%,36%{opacity:0} 40%,82%{opacity:0.5} 88%,100%{opacity:0} }
-        @keyframes fp3 { 0%,48%{opacity:0} 52%,82%{opacity:0.5} 88%,100%{opacity:0} }
-        @keyframes fp4 { 0%,60%{opacity:0} 64%,82%{opacity:0.5} 88%,100%{opacity:0} }
-        @keyframes fp5 { 0%,71%{opacity:0} 75%,82%{opacity:0.5} 88%,100%{opacity:0} }
+        @keyframes t-fl { 0%,100%{transform:rotate(-18deg)} 50%{transform:rotate(14deg)} }
+        @keyframes t-fr { 0%,100%{transform:rotate(14deg)}  50%{transform:rotate(-18deg)} }
+        @keyframes t-bl { 0%,100%{transform:rotate(14deg)}  50%{transform:rotate(-14deg)} }
+        @keyframes t-br { 0%,100%{transform:rotate(-14deg)} 50%{transform:rotate(14deg)} }
+
       `}</style>
       <div className="absolute pointer-events-none select-none"
-        style={{ zIndex: 0, left: "130px", top: "4px" }} aria-hidden>
-        {fps.map(({ x, anim, flip }) => (
-          <div key={x} style={{
-            position: "absolute", left: x, top: "26px", opacity: 0,
-            transform: flip ? "scaleX(-1)" : "none",
-            animation: visible ? `${anim} 22s linear 0.6s infinite` : "none",
-          }}>
-            <svg viewBox="0 0 14 12" width="14" height="12" fill="none">
-              <ellipse cx="3.5" cy="3.5" rx="2" ry="2.8" fill="#b8963e45" />
-              <ellipse cx="10.5" cy="9"   rx="2" ry="2.8" fill="#b8963e35" />
-            </svg>
-          </div>
-        ))}
-        <div style={{ animation: visible ? "turtle-walk 22s linear 0.6s infinite" : "none", opacity: 0 }}>
-          <svg viewBox="0 0 56 40" width="56" height="40" fill="none"
-            style={{ animation: visible ? "turtle-bob 1.1s ease-in-out infinite" : "none" }}>
-            <ellipse cx="26" cy="22" rx="17" ry="12" fill="#b8963e18" stroke="#b8963e" strokeWidth="1.3" />
-            <path d="M14 22 C18 13, 26 10, 34 13" stroke="#b8963e" strokeWidth="0.8" strokeLinecap="round" fill="none" />
-            <path d="M11 26 C15 31, 26 33, 37 30" stroke="#b8963e" strokeWidth="0.8" strokeLinecap="round" fill="none" />
-            <path d="M26 10 L26 33" stroke="#b8963e" strokeWidth="0.7" strokeLinecap="round" />
-            <path d="M17 12 L15 31" stroke="#b8963e" strokeWidth="0.6" strokeLinecap="round" />
-            <path d="M35 12 L37 31" stroke="#b8963e" strokeWidth="0.6" strokeLinecap="round" />
-            <ellipse cx="44" cy="21" rx="6.5" ry="5.5" fill="#b8963e18" stroke="#b8963e" strokeWidth="1.2" />
-            <circle cx="46.5" cy="19" r="1.3" fill="#b8963e" />
-            <path d="M32 31 L36 39" stroke="#b8963e" strokeWidth="1.2" strokeLinecap="round" />
-            <path d="M20 32 L16 39" stroke="#b8963e" strokeWidth="1.2" strokeLinecap="round" />
-            <path d="M38 29 L43 37" stroke="#b8963e" strokeWidth="1.2" strokeLinecap="round" />
-            <path d="M14 28 L9 36" stroke="#b8963e" strokeWidth="1.2" strokeLinecap="round" />
-            <path d="M9 23 L3 25" stroke="#b8963e" strokeWidth="1" strokeLinecap="round" />
+        style={{ zIndex: 0, left: "110px", top: "2px" }} aria-hidden>
+        <div style={{ animation: visible ? "t-walk 24s linear 0.8s infinite" : "none", opacity: 0 }}>
+          <svg viewBox="0 0 80 52" width="80" height="52" fill="none"
+            style={{ animation: visible ? "t-bob 2.5s ease-in-out infinite" : "none" }}>
+
+            {/* Back-left leg (now on right side, facing right) */}
+            <g style={{ transformOrigin: "18px 32px", animation: visible ? "t-br 1.8s ease-in-out infinite" : "none" }}>
+              <path d="M18 32 C14 36, 10 40, 8 45" stroke={sk} strokeWidth="3.5" strokeLinecap="round"/>
+              <ellipse cx="7" cy="46.5" rx="4" ry="2.2" fill={sk} transform="rotate(-20,7,46.5)"/>
+            </g>
+            {/* Back-right leg */}
+            <g style={{ transformOrigin: "30px 33px", animation: visible ? "t-bl 1.8s ease-in-out infinite" : "none" }}>
+              <path d="M30 33 C28 38, 26 42, 24 47" stroke={sk} strokeWidth="3.5" strokeLinecap="round"/>
+              <ellipse cx="23" cy="48.5" rx="4" ry="2.2" fill={sk} transform="rotate(-10,23,48.5)"/>
+            </g>
+            {/* Front-left leg */}
+            <g style={{ transformOrigin: "50px 33px", animation: visible ? "t-fr 1.8s ease-in-out infinite" : "none" }}>
+              <path d="M50 33 C52 38, 54 42, 56 47" stroke={sk} strokeWidth="3.5" strokeLinecap="round"/>
+              <ellipse cx="57" cy="48.5" rx="4" ry="2.2" fill={sk} transform="rotate(10,57,48.5)"/>
+            </g>
+            {/* Front-right leg */}
+            <g style={{ transformOrigin: "62px 32px", animation: visible ? "t-fl 1.8s ease-in-out infinite" : "none" }}>
+              <path d="M62 32 C66 36, 70 40, 72 45" stroke={sk} strokeWidth="3.5" strokeLinecap="round"/>
+              <ellipse cx="73" cy="46.5" rx="4" ry="2.2" fill={sk} transform="rotate(20,73,46.5)"/>
+            </g>
+
+            {/* Body */}
+            <ellipse cx="38" cy="30" rx="24" ry="16" fill={sk}/>
+
+            {/* Shell */}
+            <ellipse cx="38" cy="27" rx="21" ry="14" fill={c} stroke={cd} strokeWidth="1.2"/>
+            {/* Shell dome highlight */}
+            <ellipse cx="40" cy="23" rx="11" ry="6" fill={cl} opacity="0.5"/>
+            {/* Shell scutes */}
+            <path d="M38 14 L38 40" stroke={cd} strokeWidth="0.8" strokeLinecap="round" opacity="0.7"/>
+            <path d="M26 16 C29 20, 29 34, 26 38" stroke={cd} strokeWidth="0.7" strokeLinecap="round" opacity="0.6"/>
+            <path d="M50 16 C47 20, 47 34, 50 38" stroke={cd} strokeWidth="0.7" strokeLinecap="round" opacity="0.6"/>
+            <path d="M20 26 L56 26" stroke={cd} strokeWidth="0.7" strokeLinecap="round" opacity="0.5"/>
+            <path d="M18 22 C24 20, 32 19, 38 19" stroke={cd} strokeWidth="0.6" strokeLinecap="round" opacity="0.45"/>
+            <path d="M18 30 C24 32, 32 33, 38 33" stroke={cd} strokeWidth="0.6" strokeLinecap="round" opacity="0.45"/>
+            <path d="M58 22 C52 20, 44 19, 38 19" stroke={cd} strokeWidth="0.6" strokeLinecap="round" opacity="0.45"/>
+            <path d="M58 30 C52 32, 44 33, 38 33" stroke={cd} strokeWidth="0.6" strokeLinecap="round" opacity="0.45"/>
+
+            {/* Neck */}
+            <path d="M62 26 C66 24, 70 22, 72 20" stroke={sk} strokeWidth="5" strokeLinecap="round"/>
+            {/* Head */}
+            <ellipse cx="74" cy="18" rx="6.5" ry="5.5" fill={sk} stroke={cd} strokeWidth="0.8"/>
+            {/* Eye */}
+            <circle cx="76" cy="16" r="1.5" fill={cd}/>
+            <circle cx="76.5" cy="15.5" r="0.5" fill="white" opacity="0.7"/>
+            {/* Nostril */}
+            <circle cx="77.5" cy="18.5" r="0.6" fill={cd} opacity="0.6"/>
+            {/* Smile */}
+            <path d="M77 20 C75.5 21.5, 73 21.5, 71.5 20" stroke={cd} strokeWidth="0.7" strokeLinecap="round" fill="none"/>
+
+            {/* Tail */}
+            <path d="M15 30 C10 30, 6 28, 4 26" stroke={sk} strokeWidth="3" strokeLinecap="round"/>
           </svg>
         </div>
       </div>

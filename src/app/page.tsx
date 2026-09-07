@@ -1,6 +1,7 @@
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
 import ClassesTeaser from "@/components/ClassesTeaser";
+import OMtownPromo from "@/components/OMtownPromo";
 import StudioEthos from "@/components/StudioEthos";
 import CommunityCarousel from "@/components/CommunityCarousel";
 import ReviewsSection from "@/components/ReviewsSection";
@@ -13,6 +14,7 @@ export default function Home() {
       <Nav />
       <main>
         <Hero />
+        <OMtownPromo />
         <ClassesTeaser />
         <StudioEthos />
         <CommunityCarousel />

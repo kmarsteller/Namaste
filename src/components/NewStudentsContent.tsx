@@ -34,7 +34,6 @@ const GOOD_STARTING_CLASSES = [
   "Slow Flow",
   "Yin Yoga",
   "Adaptive / Chair Yoga",
-  "Friday Night Light",
   "Movement + Meditation",
 ];
 

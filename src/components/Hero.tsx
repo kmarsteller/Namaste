@@ -158,7 +158,7 @@ export default function Hero() {
         </div>
 
         <p className="font-body font-light text-sm tracking-[0.12em] text-stone-400 max-w-sm mx-auto mb-12">
-          A peaceful space for all bodies, all levels, all seasons of life.
+          Your OMtown Yoga Studio · A peaceful space for all bodies, all levels, all seasons of life.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
