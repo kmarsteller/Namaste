@@ -64,8 +64,9 @@ export async function POST(req: NextRequest) {
     `;
     return NextResponse.json({ id: (rows[0] as { id: number }).id });
   } catch (err) {
-    console.error("Gallery POST error:", err);
-    return NextResponse.json({ error: "Upload failed" }, { status: 500 });
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("Gallery POST error:", msg);
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
 
