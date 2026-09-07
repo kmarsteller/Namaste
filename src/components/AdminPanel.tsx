@@ -287,6 +287,25 @@ export default function AdminPanel() {
           </Link>
         </div>
 
+        {/* Gallery */}
+        <div className="rounded-sm border border-stone-800/70 bg-stone-900/40 p-8 flex items-center justify-between gap-6">
+          <div>
+            <h2 className="font-display text-2xl font-light text-stone-100 mb-1">Gallery</h2>
+            <p className="font-body text-xs text-stone-500 leading-relaxed">
+              Upload photos and videos, add captions and dates.{" "}
+              <Link href="/gallery" target="_blank" className="text-stone-400 hover:text-stone-200 underline underline-offset-2 transition-colors">
+                View gallery →
+              </Link>
+            </p>
+          </div>
+          <Link
+            href="/admin/gallery"
+            className="flex-shrink-0 px-6 py-2.5 border border-stone-700/60 hover:border-stone-500 text-stone-300 hover:text-stone-100 font-body text-xs tracking-[0.18em] uppercase rounded-sm transition-all"
+          >
+            Manage Gallery
+          </Link>
+        </div>
+
       </div>
     </div>
   );

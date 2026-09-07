@@ -25,6 +25,7 @@ const NAV: NavItem[] = [
     children: [
       { label: "Our Story", href: "/about" },
       { label: "Faculty", href: "/instructors" },
+      { label: "Gallery", href: "/gallery" },
       { label: "Contact", href: "/contact" },
       { label: "Mindful Musings", href: "/mindful-musings" },
       { label: "Yoga Teacher Training", href: "/teacher-training" },
