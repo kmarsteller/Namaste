@@ -51,6 +51,7 @@ export async function POST(req: NextRequest) {
       const blob = await put(`gallery/${Date.now()}-${file.name}`, file, {
         access: "public",
         contentType: file.type,
+        token: process.env.GALLERY_BLOB_TOKEN_READ_WRITE_TOKEN,
       });
       storageUrl = blob.url;
     } else {
@@ -96,7 +97,7 @@ export async function DELETE(req: NextRequest) {
     const item = rows[0] as { storage_url: string; video_embed_url: string | null };
     // Only delete from blob storage if it's not an external URL
     if (!item.video_embed_url && item.storage_url.includes("vercel-storage.com")) {
-      await del(item.storage_url);
+      await del(item.storage_url, { token: process.env.GALLERY_BLOB_TOKEN_READ_WRITE_TOKEN });
     }
 
     await sql`DELETE FROM gallery WHERE id = ${id}`;
