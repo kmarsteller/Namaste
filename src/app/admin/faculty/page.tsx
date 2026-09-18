@@ -104,9 +104,10 @@ export default function ManageFacultyPage() {
     return a.name.split(" ").pop()!.localeCompare(b.name.split(" ").pop()!);
   });
 
-  // Arketa staff not in the roster and not deleted → candidates to add
+  // Arketa staff not currently on the roster → candidates to add.
+  // Static instructors who were removed (in `deleted`) should reappear here.
   const candidates = arketa.filter(
-    (a) => !staticIds.has(a.id) && !addedIds.has(a.id) && !deleted.has(a.id)
+    (a) => !addedIds.has(a.id) && (!staticIds.has(a.id) || deleted.has(a.id))
   );
 
   if (loading) {
@@ -242,7 +243,9 @@ export default function ManageFacultyPage() {
               Teaching upcoming classes on Arketa but not yet listed on the site.
             </p>
             <div className="space-y-2">
-              {candidates.map((inst) => (
+              {candidates.map((inst) => {
+                const isRemovedStatic = staticIds.has(inst.id) && deleted.has(inst.id);
+                return (
                 <div key={inst.id} className="rounded-sm border border-stone-800/40 bg-stone-900/20">
                   <div className="flex items-center gap-4 px-4 py-3">
                     <Avatar name={inst.name} photo={inst.photo} />
@@ -253,10 +256,17 @@ export default function ManageFacultyPage() {
                       )}
                     </div>
                     <button
-                      onClick={() => { setAddingId(addingId === inst.id ? null : inst.id); setAddCerts("200-hr"); }}
+                      onClick={() => {
+                        if (isRemovedStatic) {
+                          call("undelete", { arketaId: inst.id });
+                        } else {
+                          setAddingId(addingId === inst.id ? null : inst.id);
+                          setAddCerts("200-hr");
+                        }
+                      }}
                       className="flex-shrink-0 px-3 py-1.5 rounded-sm border border-stone-700/60 hover:border-sage-500/50 text-stone-400 hover:text-sage-300 font-body text-[10px] tracking-[0.15em] uppercase transition-all"
                     >
-                      {addingId === inst.id ? "Cancel" : "Add to site"}
+                      {isRemovedStatic ? "Restore to site" : (addingId === inst.id ? "Cancel" : "Add to site")}
                     </button>
                   </div>
 
@@ -287,7 +297,8 @@ export default function ManageFacultyPage() {
                     </div>
                   )}
                 </div>
-              ))}
+              );
+              })}
             </div>
           </section>
         )}
