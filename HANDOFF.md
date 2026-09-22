@@ -10,8 +10,10 @@ Rebuilding **namasteyogaohio.com** as a modern Next.js site, replacing the old W
 Hosted on **Vercel**, auto-deploys on every `git push` to `main`.
 
 **Repo:** `github.com/kmarsteller/Namaste`
-**Live site:** Vercel dashboard → `Namaste` project
-**Local path:** `/Users/kmarsteller/Projects/Namaste/`
+**Vercel project:** `namaste-web` under `kmarstellers-projects` — auto-deploys on every push to `main`
+**Vercel preview URL:** `https://namaste-web-kmarstellers-projects.vercel.app` (protected by Vercel auth)
+**Production domain:** `namasteyogaohio.com` — DNS **not yet pointed to Vercel** (still on WordPress). Once DNS is cut over, the new site goes live.
+**Local path:** `/Users/kmarsteller/Projects/2026_NamasteNewWebsite/namaste-web/`
 
 ---
 
@@ -23,6 +25,7 @@ Hosted on **Vercel**, auto-deploys on every `git push` to `main`.
 | Styling | Tailwind CSS v4 |
 | Hosting | Vercel (auto-deploy from GitHub) |
 | Booking / scheduling | Arketa (embedded iframes + public widget API) |
+| Instagram feed | Behold (`behold.so`) — widget ID `0P0CCyfpaQHNsZ6PXUKI` |
 | Database | Neon Postgres (`@neondatabase/serverless`) |
 | Blog image uploads | Vercel Blob |
 | Admin auth | HMAC cookie derived from `ADMIN_PASSWORD` env var |

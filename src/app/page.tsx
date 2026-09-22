@@ -5,6 +5,7 @@ import OMtownPromo from "@/components/OMtownPromo";
 import StudioEthos from "@/components/StudioEthos";
 import CommunityCarousel from "@/components/CommunityCarousel";
 import ReviewsSection from "@/components/ReviewsSection";
+import InstagramFeed from "@/components/InstagramFeed";
 import FirstClassCTA from "@/components/FirstClassCTA";
 import Footer from "@/components/Footer";
 
@@ -19,6 +20,7 @@ export default function Home() {
         <StudioEthos />
         <CommunityCarousel />
         <ReviewsSection />
+        <InstagramFeed />
         <FirstClassCTA />
       </main>
       <Footer />
