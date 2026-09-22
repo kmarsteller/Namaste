@@ -1,3 +1,5 @@
+import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
 import { listGallery, type GalleryItem } from "@/lib/gallery-db";
 import GalleryContent from "@/components/GalleryContent";
 
@@ -15,5 +17,13 @@ export default async function GalleryPage() {
   } catch {
     // DB not configured yet — render empty gallery
   }
-  return <GalleryContent items={items} />;
+  return (
+    <>
+      <Nav />
+      <main>
+        <GalleryContent items={items} />
+      </main>
+      <Footer />
+    </>
+  );
 }

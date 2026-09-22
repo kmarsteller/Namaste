@@ -116,10 +116,6 @@ function InquiryForm() {
     lastName: "",
     email: "",
     phone: "",
-    date: "",
-    sessionType: "",
-    venue: "",
-    attendees: "",
     description: "",
   });
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
@@ -224,72 +220,6 @@ function InquiryForm() {
                   placeholder="(330) 000-0000"
                 />
               </div>
-            </div>
-
-            {/* Session type */}
-            <div>
-              <label className={labelClass} htmlFor="sessionType">Type of Session *</label>
-              <select
-                id="sessionType"
-                name="sessionType"
-                required
-                value={form.sessionType}
-                onChange={handleChange}
-                className={`${inputClass} cursor-pointer`}
-              >
-                <option value="" disabled>Select a session type…</option>
-                <option value="Private Yoga">Private Yoga</option>
-                <option value="Birthday Party (Kids)">Birthday Party (Kids)</option>
-                <option value="Birthday Celebration (Adult)">Birthday Celebration (Adult)</option>
-                <option value="Couples Yoga">Couples Yoga</option>
-                <option value="Bachelorette Party">Bachelorette Party</option>
-                <option value="Corporate Activity">Corporate Activity</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-
-            {/* Date + Venue row */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className={labelClass} htmlFor="date">Desired Date of Event</label>
-                <input
-                  id="date"
-                  name="date"
-                  type="date"
-                  value={form.date}
-                  onChange={handleChange}
-                  className={`${inputClass} [color-scheme:dark]`}
-                />
-              </div>
-              <div>
-                <label className={labelClass} htmlFor="venue">Desired Venue</label>
-                <select
-                  id="venue"
-                  name="venue"
-                  value={form.venue}
-                  onChange={handleChange}
-                  className={`${inputClass} cursor-pointer`}
-                >
-                  <option value="">Select a venue…</option>
-                  <option value="In Studio">In Studio</option>
-                  <option value="Off-Site">Off-Site</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Attendees */}
-            <div>
-              <label className={labelClass} htmlFor="attendees">Expected Number of Attendees</label>
-              <input
-                id="attendees"
-                name="attendees"
-                type="number"
-                min="1"
-                value={form.attendees}
-                onChange={handleChange}
-                className={inputClass}
-                placeholder="e.g. 10"
-              />
             </div>
 
             {/* Description */}
