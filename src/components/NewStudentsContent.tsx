@@ -18,14 +18,19 @@ const BENEFITS = [
 ];
 
 const GUIDELINES = [
-  { icon: "👣", text: "Wear clean bare feet and comfortable, fitted clothing" },
+  { icon: "⏰", text: "Arrive 5–10 minutes early so you can settle in before class begins" },
+  { icon: "🗣️", text: "Let your instructor know before class if you have any injuries, illness, or areas to be careful with" },
+  { icon: "👟", text: "Remove your shoes upon entering. Water is welcome — please use a spill-proof container" },
+  { icon: "👣", text: "Practice in clean bare feet and wear comfortable, fitted clothing" },
   { icon: "🧘", text: "Bring your own mat and props — or borrow them free at the studio" },
-  { icon: "🌸", text: "Please avoid strong fragrances out of respect for fellow students" },
+  { icon: "🌸", text: "Please avoid strong fragrances — many students are sensitive to scents" },
   { icon: "🍃", text: "Practice on an empty stomach when possible" },
-  { icon: "⏰", text: "Arrive 10–15 minutes early for your first class" },
-  { icon: "📵", text: "Turn off or silence your cell phone before class" },
-  { icon: "🤫", text: "Keep hallway noise minimal — classes may be in session" },
-  { icon: "🚪", text: "Use the front or back building entrances" },
+  { icon: "📵", text: "Turn off or silence your cell phone from announcements through savasana" },
+  { icon: "🤫", text: "Speak quietly near the studio — other classes may be in session" },
+  { icon: "💙", text: "Listen to your body and rest whenever you need to — child's pose is always an option" },
+  { icon: "🧘‍♀️", text: "Stay for savasana — it is the most important part of your practice" },
+  { icon: "🪣", text: "After class, clean your mat with the gray towel and spray provided, and return props to the shelves" },
+  { icon: "💬", text: "Questions or concerns? Share them privately with your teacher or Jolynn outside of class time" },
 ];
 
 const GOOD_STARTING_CLASSES = [
@@ -197,9 +202,12 @@ export default function NewStudentsContent() {
                 What to Know
               </span>
             </div>
-            <h2 className="font-display text-3xl sm:text-4xl font-light text-stone-100 mb-10">
-              Studio Guidelines
+            <h2 className="font-display text-3xl sm:text-4xl font-light text-stone-100 mb-6">
+              Studio Etiquette
             </h2>
+            <p className="font-body text-sm text-stone-400 leading-relaxed max-w-2xl mb-10">
+              Every moment we are together, we have the opportunity to respect, appreciate, and learn from one another. Here are ways to shine your light and practice kindness during your time at Namaste Yoga.
+            </p>
           </FadeIn>
 
           <div className="grid sm:grid-cols-2 gap-4">
