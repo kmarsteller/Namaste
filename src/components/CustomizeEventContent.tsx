@@ -30,14 +30,20 @@ const sessionTypes = [
 ];
 
 function HeroSection() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    if (videoRef.current) videoRef.current.playbackRate = 0.5;
+  }, []);
+
   return (
     <section className="relative h-[45vh] min-h-[360px] flex items-center justify-center overflow-hidden">
       <video
+        ref={videoRef}
         autoPlay
         muted
         loop
         playsInline
-        className="absolute inset-0 w-full h-full object-contain object-center"
+        className="absolute inset-0 w-full h-full object-cover object-center"
       >
         <source src="/hero-about.mp4" type="video/mp4" />
       </video>
