@@ -11,6 +11,7 @@ export default function AdminGalleryPage() {
   const [items, setItems] = useState<GalleryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<{ done: number; total: number } | null>(null);
   const [editState, setEditState] = useState<EditState | null>(null);
   const [deleting, setDeleting] = useState<number | null>(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
@@ -36,30 +37,53 @@ export default function AdminGalleryPage() {
   async function handleUpload(e: React.FormEvent) {
     e.preventDefault();
     setUploadError(null);
-    const file = fileRef.current?.files?.[0];
-    if (uploadType === "photo" && !file) { setUploadError("Please select a photo file."); return; }
+    const files = fileRef.current?.files;
+    const firstFile = files?.[0];
+
+    if (uploadType === "photo" && !firstFile) { setUploadError("Please select at least one photo."); return; }
     if (uploadType === "video" && videoSource === "link" && !videoUrl.trim()) { setUploadError("Please enter a video URL."); return; }
-    if (uploadType === "video" && videoSource === "file" && !file) { setUploadError("Please select a video file."); return; }
+    if (uploadType === "video" && videoSource === "file" && !firstFile) { setUploadError("Please select a video file."); return; }
 
     setUploading(true);
-    const fd = new FormData();
-    fd.append("type", uploadType);
-    if (caption.trim()) fd.append("caption", caption.trim());
-    if (takenOn) fd.append("taken_on", takenOn);
-    if (uploadType === "video" && videoSource === "link") {
-      fd.append("video_url", videoUrl.trim());
-    } else if (file) {
-      fd.append("file", file);
+
+    if (uploadType === "photo" && files && files.length > 1) {
+      // Multi-file upload
+      const total = files.length;
+      setUploadProgress({ done: 0, total });
+      for (let i = 0; i < total; i++) {
+        const fd = new FormData();
+        fd.append("type", "photo");
+        if (caption.trim()) fd.append("caption", caption.trim());
+        if (takenOn) fd.append("taken_on", takenOn);
+        fd.append("file", files[i]);
+        const res = await fetch("/api/gallery", { method: "POST", body: fd });
+        if (!res.ok) {
+          const data = await res.json();
+          setUploadError(`Failed on file ${i + 1}: ${data.error ?? "Upload failed"}`);
+          break;
+        }
+        setUploadProgress({ done: i + 1, total });
+      }
+    } else {
+      // Single file or video
+      const fd = new FormData();
+      fd.append("type", uploadType);
+      if (caption.trim()) fd.append("caption", caption.trim());
+      if (takenOn) fd.append("taken_on", takenOn);
+      if (uploadType === "video" && videoSource === "link") {
+        fd.append("video_url", videoUrl.trim());
+      } else if (firstFile) {
+        fd.append("file", firstFile);
+      }
+      const res = await fetch("/api/gallery", { method: "POST", body: fd });
+      if (!res.ok) {
+        const data = await res.json();
+        setUploadError(data.error ?? "Upload failed");
+      }
     }
 
-    const res = await fetch("/api/gallery", { method: "POST", body: fd });
     setUploading(false);
-    if (!res.ok) {
-      const data = await res.json();
-      setUploadError(data.error ?? "Upload failed");
-      return;
-    }
-    // Reset form
+    setUploadProgress(null);
     setCaption("");
     setTakenOn("");
     setVideoUrl("");
@@ -159,12 +183,13 @@ export default function AdminGalleryPage() {
             {(uploadType === "photo" || (uploadType === "video" && videoSource === "file")) && (
               <div>
                 <label className="block font-body text-[10px] tracking-[0.2em] uppercase text-stone-500 mb-2">
-                  {uploadType === "photo" ? "Photo file (JPG, PNG, WebP)" : "Video file (MP4, MOV)"}
+                  {uploadType === "photo" ? "Photo files — select multiple at once" : "Video file (MP4, MOV)"}
                 </label>
                 <input
                   ref={fileRef}
                   type="file"
                   accept={uploadType === "photo" ? "image/*" : "video/*"}
+                  multiple={uploadType === "photo"}
                   className="font-body text-sm text-stone-300 file:mr-4 file:py-2 file:px-4 file:rounded-sm file:border-0 file:bg-stone-800 file:text-stone-300 file:text-xs file:tracking-wider file:uppercase hover:file:bg-stone-700"
                 />
               </div>
@@ -220,7 +245,9 @@ export default function AdminGalleryPage() {
               disabled={uploading}
               className="px-8 py-3 bg-sage-500 hover:bg-sage-400 disabled:opacity-50 text-stone-950 font-body font-medium text-xs tracking-[0.2em] uppercase rounded-sm transition-all"
             >
-              {uploading ? "Uploading…" : "Add to Gallery"}
+              {uploadProgress
+                ? `Uploading ${uploadProgress.done} / ${uploadProgress.total}…`
+                : uploading ? "Uploading…" : "Add to Gallery"}
             </button>
           </form>
         </section>

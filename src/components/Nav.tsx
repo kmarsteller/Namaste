@@ -139,7 +139,7 @@ export default function Nav() {
             alt="Namaste Yoga Studio"
             width={160}
             height={56}
-            className="h-9 w-auto"
+            className="h-[45px] w-auto"
             priority
           />
         </Link>
