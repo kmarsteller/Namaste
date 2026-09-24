@@ -251,6 +251,23 @@ export default function AboutContent() {
         </div>
       </section>
 
+      {/* ── Studio video ── */}
+      <section className="py-20 px-6 md:px-12 bg-stone-950 border-t border-stone-800/40">
+        <div className="max-w-4xl mx-auto">
+          <p className="font-body text-[10px] tracking-[0.3em] uppercase text-sage-500 mb-3 text-center">See the Studio</p>
+          <h2 className="font-display text-3xl md:text-4xl font-light text-stone-100 text-center mb-10">Namaste in Motion</h2>
+          <div className="relative w-full aspect-video rounded-sm overflow-hidden shadow-2xl">
+            <iframe
+              src="https://www.youtube.com/embed/zNEP1tJZNXk?rel=0&modestbranding=1"
+              title="Namaste Yoga Studio"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="absolute inset-0 w-full h-full"
+            />
+          </div>
+        </div>
+      </section>
+
       <TimelineSection />
       <CommunitySection />
     </>
