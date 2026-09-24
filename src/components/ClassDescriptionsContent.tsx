@@ -388,7 +388,7 @@ function ClassCard({
       style={{ transitionDelay: `${index * 60}ms` }}
     >
       <h3 className="font-display text-xl font-light text-stone-100 mb-3">{name}</h3>
-      <p className="font-body text-sm text-stone-400 leading-relaxed max-w-2xl">{description}</p>
+      <p className="font-body text-sm text-stone-300 leading-relaxed max-w-2xl">{description}</p>
     </div>
   );
 }
@@ -423,7 +423,7 @@ export default function ClassDescriptionsContent() {
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-light text-stone-50 mb-8">
             Class Descriptions
           </h1>
-          <p className="font-body font-light text-stone-400 text-sm leading-relaxed max-w-xl">
+          <p className="font-body font-light text-stone-300 text-sm leading-relaxed max-w-xl">
             Our classes are grouped into three families — Grow, Slow, and Flow.
             Whether you&apos;re stepping onto a mat for the very first time or
             deepening a long-standing practice, there&apos;s a class here for you.
@@ -471,7 +471,7 @@ export default function ClassDescriptionsContent() {
 
       {/* ── CTA ── */}
       <section className="bg-stone-950 px-6 py-16 text-center border-t border-stone-800/40">
-        <p className="font-body text-stone-500 text-xs tracking-[0.15em] uppercase mb-2">
+        <p className="font-body text-stone-400 text-xs tracking-[0.15em] uppercase mb-2">
           Ready to begin?
         </p>
         <p className="font-display text-2xl font-light text-stone-300 mb-6">

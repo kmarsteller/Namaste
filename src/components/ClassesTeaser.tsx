@@ -274,12 +274,12 @@ function TierCard({ tier, index }: { tier: typeof tiers[0]; index: number }) {
       </div>
 
       <div className={`w-8 h-px ${tier.bar} mb-5 group-hover:w-16 transition-all duration-500`} />
-      <p className="font-body text-sm text-stone-400 leading-relaxed mb-7">
+      <p className="font-body text-sm text-stone-300 leading-relaxed mb-7">
         {tier.description}
       </p>
       <ul className="space-y-1.5 mb-8">
         {tier.classes.map((c) => (
-          <li key={c} className="flex items-center gap-2.5 text-xs text-stone-500 tracking-wide">
+          <li key={c} className="flex items-center gap-2.5 text-xs text-stone-400 tracking-wide">
             <span className="w-1 h-1 rounded-full bg-sage-600 flex-shrink-0" />
             {c}
           </li>
@@ -333,7 +333,7 @@ export default function ClassesTeaser() {
         >
           <Link
             href="/classes"
-            className="inline-flex items-center gap-3 px-8 py-3.5 text-xs tracking-[0.2em] uppercase border border-stone-700 text-stone-400 hover:border-stone-400 hover:text-stone-100 transition-all duration-300 rounded-sm"
+            className="inline-flex items-center gap-3 px-8 py-3.5 text-xs tracking-[0.2em] uppercase border border-stone-700 text-stone-300 hover:border-stone-400 hover:text-stone-100 transition-all duration-300 rounded-sm"
           >
             View Full Schedule
           </Link>

@@ -72,7 +72,7 @@ function TimelineSection() {
     <section ref={ref} className="relative py-24 px-6 md:px-12 overflow-hidden">
       {/* Background image */}
       <Image
-        src="/community-feet.jpg"
+        src="/hero-about-wall.jpg"
         alt=""
         fill
         className="object-cover object-center"
@@ -108,7 +108,7 @@ function TimelineSection() {
                 <p className="font-body text-[10px] tracking-[0.25em] uppercase text-sage-500 mb-1">
                   {item.range} &nbsp;·&nbsp; {item.location}
                 </p>
-                <p className="font-body text-sm text-stone-400 leading-relaxed max-w-xl">
+                <p className="font-body text-sm text-stone-200 leading-relaxed max-w-xl">
                   {item.body}
                 </p>
               </div>
@@ -123,12 +123,14 @@ function TimelineSection() {
 function CommunitySection() {
   const { ref, visible } = useInView();
   return (
-    <section ref={ref} className="py-24 px-6 md:px-12 bg-stone-950">
-      <div className="max-w-4xl mx-auto">
+    <section ref={ref} className="relative py-24 px-6 md:px-12 bg-stone-950 overflow-hidden">
+      <Image src="/beyond-the-mat.jpg" alt="" fill className="object-cover object-center" />
+      <div className="absolute inset-0 bg-stone-950/85" />
+      <div className="relative z-10 max-w-4xl mx-auto">
         <div className={`mb-12 transition-all duration-1000 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
           <p className="font-body text-[10px] tracking-[0.3em] uppercase text-sage-500 mb-3">Giving back</p>
           <h2 className="font-display text-4xl md:text-5xl font-light text-stone-100 mb-5">Beyond the Mat</h2>
-          <p className="font-body text-sm text-stone-400 leading-relaxed max-w-xl">
+          <p className="font-body text-sm text-stone-200 leading-relaxed max-w-xl">
             Namaste Yoga&apos;s mission includes serving charitable organizations and local community
             groups. Among those we have served in the past 15+ years include:
           </p>
@@ -140,7 +142,7 @@ function CommunitySection() {
             {causes.map((c) => (
               <div key={c} className="flex items-center gap-3 py-3 px-4 border border-stone-800/60 rounded-sm">
                 <span className="w-1 h-1 rounded-full bg-sage-500 flex-shrink-0" />
-                <span className="font-body text-xs text-stone-400 tracking-wide">{c}</span>
+                <span className="font-body text-xs text-stone-200 tracking-wide">{c}</span>
               </div>
             ))}
           </div>
@@ -163,27 +165,27 @@ export default function AboutContent() {
     <>
       {/* ── Page hero ── */}
       <section className="relative pt-40 pb-24 px-6 md:px-12 bg-stone-950 overflow-hidden">
-        <Image src="/hero-altar.jpg" alt="" fill className="object-cover object-center" priority />
-        <div className="absolute inset-0 bg-gradient-to-b from-stone-950/70 via-stone-950/50 to-stone-950" />
-        <div className="absolute inset-0 bg-gradient-to-r from-stone-950/40 via-transparent to-stone-950/40" />
+        <Image src="/hero-about-bowls.jpg" alt="" fill className="object-cover object-[center_30%]" priority />
+        <div className="absolute inset-0 bg-gradient-to-b from-stone-950/60 via-stone-950/30 to-stone-950" />
+        <div className="absolute inset-0 bg-gradient-to-l from-stone-950/90 via-stone-950/30 to-stone-950/10" />
 
         <div
           ref={heroRef}
-          className={`relative z-10 max-w-3xl mx-auto transition-all duration-1000 ${
+          className={`relative z-10 max-w-4xl mx-auto flex flex-col items-end text-right transition-all duration-1000 ${
             heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <div className="flex items-center gap-4 mb-8">
-            <span className="block w-10 h-px bg-gold-500/40" />
+          <div className="flex items-center gap-4 mb-8 md:max-w-sm">
             <span className="font-body text-[10px] tracking-[0.35em] uppercase text-gold-400/70">Our Story</span>
+            <span className="block w-10 h-px bg-gold-500/40" />
           </div>
 
-          <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-light text-stone-50 leading-tight mb-8">
+          <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-light text-stone-50 leading-tight mb-8 md:max-w-lg">
             Twenty-five years of<br />
             <span className="italic text-sage-300">breath & community.</span>
           </h1>
 
-          <p className="font-body font-light text-stone-400 text-base leading-relaxed max-w-2xl mb-6">
+          <p className="font-body font-light text-stone-200 text-base leading-relaxed max-w-sm mb-6">
             Namaste Yoga celebrates community, connection, and the practice of yoga every day.
             We are grateful for the foundation that was built over 25 years ago, and our current
             community is blessed to continue nurturing those traditions and create new ones with
@@ -198,7 +200,7 @@ export default function AboutContent() {
         {/* Photo — bleeds into background on all sides */}
         <div className="absolute inset-0 md:left-[44%]">
           <Image
-            src="/jolynn.jpeg"
+            src="/jolynn-2.jpeg"
             alt="Jolynn McFerren"
             fill
             className="object-cover object-center grayscale-[30%]"
@@ -217,17 +219,17 @@ export default function AboutContent() {
             <p className="font-body text-[10px] tracking-[0.3em] uppercase text-sage-400 mb-3">The Owner</p>
             <h2 className="font-display text-4xl font-light text-stone-50 mb-6">Jolynn McFerren</h2>
             <div className="w-8 h-px bg-gold-500/40 mb-7" />
-            <p className="font-body text-sm text-stone-400 leading-relaxed mb-5">
+            <p className="font-body text-sm text-stone-200 leading-relaxed mb-5">
               Jolynn McFerren is the owner of Namaste Yoga, a mom to three wonderful children,
               wife to Brent, and an active volunteer in the community and schools.
             </p>
-            <p className="font-body text-sm text-stone-400 leading-relaxed mb-5">
+            <p className="font-body text-sm text-stone-200 leading-relaxed mb-5">
               Throughout her years of owning Namaste Yoga, she has had the support of so many
               wonderful instructors and mentors in the studio and from the yoga community in
               Northeast Ohio. The strength of the Namaste instructors truly guided this business
               past a pandemic that many small businesses did not survive.
             </p>
-            <p className="font-body text-sm text-stone-400 leading-relaxed mb-8">
+            <p className="font-body text-sm text-stone-200 leading-relaxed mb-8">
               Jolynn believes the student community at Namaste Yoga is the heart of the business,
               and their passion for health, healing, and love for one another maintains the spirit
               upon which Namaste Yoga was founded many years ago. We are grateful to call Namaste
@@ -238,7 +240,7 @@ export default function AboutContent() {
               <p className="font-body text-[10px] tracking-[0.25em] uppercase text-sage-500 mb-3">Certifications</p>
               <ul className="space-y-1.5">
                 {["RYT 500", "YACEP (Continuing Education Provider)", "2× 200-hr Teacher Training", "300-hr Advanced Training", "Thai Yoga Massage"].map((cert) => (
-                  <li key={cert} className="flex items-center gap-2.5 text-xs text-stone-400">
+                  <li key={cert} className="flex items-center gap-2.5 text-xs text-stone-200">
                     <span className="w-1 h-1 rounded-full bg-sage-500 flex-shrink-0" />
                     {cert}
                   </li>

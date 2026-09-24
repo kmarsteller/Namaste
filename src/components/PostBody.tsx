@@ -29,7 +29,7 @@ export default function PostBody({ body }: { body: string }) {
             </a>
           ),
           blockquote: ({ children }) => (
-            <blockquote className="border-l-2 border-sage-600/50 pl-5 text-stone-400 italic my-6">{children}</blockquote>
+            <blockquote className="border-l-2 border-sage-600/50 pl-5 text-stone-300 italic my-6">{children}</blockquote>
           ),
           hr: () => <hr className="border-stone-800/60 my-8" />,
           ul: ({ children }) => <ul className="list-disc list-outside pl-5 space-y-1.5 text-stone-300">{children}</ul>,

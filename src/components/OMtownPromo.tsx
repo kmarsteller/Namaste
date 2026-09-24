@@ -30,7 +30,7 @@ export default function OMtownPromo() {
           <h2 className="font-display text-4xl md:text-5xl font-light text-stone-100 mb-8">
             Your OMtown Yoga Studio
           </h2>
-          <p className="font-body font-light text-stone-400 text-base leading-relaxed">
+          <p className="font-body font-light text-stone-300 text-base leading-relaxed">
             Receive 25% off of your first class pass with code{" "}
             <span className="text-stone-200 font-medium tracking-wide">25OFFYOGA</span>.
             These are good on all of our 45+ classes on the schedule. We offer a warm,

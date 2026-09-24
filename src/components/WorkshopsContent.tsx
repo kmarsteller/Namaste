@@ -42,7 +42,7 @@ export default function WorkshopsContent({ notice }: { notice: string }) {
             Workshops &amp; Events
           </h1>
 
-          <p className="font-body font-light text-stone-400 text-sm leading-relaxed max-w-xl">
+          <p className="font-body font-light text-stone-300 text-sm leading-relaxed max-w-xl">
             Go deeper. Slow down. Connect. Our workshops and special events are
             designed to expand your practice beyond the weekly class — immersive
             experiences led by our expert faculty and visiting teachers.
@@ -98,7 +98,7 @@ export default function WorkshopsContent({ notice }: { notice: string }) {
 
       {/* ── Bottom CTA ── */}
       <section className="bg-stone-950 px-6 py-16 text-center">
-        <p className="font-body text-stone-500 text-xs tracking-[0.15em] uppercase mb-2">
+        <p className="font-body text-stone-400 text-xs tracking-[0.15em] uppercase mb-2">
           Questions about an event?
         </p>
         <p className="font-display text-2xl font-light text-stone-300 mb-6">

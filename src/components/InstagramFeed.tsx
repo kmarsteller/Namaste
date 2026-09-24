@@ -34,8 +34,8 @@ export default function InstagramFeed() {
             className="flex items-center gap-3 group"
             aria-label="Follow @namasteyogaohio on Instagram"
           >
-            <IgLogo className="w-7 h-7 text-stone-500 group-hover:text-stone-300 transition-colors duration-200" />
-            <span className="font-body text-xl tracking-[0.12em] text-stone-400 group-hover:text-stone-200 transition-colors duration-200">
+            <IgLogo className="w-7 h-7 text-stone-400 group-hover:text-stone-300 transition-colors duration-200" />
+            <span className="font-body text-xl tracking-[0.12em] text-stone-300 group-hover:text-stone-200 transition-colors duration-200">
               @namasteyogaohio
             </span>
           </Link>

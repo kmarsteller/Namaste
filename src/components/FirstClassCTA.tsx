@@ -51,7 +51,7 @@ export default function FirstClassCTA() {
           <span className="italic text-sage-300">is on us.</span>
         </h2>
 
-        <p className="font-body font-light text-stone-400 text-sm tracking-wide leading-relaxed mb-12 max-w-sm mx-auto">
+        <p className="font-body font-light text-stone-300 text-sm tracking-wide leading-relaxed mb-12 max-w-sm mx-auto">
           Walk in curious. Leave transformed. No experience necessary —
           just show up five minutes early and let the rest unfold.
         </p>
@@ -65,7 +65,7 @@ export default function FirstClassCTA() {
           </Link>
           <Link
             href="/new-students"
-            className="px-10 py-4 text-xs tracking-[0.22em] uppercase text-stone-500 hover:text-stone-300 transition-colors"
+            className="px-10 py-4 text-xs tracking-[0.22em] uppercase text-stone-400 hover:text-stone-300 transition-colors"
           >
             What to expect &rarr;
           </Link>

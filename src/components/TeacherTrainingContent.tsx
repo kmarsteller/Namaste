@@ -94,17 +94,17 @@ const curriculum = [
 ];
 
 const schedule = [
-  { dates: "August 7", year: "2026", qna: true },
-  { dates: "September 12 & 13", year: "2026" },
-  { dates: "October 10 & 11", year: "2026" },
-  { dates: "November 14 & 15", year: "2026" },
-  { dates: "December 12 & 13", year: "2026" },
-  { dates: "January 9 & 10", year: "2027" },
-  { dates: "February 13 & 14", year: "2027" },
-  { dates: "March 13 & 14", year: "2027" },
-  { dates: "April 10 & 11", year: "2027" },
-  { dates: "May 15 & 16", year: "2027" },
-  { dates: "June 11–13", year: "2027", graduation: true },
+  { dates: "August 7", year: "2026", qna: true,       end: "2026-08-07" },
+  { dates: "September 12 & 13", year: "2026",          end: "2026-09-13" },
+  { dates: "October 10 & 11", year: "2026",            end: "2026-10-11" },
+  { dates: "November 14 & 15", year: "2026",           end: "2026-11-15" },
+  { dates: "December 12 & 13", year: "2026",           end: "2026-12-13" },
+  { dates: "January 9 & 10", year: "2027",             end: "2027-01-10" },
+  { dates: "February 13 & 14", year: "2027",           end: "2027-02-14" },
+  { dates: "March 13 & 14", year: "2027",              end: "2027-03-14" },
+  { dates: "April 10 & 11", year: "2027",              end: "2027-04-11" },
+  { dates: "May 15 & 16", year: "2027",                end: "2027-05-16" },
+  { dates: "June 11–13", year: "2027", graduation: true, end: "2027-06-13" },
 ];
 
 const instructors = [
@@ -171,7 +171,7 @@ function CurriculumSection() {
               <span className="mt-1 w-5 h-5 flex-shrink-0 rounded-full border border-sage-600/60 flex items-center justify-center">
                 <span className="w-1.5 h-1.5 rounded-full bg-sage-500" />
               </span>
-              <p className="font-body text-sm text-stone-400 leading-relaxed">{item}</p>
+              <p className="font-body text-sm text-stone-300 leading-relaxed">{item}</p>
             </div>
           ))}
         </div>
@@ -183,6 +183,9 @@ function CurriculumSection() {
 
 function ScheduleSection() {
   const { ref, visible } = useInView();
+  const [today, setToday] = useState("");
+  useEffect(() => { setToday(new Date().toISOString().slice(0, 10)); }, []);
+  const isPast = (end: string) => today && end < today;
   return (
     <section ref={ref} className="py-24 px-6 md:px-12 bg-stone-900/30 border-t border-stone-800/40">
       <div className="max-w-4xl mx-auto">
@@ -192,51 +195,73 @@ function ScheduleSection() {
         </div>
 
         {/* Q&A Night callout */}
-        {schedule.filter((s) => s.qna).map((s, i) => (
+        {schedule.filter((s) => s.qna).map((s, i) => {
+          const past = isPast(s.end);
+          return (
           <div
             key="qna"
-            className={`mb-6 flex items-center gap-5 p-5 border border-sage-700/50 bg-sage-900/20 rounded-sm transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+            className={`mb-6 flex items-center gap-5 p-5 border rounded-sm transition-all duration-700 ${
+              past ? "border-red-900/40 bg-red-950/20 opacity-60" : "border-sage-700/50 bg-sage-900/20"
+            } ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
             style={{ transitionDelay: `${i * 70}ms` }}
           >
-            <div className="w-10 h-10 flex-shrink-0 rounded-full border border-sage-600/60 flex items-center justify-center">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-sage-400" strokeLinecap="round" strokeLinejoin="round">
+            <div className={`w-10 h-10 flex-shrink-0 rounded-full border flex items-center justify-center ${past ? "border-red-800/50" : "border-sage-600/60"}`}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className={past ? "text-red-500" : "text-sage-400"} strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
               </svg>
             </div>
             <div>
-              <p className="font-body text-[9px] tracking-[0.25em] uppercase text-sage-500 mb-0.5">{s.year} · Free &amp; Open to All</p>
-              <p className="font-display text-lg text-stone-100">Q&amp;A Night — <span className="text-sage-300">{s.dates} at 6:30 pm</span></p>
-              <p className="font-body text-xs text-stone-500 mt-0.5">Have questions about the program? Come meet the instructors.</p>
+              <p className={`font-body text-[9px] tracking-[0.25em] uppercase mb-0.5 ${past ? "text-red-500/70" : "text-sage-500"}`}>{s.year} · Free &amp; Open to All</p>
+              <p className={`font-display text-lg ${past ? "line-through text-red-400/70" : "text-stone-100"}`}>
+                Q&amp;A Night — <span className={past ? "" : "text-sage-300"}>{s.dates} at 6:30 pm</span>
+              </p>
+              {past
+                ? <p className="font-body text-xs text-red-500/60 mt-0.5">This event has passed.</p>
+                : <p className="font-body text-xs text-stone-400 mt-0.5">Have questions about the program? Come meet the instructors.</p>
+              }
             </div>
           </div>
-        ))}
+          );
+        })}
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {schedule.filter((s) => !s.qna).map((s, i) => (
+          {schedule.filter((s) => !s.qna).map((s, i) => {
+            const past = isPast(s.end);
+            return (
             <div
               key={i}
               className={`relative p-5 border rounded-sm transition-all duration-700 ${
-                s.graduation
-                  ? "border-gold-500/50 bg-gold-500/5"
-                  : "border-stone-800/60 bg-stone-900/40"
+                past
+                  ? "border-red-900/40 bg-red-950/10"
+                  : s.graduation
+                    ? "border-gold-500/50 bg-gold-500/5"
+                    : "border-stone-800/60 bg-stone-900/40"
               } ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
               style={{ transitionDelay: `${(i + 1) * 70}ms` }}
             >
-              {s.graduation && (
+              {s.graduation && !past && (
                 <span className="absolute top-3 right-3 font-body text-[9px] tracking-[0.2em] uppercase text-gold-400 bg-gold-500/10 px-2 py-0.5 rounded-sm">
                   Graduation
                 </span>
               )}
-              <p className="font-body text-[10px] tracking-[0.2em] uppercase text-stone-600 mb-1">{s.year}</p>
-              <p className={`font-display text-xl font-light ${s.graduation ? "text-gold-300" : "text-stone-200"}`}>
+              {past && (
+                <span className="absolute top-3 right-3 font-body text-[9px] tracking-[0.2em] uppercase text-red-500/70 bg-red-900/20 px-2 py-0.5 rounded-sm">
+                  Past
+                </span>
+              )}
+              <p className={`font-body text-[10px] tracking-[0.2em] uppercase mb-1 ${past ? "text-red-700/60" : "text-stone-600"}`}>{s.year}</p>
+              <p className={`font-display text-xl font-light ${
+                past ? "line-through text-red-400/70" : s.graduation ? "text-gold-300" : "text-stone-200"
+              }`}>
                 {s.dates}
               </p>
             </div>
-          ))}
+            );
+          })}
         </div>
 
         <div className={`mt-8 p-6 border border-stone-800/40 rounded-sm bg-stone-900/20 transition-all duration-1000 delay-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-          <p className="font-body text-sm text-stone-500 leading-relaxed">
+          <p className="font-body text-sm text-stone-400 leading-relaxed">
             All sessions meet at Namaste Yoga Studio unless otherwise noted. Additional hours with guest teachers
             will be offered. <span className="text-stone-300">Program tuition is $3,000</span> — unlimited monthly
             class pass included in the cost of the program.
@@ -304,7 +329,7 @@ function TestimonialsSection() {
               style={{ transitionDelay: `${i * 150}ms` }}
             >
               <span className="block font-display text-5xl text-sage-700/60 leading-none mb-4">&ldquo;</span>
-              <p className="font-body text-sm text-stone-400 leading-relaxed mb-6 italic">{t.quote}</p>
+              <p className="font-body text-sm text-stone-300 leading-relaxed mb-6 italic">{t.quote}</p>
               <div className="flex items-center gap-3">
                 <span className="w-6 h-px bg-sage-600/60" />
                 <p className="font-body text-[10px] tracking-[0.25em] uppercase text-sage-400">
@@ -331,11 +356,11 @@ function CTASection() {
             <p className="font-body text-[10px] tracking-[0.35em] uppercase text-gold-400 mb-3">Mark Your Calendar</p>
             <h3 className="font-display text-3xl font-light text-stone-100 mb-2">Q&amp;A Night</h3>
             <p className="font-display text-xl font-light text-gold-300 mb-6">August 7, 2026 · 6:30 pm</p>
-            <p className="font-body text-sm text-stone-400 leading-relaxed mb-2">
+            <p className="font-body text-sm text-stone-300 leading-relaxed mb-2">
               9821 Olde 8 Road, Suite H20<br />
               Northfield, Ohio 44067
             </p>
-            <p className="font-body text-sm text-stone-500">
+            <p className="font-body text-sm text-stone-400">
               Come meet the faculty, tour the studio, and get all your questions answered before enrolling.
             </p>
           </div>
@@ -345,7 +370,7 @@ function CTASection() {
             <div>
               <p className="font-body text-[10px] tracking-[0.35em] uppercase text-sage-500 mb-3">Ready to Begin?</p>
               <h3 className="font-display text-3xl font-light text-stone-100 mb-4">Apply Now</h3>
-              <p className="font-body text-sm text-stone-400 leading-relaxed mb-8">
+              <p className="font-body text-sm text-stone-300 leading-relaxed mb-8">
                 Contact the studio for more information and an application. Space is limited — this is an
                 intimate program designed for deep, personal growth.
               </p>
@@ -441,7 +466,7 @@ export default function TeacherTrainingContent() {
             Training
           </h1>
 
-          <p className="font-body text-sm text-stone-400 tracking-[0.12em] mb-10">
+          <p className="font-body text-sm text-stone-300 tracking-[0.12em] mb-10">
             September 2026 &nbsp;—&nbsp; June 2027
           </p>
 
@@ -481,7 +506,7 @@ export default function TeacherTrainingContent() {
             <p className="font-body text-[10px] tracking-[0.35em] uppercase text-sage-500 mb-3">The Experience</p>
             <h2 className="font-display text-4xl md:text-5xl font-light text-stone-100 mb-6">Our Program</h2>
             <div className="w-8 h-px bg-gold-500/40 mb-8" />
-            <div className="space-y-5 font-body text-sm text-stone-400 leading-relaxed">
+            <div className="space-y-5 font-body text-sm text-stone-300 leading-relaxed">
               <p>
                 In its ever-evolving state, this is the <span className="text-stone-200">10th year</span> of this
                 teacher training program. The strength of this program is in the combination of group experiences

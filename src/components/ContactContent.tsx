@@ -49,7 +49,7 @@ export default function ContactContent() {
     <>
       {/* ── Hero ── */}
       <section className="relative pt-40 pb-16 px-6 md:px-12 bg-stone-950 overflow-hidden">
-        <Image src="/hero-contact.jpg" alt="" fill className="object-cover" style={{ objectPosition: "50% 35%" }} priority />
+        <Image src="/hero-contact-balls.jpg" alt="" fill className="object-cover object-[center_40%]" priority />
         <div className="absolute inset-0 bg-gradient-to-b from-stone-950/60 via-stone-950/40 to-stone-950" />
         <div className="absolute inset-0 bg-gradient-to-r from-stone-950/50 via-transparent to-stone-950/50" />
         <div
@@ -66,7 +66,7 @@ export default function ContactContent() {
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-light text-stone-50 mb-5">
             Contact
           </h1>
-          <p className="font-body font-light text-stone-400 text-sm leading-relaxed max-w-lg">
+          <p className="font-body font-light text-stone-300 text-sm leading-relaxed max-w-lg">
             Questions or suggestions? We&apos;d love to hear from you. You can also
             stop by 30 minutes before any class on the schedule for a tour.
           </p>
@@ -114,14 +114,14 @@ export default function ContactContent() {
           <h2 className="font-display text-4xl sm:text-5xl font-light text-stone-100 mb-2">
             Send Us a Message
           </h2>
-          <p className="font-body text-sm text-stone-500 mb-10">
+          <p className="font-body text-sm text-stone-400 mb-10">
             We&apos;ll get back to you as soon as we can.
           </p>
 
           {formState === "sent" ? (
             <div className="rounded-sm border border-sage-600/40 bg-sage-900/15 px-8 py-12 text-center">
               <p className="font-display text-3xl font-light text-sage-300 mb-2">Message sent!</p>
-              <p className="font-body text-sm text-stone-400">
+              <p className="font-body text-sm text-stone-300">
                 Thank you — we&apos;ll be in touch soon.
               </p>
               <button

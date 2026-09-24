@@ -105,7 +105,7 @@ export default function ClassesContent({ notice }: { notice: string }) {
           </h1>
 
           {/* Intro copy */}
-          <p className="font-body font-light text-stone-400 text-sm leading-relaxed max-w-2xl mb-8">
+          <p className="font-body font-light text-stone-300 text-sm leading-relaxed max-w-2xl mb-8">
             Schedule a class by clicking the &ldquo;Book&rdquo; button. If this is your first class
             at the studio, you will have the option to book the class free of charge and set up a new
             account. We have classes and pricing options to suit ages 4–104 including a discounted
@@ -177,7 +177,7 @@ export default function ClassesContent({ notice }: { notice: string }) {
 
       {/* ── First class CTA ── */}
       <section className="bg-stone-950 px-6 py-16 text-center border-t border-stone-800/40">
-        <p className="font-body text-stone-500 text-xs tracking-[0.15em] uppercase mb-2">
+        <p className="font-body text-stone-400 text-xs tracking-[0.15em] uppercase mb-2">
           New to Namaste?
         </p>
         <p className="font-display text-2xl font-light text-stone-300 mb-6">

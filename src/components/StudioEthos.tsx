@@ -67,7 +67,7 @@ export default function StudioEthos() {
           <h2 className="font-display text-5xl md:text-6xl font-light text-stone-100 mb-6">
             The Studio
           </h2>
-          <p className="font-body font-light text-stone-400 text-base max-w-lg mx-auto leading-relaxed">
+          <p className="font-body font-light text-stone-300 text-base max-w-lg mx-auto leading-relaxed">
             Namaste Yoga has called Northfield, Ohio home for years. We are not a gym.
             We are a sanctuary — and the door is always open.
           </p>
@@ -88,7 +88,7 @@ export default function StudioEthos() {
               <h3 className="font-display text-2xl font-light text-stone-200 mb-3 tracking-wide">
                 {p.title}
               </h3>
-              <p className="font-body text-sm text-stone-500 leading-relaxed">
+              <p className="font-body text-sm text-stone-400 leading-relaxed">
                 {p.body}
               </p>
             </div>

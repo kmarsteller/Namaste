@@ -195,7 +195,7 @@ export default function CommunityCarousel() {
             <button
               onClick={retreat}
               aria-label="Previous testimonial"
-              className="w-9 h-9 flex items-center justify-center border border-stone-700/60 text-stone-500 hover:border-stone-500 hover:text-stone-200 transition-all duration-200 rounded-sm"
+              className="w-9 h-9 flex items-center justify-center border border-stone-700/60 text-stone-400 hover:border-stone-500 hover:text-stone-200 transition-all duration-200 rounded-sm"
             >
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4">
                 <path d="M10 12L6 8l4-4" strokeLinecap="round" strokeLinejoin="round" />
@@ -204,7 +204,7 @@ export default function CommunityCarousel() {
             <button
               onClick={advance}
               aria-label="Next testimonial"
-              className="w-9 h-9 flex items-center justify-center border border-stone-700/60 text-stone-500 hover:border-stone-500 hover:text-stone-200 transition-all duration-200 rounded-sm"
+              className="w-9 h-9 flex items-center justify-center border border-stone-700/60 text-stone-400 hover:border-stone-500 hover:text-stone-200 transition-all duration-200 rounded-sm"
             >
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4">
                 <path d="M6 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />

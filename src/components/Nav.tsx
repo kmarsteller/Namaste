@@ -74,7 +74,7 @@ function DropdownMenu({
     <li ref={ref} className="relative" onMouseEnter={show} onMouseLeave={hide}>
       <button
         onClick={() => setOpen((v) => !v)}
-        className="flex items-center gap-1 font-body text-xs tracking-[0.18em] uppercase text-stone-400 hover:text-stone-100 transition-colors duration-300"
+        className="flex items-center gap-1 font-body text-xs tracking-[0.18em] uppercase text-stone-100 hover:text-white transition-colors duration-300"
       >
         {item.label}
         <ChevronDown
@@ -99,7 +99,7 @@ function DropdownMenu({
               <Link
                 href={child.href}
                 onClick={() => { setOpen(false); onClose(); }}
-                className="block px-5 py-3 font-body text-xs tracking-[0.18em] uppercase text-stone-400 hover:text-stone-100 hover:bg-stone-800/60 transition-all duration-150"
+                className="block px-5 py-3 font-body text-xs tracking-[0.18em] uppercase text-stone-100 hover:text-white hover:bg-stone-800/60 transition-all duration-150"
               >
                 {child.label}
               </Link>
@@ -153,7 +153,7 @@ export default function Nav() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="font-body text-xs tracking-[0.18em] uppercase text-stone-400 hover:text-stone-100 transition-colors duration-300"
+                  className="font-body text-xs tracking-[0.18em] uppercase text-stone-100 hover:text-white transition-colors duration-300"
                 >
                   {item.label}
                 </Link>
@@ -172,7 +172,7 @@ export default function Nav() {
 
         {/* Mobile toggle */}
         <button
-          className="md:hidden text-stone-400 hover:text-stone-100 transition-colors"
+          className="md:hidden text-stone-100 hover:text-white transition-colors"
           onClick={() => setOpen(!open)}
           aria-label="Toggle menu"
         >
@@ -195,7 +195,7 @@ export default function Nav() {
                   onClick={() =>
                     setMobileExpanded(mobileExpanded === item.label ? null : item.label)
                   }
-                  className="flex items-center justify-between w-full py-3 font-body text-sm tracking-[0.15em] uppercase text-stone-400 hover:text-stone-100 transition-colors"
+                  className="flex items-center justify-between w-full py-3 font-body text-sm tracking-[0.15em] uppercase text-stone-100 hover:text-white transition-colors"
                 >
                   {item.label}
                   <ChevronDown
@@ -217,7 +217,7 @@ export default function Nav() {
                         <Link
                           href={child.href}
                           onClick={() => { setOpen(false); setMobileExpanded(null); }}
-                          className="block py-2 font-body text-xs tracking-[0.18em] uppercase text-stone-500 hover:text-stone-200 transition-colors"
+                          className="block py-2 font-body text-xs tracking-[0.18em] uppercase text-stone-200 hover:text-white transition-colors"
                         >
                           {child.label}
                         </Link>
@@ -231,7 +231,7 @@ export default function Nav() {
                 <Link
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="block py-3 font-body text-sm tracking-[0.15em] uppercase text-stone-400 hover:text-stone-100 transition-colors"
+                  className="block py-3 font-body text-sm tracking-[0.15em] uppercase text-stone-100 hover:text-white transition-colors"
                 >
                   {item.label}
                 </Link>

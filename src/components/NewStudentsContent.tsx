@@ -90,7 +90,7 @@ export default function NewStudentsContent() {
     <>
       {/* ── Hero ── */}
       <section className="relative pt-40 pb-20 px-6 md:px-12 bg-stone-950 overflow-hidden">
-        <Image src="/hero-gwen1.jpg" alt="" fill className="object-cover object-center" priority />
+        <Image src="/hero-new-students.jpg" alt="" fill className="object-cover object-[center_40%]" priority />
         <div className="absolute inset-0 bg-gradient-to-b from-stone-950/70 via-stone-950/50 to-stone-950" />
         <div className="absolute inset-0 bg-gradient-to-r from-stone-950/40 via-transparent to-stone-950/40" />
         <div
@@ -109,7 +109,7 @@ export default function NewStudentsContent() {
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-light text-stone-50 mb-6">
             New Students
           </h1>
-          <p className="font-body font-light text-stone-400 text-sm leading-relaxed max-w-xl">
+          <p className="font-body font-light text-stone-300 text-sm leading-relaxed max-w-xl">
             We understand that walking into a yoga studio for the first time takes
             courage. We&apos;re here to make it easy — and to make sure you feel
             welcome from the moment you arrive.
@@ -130,7 +130,7 @@ export default function NewStudentsContent() {
             <h2 className="font-display text-3xl sm:text-4xl font-light text-stone-100 mb-4">
               The Benefits of Yoga
             </h2>
-            <p className="font-body text-sm text-stone-400 leading-relaxed max-w-2xl mb-10">
+            <p className="font-body text-sm text-stone-300 leading-relaxed max-w-2xl mb-10">
               Yoga encompasses many styles — some vigorous and fast-paced, others
               gentle and slow. All of them have real benefits. Evaluating your
               individual needs and personality type will help point you in the
@@ -164,7 +164,7 @@ export default function NewStudentsContent() {
             <h2 className="font-display text-3xl sm:text-4xl font-light text-stone-100 mb-4">
               Where do I begin?
             </h2>
-            <p className="font-body text-sm text-stone-400 leading-relaxed max-w-2xl mb-8">
+            <p className="font-body text-sm text-stone-300 leading-relaxed max-w-2xl mb-8">
               Yoga can be the most rewarding experience of your life. If you&apos;re
               brand new, we recommend starting with any of these classes — they&apos;re
               designed to welcome you exactly where you are:
@@ -184,7 +184,7 @@ export default function NewStudentsContent() {
           <FadeIn delay={200}>
             <Link
               href="/class-descriptions"
-              className="inline-flex items-center gap-2 font-body text-xs tracking-[0.18em] uppercase text-stone-500 hover:text-stone-200 transition-colors"
+              className="inline-flex items-center gap-2 font-body text-xs tracking-[0.18em] uppercase text-stone-400 hover:text-stone-200 transition-colors"
             >
               Read all class descriptions →
             </Link>
@@ -198,14 +198,14 @@ export default function NewStudentsContent() {
           <FadeIn>
             <div className="flex items-center gap-4 mb-8">
               <span className="block w-10 h-px bg-stone-500/40" />
-              <span className="font-body text-[10px] tracking-[0.35em] uppercase text-stone-500">
+              <span className="font-body text-[10px] tracking-[0.35em] uppercase text-stone-400">
                 What to Know
               </span>
             </div>
             <h2 className="font-display text-3xl sm:text-4xl font-light text-stone-100 mb-6">
               Studio Etiquette
             </h2>
-            <p className="font-body text-sm text-stone-400 leading-relaxed max-w-2xl mb-10">
+            <p className="font-body text-sm text-stone-300 leading-relaxed max-w-2xl mb-10">
               Every moment we are together, we have the opportunity to respect, appreciate, and learn from one another. Here are ways to shine your light and practice kindness during your time at Namaste Yoga.
             </p>
           </FadeIn>
@@ -226,13 +226,13 @@ export default function NewStudentsContent() {
       {/* ── CTA ── */}
       <section className="bg-stone-950 px-6 py-20 text-center border-t border-stone-800/40">
         <div className="max-w-lg mx-auto">
-          <p className="font-body text-stone-500 text-xs tracking-[0.15em] uppercase mb-3">
+          <p className="font-body text-stone-400 text-xs tracking-[0.15em] uppercase mb-3">
             Ready to take the first step?
           </p>
           <p className="font-display text-3xl font-light text-stone-200 mb-3">
             Your first class is on us.
           </p>
-          <p className="font-body text-sm text-stone-500 leading-relaxed mb-8">
+          <p className="font-body text-sm text-stone-400 leading-relaxed mb-8">
             No commitment, no pressure — just show up and breathe.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

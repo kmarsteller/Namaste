@@ -34,7 +34,7 @@ export default function PricingContent() {
         >
           <div className="flex items-center gap-4 mb-6">
             <span className="block w-10 h-px bg-stone-500/40" />
-            <span className="font-body text-[10px] tracking-[0.35em] uppercase text-stone-500">
+            <span className="font-body text-[10px] tracking-[0.35em] uppercase text-stone-400">
               Memberships &amp; Packages
             </span>
           </div>
@@ -43,7 +43,7 @@ export default function PricingContent() {
             Pricing
           </h1>
 
-          <p className="font-body font-light text-stone-400 text-sm leading-relaxed max-w-2xl mb-6">
+          <p className="font-body font-light text-stone-300 text-sm leading-relaxed max-w-2xl mb-6">
             We offer flexible options to fit your practice and your life — from
             single drop-ins to unlimited memberships. Your first in-studio class
             is always free, so come find your footing before you commit.
@@ -52,7 +52,7 @@ export default function PricingContent() {
           {/* First class free callout */}
           <div className="inline-flex items-center gap-3 px-4 py-2.5 rounded-sm border border-sage-600/30 bg-sage-900/10">
             <span className="w-1.5 h-1.5 rounded-full bg-sage-400 flex-shrink-0" />
-            <p className="font-body text-xs text-stone-400 tracking-wide">
+            <p className="font-body text-xs text-stone-300 tracking-wide">
               First in-studio class is <span className="text-sage-300 font-medium">free</span> — no commitment required.
             </p>
           </div>
@@ -64,11 +64,11 @@ export default function PricingContent() {
         <div className="max-w-4xl mx-auto space-y-3">
           <p className="font-body text-sm text-stone-300 leading-relaxed">
             Class purchases can be made online here, or in-person prior to class.{" "}
-            <span className="text-stone-400">(Please come early!)</span>
+            <span className="text-stone-300">(Please come early!)</span>
           </p>
-          <p className="font-body text-sm text-stone-500 leading-relaxed">
+          <p className="font-body text-sm text-stone-400 leading-relaxed">
             Please note that Namaste Yoga Studio has switched from{" "}
-            <span className="text-stone-400">MindBody</span> to{" "}
+            <span className="text-stone-300">MindBody</span> to{" "}
             <span className="text-stone-300">Arketa</span> for online bookings and payments.
           </p>
         </div>
@@ -128,7 +128,7 @@ export default function PricingContent() {
       {/* ── Gift card note ── */}
       <section className="bg-stone-950 px-6 md:px-12 pt-0 pb-8">
         <div className="max-w-4xl mx-auto text-center">
-          <p className="font-body text-sm text-stone-500">
+          <p className="font-body text-sm text-stone-400">
             Want to purchase a gift card?{" "}
             <Link href="/gift-cards" className="text-gold-400 hover:text-gold-200 underline underline-offset-2 transition-colors">
               Visit our Gift Cards page
@@ -140,7 +140,7 @@ export default function PricingContent() {
 
       {/* ── Questions CTA ── */}
       <section className="bg-stone-950 px-6 py-16 text-center border-t border-stone-800/40">
-        <p className="font-body text-stone-500 text-xs tracking-[0.15em] uppercase mb-2">
+        <p className="font-body text-stone-400 text-xs tracking-[0.15em] uppercase mb-2">
           Not sure which option is right for you?
         </p>
         <p className="font-display text-2xl font-light text-stone-300 mb-6">

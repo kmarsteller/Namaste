@@ -42,7 +42,7 @@ export default function GiftCardsContent() {
             Gift Cards
           </h1>
 
-          <p className="font-body font-light text-stone-400 text-sm leading-relaxed max-w-xl">
+          <p className="font-body font-light text-stone-300 text-sm leading-relaxed max-w-xl">
             A Namaste gift card is a beautiful way to share the practice with
             someone you love — whether they&apos;re brand new to yoga or a longtime
             student. Choose any amount and send it instantly.
@@ -81,7 +81,7 @@ export default function GiftCardsContent() {
 
       {/* ── Bottom note ── */}
       <section className="bg-stone-950 px-6 py-16 text-center border-t border-stone-800/40">
-        <p className="font-body text-stone-500 text-xs tracking-[0.15em] uppercase mb-2">
+        <p className="font-body text-stone-400 text-xs tracking-[0.15em] uppercase mb-2">
           Questions?
         </p>
         <p className="font-display text-2xl font-light text-stone-300 mb-6">

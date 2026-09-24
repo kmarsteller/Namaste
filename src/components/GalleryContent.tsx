@@ -33,7 +33,9 @@ export default function GalleryContent({ items }: { items: GalleryItem[] }) {
     <>
       {/* ── Hero ── */}
       <section className="relative pt-40 pb-16 px-6 md:px-12 bg-stone-950 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-stone-950/80 to-stone-950" />
+        <Image src="/hero-gallery.jpg" alt="" fill className="object-cover object-[center_30%]" priority />
+        <div className="absolute inset-0 bg-gradient-to-b from-stone-950/60 via-stone-950/40 to-stone-950" />
+        <div className="absolute inset-0 bg-gradient-to-r from-stone-950/40 via-transparent to-stone-950/40" />
         <div
           className={`relative z-10 max-w-4xl mx-auto transition-all duration-1000 ${
             heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
@@ -48,7 +50,7 @@ export default function GalleryContent({ items }: { items: GalleryItem[] }) {
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-light text-stone-50 mb-4">
             Gallery
           </h1>
-          <p className="font-body font-light text-stone-400 text-sm leading-relaxed max-w-xl">
+          <p className="font-body font-light text-stone-300 text-sm leading-relaxed max-w-xl">
             A glimpse into our studio, our classes, and the community we cherish.
           </p>
         </div>
@@ -66,7 +68,7 @@ export default function GalleryContent({ items }: { items: GalleryItem[] }) {
                 className={`py-4 font-body text-[11px] tracking-[0.25em] uppercase border-b-2 transition-all ${
                   tab === t
                     ? "border-sage-500 text-stone-200"
-                    : "border-transparent text-stone-500 hover:text-stone-300"
+                    : "border-transparent text-stone-400 hover:text-stone-300"
                 }`}
               >
                 {t} <span className="ml-1 opacity-60">({count})</span>
@@ -98,7 +100,7 @@ export default function GalleryContent({ items }: { items: GalleryItem[] }) {
           onClick={() => setLightbox(null)}
         >
           <button
-            className="absolute top-6 right-6 text-stone-400 hover:text-stone-100 font-body text-2xl leading-none transition-colors"
+            className="absolute top-6 right-6 text-stone-300 hover:text-stone-100 font-body text-2xl leading-none transition-colors"
             onClick={() => setLightbox(null)}
             aria-label="Close"
           >

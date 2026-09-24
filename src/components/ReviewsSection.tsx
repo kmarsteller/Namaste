@@ -194,13 +194,13 @@ function ReviewCard({
             {platform.rating !== null && platform.id !== "facebook" && (
               <div className="flex items-center gap-2">
                 <Stars rating={platform.rating} />
-                <span className="font-body text-xs text-stone-500">
+                <span className="font-body text-xs text-stone-400">
                   {platform.rating.toFixed(1)}
                 </span>
               </div>
             )}
             {platform.id === "facebook" && platform.rating !== null && (
-              <p className="font-body text-xs text-stone-500 leading-none">
+              <p className="font-body text-xs text-stone-400 leading-none">
                 <span className="text-[#1877F2] font-medium">{platform.rating}%</span> recommend
               </p>
             )}
@@ -241,7 +241,7 @@ function ReviewCard({
         href={platform.reviewUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-6 inline-flex items-center justify-center gap-2 w-full py-2.5 border border-stone-700/60 text-stone-500 hover:border-stone-500 hover:text-stone-200 transition-all duration-200 rounded-sm font-body text-[10px] tracking-[0.2em] uppercase"
+        className="mt-6 inline-flex items-center justify-center gap-2 w-full py-2.5 border border-stone-700/60 text-stone-400 hover:border-stone-500 hover:text-stone-200 transition-all duration-200 rounded-sm font-body text-[10px] tracking-[0.2em] uppercase"
       >
         Leave a Review
         <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-3 h-3" aria-hidden>

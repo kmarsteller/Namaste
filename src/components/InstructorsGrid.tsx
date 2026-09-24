@@ -302,12 +302,11 @@ export default function InstructorsGrid() {
   return (
     <>
       {/* Page hero */}
-      <section className="relative pt-40 pb-6 px-6 md:px-12 bg-stone-950 overflow-hidden">
-        <Image src="/hero-instructors.png" alt="" fill className="object-cover object-left-top" priority />
-        <div className="absolute inset-0 bg-stone-950/80" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-stone-950" />
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-stone-950/70" />
-        <div className="absolute inset-0 bg-gradient-to-r from-stone-950/40 via-transparent to-stone-950/40" />
+      <section className="relative pt-40 pb-16 px-6 md:px-12 bg-stone-950 overflow-hidden min-h-[55vh]">
+        <Image src="/hero-instructors.jpg" alt="" fill className="object-cover object-[center_25%]" priority />
+        <div className="absolute inset-0 bg-stone-950/45" />
+        <div className="absolute inset-0 bg-gradient-to-b from-stone-950/50 via-transparent to-stone-950" />
+        <div className="absolute inset-0 bg-gradient-to-r from-stone-950/50 via-transparent to-stone-950/50" />
         <div
           className={`relative z-10 max-w-4xl mx-auto transition-all duration-1000 ${
             heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
@@ -322,7 +321,7 @@ export default function InstructorsGrid() {
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-light text-stone-50 mb-5">
             Meet Your Instructors
           </h1>
-          <p className="font-body font-light text-stone-400 text-sm leading-relaxed max-w-xl">
+          <p className="font-body font-light text-stone-300 text-sm leading-relaxed max-w-xl">
             Certified teachers with hundreds of combined training hours.
             One shared belief — that yoga belongs to everyone.
           </p>

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState, FormEvent } from "react";
-import Image from "next/image";
 
 function useInView(threshold = 0.15) {
   const ref = useRef<HTMLDivElement>(null);
@@ -31,29 +30,28 @@ const sessionTypes = [
 ];
 
 function HeroSection() {
-  const [loaded, setLoaded] = useState(false);
   return (
-    <section className="relative h-[55vh] min-h-[400px] flex items-center justify-center overflow-hidden">
-      <Image
-        src="/jolynn-treecreek.jpg"
-        alt="Private yoga session at Namaste Yoga Studio"
-        fill
-        priority
-        className={`object-cover object-center transition-opacity duration-1000 ${loaded ? "opacity-100" : "opacity-0"}`}
-        sizes="100vw"
-        onLoad={() => setLoaded(true)}
-      />
+    <section className="relative h-[45vh] min-h-[360px] flex items-center justify-center overflow-hidden">
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-contain object-center"
+      >
+        <source src="/hero-about.mp4" type="video/mp4" />
+      </video>
       <div className="absolute inset-0 bg-stone-950/65" />
-      <div className="absolute inset-0 bg-gradient-to-b from-stone-950/40 via-transparent to-stone-950/80" />
+      <div className="absolute inset-0 bg-gradient-to-b from-stone-950/40 via-transparent to-stone-950" />
 
-      <div className={`relative z-10 text-center px-6 transition-all duration-1000 delay-300 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+      <div className="relative z-10 text-center px-6">
         <p className="font-body text-[10px] tracking-[0.35em] uppercase text-sage-400 mb-4">
           Private Events &amp; Sessions
         </p>
         <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-light text-stone-100 leading-tight">
           Customize Your Event
         </h1>
-        <p className="font-display text-xl md:text-2xl text-stone-400 italic mt-4">
+        <p className="font-display text-xl md:text-2xl text-stone-300 italic mt-4">
           Create your own experience.
         </p>
       </div>
@@ -64,14 +62,14 @@ function HeroSection() {
 function IntroSection() {
   const { ref, visible } = useInView();
   return (
-    <section ref={ref} className="py-20 px-6 md:px-12 max-w-3xl mx-auto text-center">
+    <section ref={ref} className="-mt-24 pb-12 px-6 md:px-12 max-w-3xl mx-auto text-center relative z-10">
       <div className={`transition-all duration-1000 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
-        <p className="font-body text-sm text-stone-400 leading-loose">
+        <p className="font-body text-sm text-stone-300 leading-loose">
           Whether you&apos;re celebrating a milestone, seeking a private session, or planning a team experience,
           Namaste Yoga Studio brings the same warmth and intention to every event we host. We offer in-studio
           events as well as off-site sessions — bringing yoga to wherever you are.
         </p>
-        <p className="font-body text-sm text-stone-400 leading-loose mt-4">
+        <p className="font-body text-sm text-stone-300 leading-loose mt-4">
           Fill out the form below and we&apos;ll be in touch to bring your vision to life.
         </p>
       </div>
@@ -100,7 +98,7 @@ function EventTypesSection() {
             >
               <p className="text-gold-400 text-lg mb-3">{type.icon}</p>
               <h3 className="font-display text-lg text-stone-100 mb-2">{type.label}</h3>
-              <p className="font-body text-xs text-stone-500 leading-relaxed">{type.desc}</p>
+              <p className="font-body text-xs text-stone-400 leading-relaxed">{type.desc}</p>
             </div>
           ))}
         </div>
@@ -142,7 +140,7 @@ function InquiryForm() {
 
   const inputClass =
     "w-full bg-stone-900 border border-stone-700 rounded-sm px-4 py-3 text-stone-200 font-body text-sm placeholder:text-stone-600 focus:outline-none focus:border-sage-600 transition-colors";
-  const labelClass = "block font-body text-[10px] tracking-[0.2em] uppercase text-stone-500 mb-2";
+  const labelClass = "block font-body text-[10px] tracking-[0.2em] uppercase text-stone-400 mb-2";
 
   return (
     <section ref={ref} className="py-20 px-6 md:px-12">
@@ -155,7 +153,7 @@ function InquiryForm() {
         {status === "success" ? (
           <div className={`text-center py-16 transition-all duration-700 ${visible ? "opacity-100" : "opacity-0"}`}>
             <p className="font-display text-2xl text-stone-100 mb-3">Thank you!</p>
-            <p className="font-body text-sm text-stone-400">
+            <p className="font-body text-sm text-stone-300">
               We&apos;ve received your inquiry and will be in touch shortly to create something beautiful together.
             </p>
           </div>

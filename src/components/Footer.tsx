@@ -19,10 +19,10 @@ export default function Footer() {
             Northfield, OH 44067
           </p>
           <p className="font-body text-xs text-stone-600 mt-3">
-            <a href="tel:3309080700" className="hover:text-stone-400 transition-colors">330-908-0700</a>
+            <a href="tel:3309080700" className="hover:text-stone-300 transition-colors">330-908-0700</a>
           </p>
           <p className="font-body text-xs text-stone-600">
-            <a href="mailto:namasteyogaohio@gmail.com" className="hover:text-stone-400 transition-colors">
+            <a href="mailto:namasteyogaohio@gmail.com" className="hover:text-stone-300 transition-colors">
               namasteyogaohio@gmail.com
             </a>
           </p>
@@ -36,7 +36,7 @@ export default function Footer() {
               <li key={item}>
                 <Link
                   href={`/${item.toLowerCase().replace(/\s+/g, "-")}`}
-                  className="font-body text-xs text-stone-500 hover:text-stone-200 transition-colors tracking-wide"
+                  className="font-body text-xs text-stone-400 hover:text-stone-200 transition-colors tracking-wide"
                 >
                   {item}
                 </Link>
@@ -53,7 +53,7 @@ export default function Footer() {
               <li key={item}>
                 <Link
                   href={`/${item.toLowerCase().replace(/\s+/g, "-")}`}
-                  className="font-body text-xs text-stone-500 hover:text-stone-200 transition-colors tracking-wide"
+                  className="font-body text-xs text-stone-400 hover:text-stone-200 transition-colors tracking-wide"
                 >
                   {item}
                 </Link>
