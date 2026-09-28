@@ -89,7 +89,7 @@ const SECTIONS = [
           "This class combines asana and breath to encourage students to deepen their practice. Students should be comfortable and familiar with shapes of poses and open to arm balances and inversions. Options will always be given. This class is for experienced yogis.",
       },
       {
-        name: "Yoga / Barre Fusion",
+        name: "Sculpt & Flow",
         description:
           "This class offers elements of yoga combined with barre, pilates, strength and mobility training and more! This is for all level of student. All equipment for the class is provided at the studio.",
       },

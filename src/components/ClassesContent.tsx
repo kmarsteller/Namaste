@@ -18,7 +18,7 @@ const FAMILY_INFO: Record<string, { label: string; color: string; classes: strin
   flow: {
     label: "Flow",
     color: "terra",
-    classes: ["All Level Flow", "All Level Vinyasa Flow", "Challenge Flow", "Yoga / Barre Fusion"],
+    classes: ["All Level Flow", "All Level Vinyasa Flow", "Challenge Flow", "Sculpt & Flow"],
   },
 };
 

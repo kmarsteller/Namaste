@@ -195,26 +195,34 @@ export default function AboutContent() {
       </section>
 
       {/* ── Jolynn's story ── */}
-      <section className="relative py-24 px-6 md:px-12 bg-stone-950 border-t border-stone-800/40 overflow-hidden">
+      <section className="relative bg-stone-950 border-t border-stone-800/40 overflow-hidden">
 
-        {/* Photo — bleeds into background on all sides */}
-        <div className="absolute inset-0 md:left-[44%]">
+        {/* Mobile: full photo above text, no text covering it */}
+        <div className="md:hidden relative">
+          <Image
+            src="/jolynn-2.jpeg"
+            alt="Jolynn McFerren"
+            width={0} height={0} sizes="100vw"
+            className="w-full h-auto block grayscale-[30%]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-stone-950" />
+        </div>
+
+        {/* Desktop: photo bleeds into right half */}
+        <div className="hidden md:block absolute inset-0 left-[44%]">
           <Image
             src="/jolynn-2.jpeg"
             alt="Jolynn McFerren"
             fill
             className="object-cover object-center grayscale-[30%]"
-            sizes="(max-width: 768px) 100vw, 56vw"
+            sizes="56vw"
           />
-          {/* Mobile: heavy veil so text stays readable */}
-          <div className="absolute inset-0 bg-stone-950/80 md:hidden" />
-          {/* Desktop: strong left fade into text area, soft edges everywhere else */}
-          <div className="absolute inset-0 hidden md:block bg-gradient-to-r from-stone-950 via-stone-950/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-stone-950 via-stone-950/60 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-b from-stone-950/60 via-transparent to-stone-950" />
         </div>
 
-        {/* Text — floats over the left half */}
-        <div className="relative z-10 max-w-5xl mx-auto">
+        {/* Text */}
+        <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-12 py-12 md:py-24">
           <div className="md:max-w-[46%]">
             <p className="font-body text-[10px] tracking-[0.3em] uppercase text-sage-400 mb-3">The Owner</p>
             <h2 className="font-display text-4xl font-light text-stone-50 mb-6">Jolynn McFerren</h2>

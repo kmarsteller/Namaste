@@ -30,8 +30,8 @@ const tiers = [
     name: "Flow",
     subtitle: "Move with fire",
     description:
-      "All Level Vinyasa, Challenge Flow, and Yoga/Barre Fusion. Dynamic sequences for those ready to go deeper.",
-    classes: ["All Level Flow", "All Level Vinyasa", "Challenge Flow", "Yoga / Barre Fusion"],
+      "All Level Vinyasa, Challenge Flow, and Sculpt & Flow. Dynamic sequences for those ready to go deeper.",
+    classes: ["All Level Flow", "All Level Vinyasa", "Challenge Flow", "Sculpt & Flow"],
     href: "/class-descriptions#flow",
     accent: "text-blue-300",
     bar: "bg-blue-500/60",
